@@ -1,7 +1,10 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import javax.validation.constraints.*;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.Customer} entity.
@@ -15,6 +18,8 @@ public class CustomerDTO implements Serializable {
     private String nickname;
 
     private String language;
+
+    private Instant createdDate;
 
     public Long getId() {
         return id;
@@ -48,6 +53,14 @@ public class CustomerDTO implements Serializable {
         this.language = language;
     }
 
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -68,11 +81,6 @@ public class CustomerDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "CustomerDTO{" +
-            "id=" + getId() +
-            ", userId='" + getUserId() + "'" +
-            ", nickname='" + getNickname() + "'" +
-            ", language='" + getLanguage() + "'" +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }

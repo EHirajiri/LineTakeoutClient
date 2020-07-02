@@ -26,6 +26,7 @@
                     <th scope="col"  jhiSortBy="userId"><span jhiTranslate="lineTakeoutClientApp.customer.userId">User Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="nickname"><span jhiTranslate="lineTakeoutClientApp.customer.nickname">Nickname</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="language"><span jhiTranslate="lineTakeoutClientApp.customer.language">Language</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col" jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.customer.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -35,6 +36,7 @@
                     <td>{{ customer.userId }}</td>
                     <td>{{ customer.nickname }}</td>
                     <td>{{ customer.language }}</td>
+                    <td>{{ customer.createdDate | date:'dd/MM/yy HH:mm' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

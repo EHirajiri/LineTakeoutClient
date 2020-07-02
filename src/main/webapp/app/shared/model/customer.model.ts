@@ -3,6 +3,7 @@ export interface ICustomer {
   userId?: string;
   nickname?: string;
   language?: string;
+  createdDate?: Date;
 }
 
 export class Customer implements ICustomer {
