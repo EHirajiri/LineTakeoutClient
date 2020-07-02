@@ -47,6 +47,7 @@ public class CacheConfiguration {
             createCache(cm, jp.co.greensys.takeout.domain.User.class.getName());
             createCache(cm, jp.co.greensys.takeout.domain.Authority.class.getName());
             createCache(cm, jp.co.greensys.takeout.domain.User.class.getName() + ".authorities");
+            createCache(cm, jp.co.greensys.takeout.domain.Customer.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
