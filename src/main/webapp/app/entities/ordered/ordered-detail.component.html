@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="ordered">
+            <h2><span jhiTranslate="lineTakeoutClientApp.ordered.detail.title">Ordered</span> {{ ordered.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.quantity">Quantity</span></dt>
+                <dd>
+                    <span>{{ ordered.quantity }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.totalFee">Total Fee</span></dt>
+                <dd>
+                    <span>{{ ordered.totalFee }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.customer">Customer</span></dt>
+                <dd>
+                    <div *ngIf="ordered.customerId">
+                        <a [routerLink]="['/customer', ordered.customerId, 'view']">{{ ordered.customerId }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.item">Item</span></dt>
+                <dd>
+                    <div *ngIf="ordered.itemId">
+                        <a [routerLink]="['/item', ordered.itemId, 'view']">{{ ordered.itemId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/ordered', ordered.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{
+  "lineTakeoutClientApp": {
+    "ordered": {
+      "home": {
+        "title": "Ordereds",
+        "createLabel": "Ordered を追加",
+        "createOrEditLabel": "Orderedを追加または編集",
+        "notFound": "No Ordereds found"
+      },
+      "created": "A new Ordered is created with identifier {{ param }}",
+      "updated": "A Ordered is updated with identifier {{ param }}",
+      "deleted": "A Ordered is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Ordered {{ id }}を削除してもよろしいですか？"
+      },
+      "detail": {
+        "title": "Ordered"
+      },
+      "quantity": "Quantity",
+      "totalFee": "Total Fee",
+      "customer": "Customer",
+      "item": "Item"
+    }
+  }
+}
