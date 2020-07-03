@@ -48,33 +48,35 @@ public class OrderedService {
      * Save a ordered.
      *
      * @param orderedDTO the entity to save.
-     * @param createFlag createFlag
      * @return the persisted entity.
      */
-    public OrderedDTO save(OrderedDTO orderedDTO, boolean createFlag) {
+    public OrderedDTO save(OrderedDTO orderedDTO) {
         log.debug("Request to save Ordered : {}", orderedDTO);
         Ordered ordered = orderedMapper.toEntity(orderedDTO);
 
-        if (createFlag) {
-            // 顧客情報取得
-            if (orderedDTO.getCustomerUserId() != null) {
-                Optional<Customer> customer = customerRepository.findOneByUserId(orderedDTO.getCustomerUserId());
-                if (customer.isPresent()) {
-                    ordered.setCustomer(customer.get());
-                } else {
-                    throw new IllegalArgumentException("Invalid userId=" + orderedDTO.getCustomerUserId());
-                }
-            }
-
-            // 商品情報取得
-            Optional<Item> item = itemRepository.findById(orderedDTO.getItemId());
-            if (item.isPresent()) {
-                ordered.setItem(item.get());
-                ordered.setUnitPrice(item.get().getPrice());
-                ordered.setTotalFee(item.get().getPrice() * orderedDTO.getQuantity());
+        // 顧客情報存在チェック
+        if (orderedDTO.getCustomerUserId() != null) {
+            Optional<Customer> customer = customerRepository.findOneByUserId(orderedDTO.getCustomerUserId());
+            if (customer.isPresent()) {
+                ordered.setCustomer(customer.get());
             } else {
-                throw new IllegalArgumentException("Invalid itemId=" + orderedDTO.getItemId());
+                throw new IllegalArgumentException("Invalid userId=" + orderedDTO.getCustomerUserId());
             }
+        }
+
+        // 商品情報存在チェック
+        Optional<Item> item = itemRepository.findById(orderedDTO.getItemId());
+        if (item.isPresent()) {
+            ordered.setItem(item.get());
+        } else {
+            throw new IllegalArgumentException("Invalid itemId=" + orderedDTO.getItemId());
+        }
+
+        // 合計金額
+        if (orderedDTO.getUnitPrice() != null && orderedDTO.getQuantity() != null) {
+            ordered.setTotalFee(orderedDTO.getUnitPrice() * ordered.getQuantity());
+        } else {
+            throw new IllegalArgumentException("Invalid unitPrice=" + orderedDTO.getUnitPrice() + ", quantity=" + orderedDTO.getQuantity());
         }
 
         ordered = orderedRepository.save(ordered);

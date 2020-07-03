@@ -54,7 +54,7 @@ public class OrderedResource {
         if (orderedService.findOne(orderedDTO.getId()).isPresent()) {
             throw new BadRequestAlertException("A new ordered cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        OrderedDTO result = orderedService.save(orderedDTO, true);
+        OrderedDTO result = orderedService.save(orderedDTO);
         return ResponseEntity
             .created(new URI("/api/ordereds/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -76,7 +76,7 @@ public class OrderedResource {
         if (orderedDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        OrderedDTO result = orderedService.save(orderedDTO, false);
+        OrderedDTO result = orderedService.save(orderedDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderedDTO.getId().toString()))
