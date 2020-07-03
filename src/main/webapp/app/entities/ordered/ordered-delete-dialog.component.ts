@@ -17,7 +17,7 @@ export class OrderedDeleteDialogComponent {
     this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number): void {
+  confirmDelete(id: string): void {
     this.orderedService.delete(id).subscribe(() => {
       this.eventManager.broadcast('orderedListModification');
       this.activeModal.close();

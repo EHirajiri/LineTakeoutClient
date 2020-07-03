@@ -19,7 +19,7 @@ public interface OrderedMapper extends EntityMapper<OrderedDTO, Ordered> {
     @Mapping(source = "itemId", target = "item")
     Ordered toEntity(OrderedDTO orderedDTO);
 
-    default Ordered fromId(Long id) {
+    default Ordered fromId(String id) {
         if (id == null) {
             return null;
         }

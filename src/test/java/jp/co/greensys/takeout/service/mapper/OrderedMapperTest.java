@@ -15,7 +15,7 @@ public class OrderedMapperTest {
 
     @Test
     public void testEntityFromId() {
-        Long id = 1L;
+        String id = "1L";
         assertThat(orderedMapper.fromId(id).getId()).isEqualTo(id);
         assertThat(orderedMapper.fromId(null)).isNull();
     }

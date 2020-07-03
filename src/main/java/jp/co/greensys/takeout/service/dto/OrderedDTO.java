@@ -10,7 +10,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * A DTO for the {@link jp.co.greensys.takeout.domain.Ordered} entity.
  */
 public class OrderedDTO implements Serializable {
-    private Long id;
+    @NotNull
+    @NotEmpty
+    private String id;
 
     @NotNull
     private Integer quantity;
@@ -37,11 +39,11 @@ public class OrderedDTO implements Serializable {
 
     private String itemName;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

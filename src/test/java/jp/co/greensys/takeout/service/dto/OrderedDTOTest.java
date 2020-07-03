@@ -11,12 +11,12 @@ public class OrderedDTOTest {
     public void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(OrderedDTO.class);
         OrderedDTO orderedDTO1 = new OrderedDTO();
-        orderedDTO1.setId(1L);
+        orderedDTO1.setId("1L");
         OrderedDTO orderedDTO2 = new OrderedDTO();
         assertThat(orderedDTO1).isNotEqualTo(orderedDTO2);
         orderedDTO2.setId(orderedDTO1.getId());
         assertThat(orderedDTO1).isEqualTo(orderedDTO2);
-        orderedDTO2.setId(2L);
+        orderedDTO2.setId("2L");
         assertThat(orderedDTO1).isNotEqualTo(orderedDTO2);
         orderedDTO1.setId(null);
         assertThat(orderedDTO1).isNotEqualTo(orderedDTO2);

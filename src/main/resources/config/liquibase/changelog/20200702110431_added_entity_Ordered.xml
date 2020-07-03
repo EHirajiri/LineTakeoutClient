@@ -6,13 +6,13 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
+
     <!--
         Added the entity Ordered.
     -->
     <changeSet id="20200702110431-1" author="jhipster">
         <createTable tableName="ordered">
-            <column name="id" type="bigint">
+            <column name="id" type="varchar">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="quantity" type="integer">
@@ -66,7 +66,7 @@
                   file="config/liquibase/fake-data/ordered.csv"
                   separator=";"
                   tableName="ordered">
-            <column name="id" type="numeric"/>
+            <column name="id" type="string"/>
             <column name="quantity" type="numeric"/>
             <column name="unit_price" type="numeric"/>
             <column name="total_fee" type="numeric"/>

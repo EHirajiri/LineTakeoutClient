@@ -74,7 +74,7 @@ export class OrderedComponent implements OnInit, OnDestroy {
     }
   }
 
-  trackId(index: number, item: IOrdered): number {
+  trackId(index: number, item: IOrdered): string {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return item.id!;
   }

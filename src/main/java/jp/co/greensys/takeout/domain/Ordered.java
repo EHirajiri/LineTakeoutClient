@@ -21,8 +21,9 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
 
     @Id
     @NotNull
+    @NotEmpty
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private String id;
 
     @NotNull
     @Column(name = "quantity", nullable = false)
@@ -45,11 +46,11 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     private Item item;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

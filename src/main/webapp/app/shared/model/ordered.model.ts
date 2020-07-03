@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 
 export interface IOrdered {
-  id?: number;
+  id?: string;
   quantity?: number;
   unitPrice?: number;
   totalFee?: number;
@@ -17,7 +17,7 @@ export interface IOrdered {
 
 export class Ordered implements IOrdered {
   constructor(
-    public id?: number,
+    public id?: string,
     public quantity?: number,
     public unitPrice?: number,
     public totalFee?: number,

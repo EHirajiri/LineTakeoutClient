@@ -26,14 +26,10 @@ export class OrderedUpdateComponent implements OnInit {
   items: IItem[] = [];
 
   editForm = this.fb.group({
-    id: [],
+    id: [null, [Validators.required]],
     quantity: [null, [Validators.required]],
     unitPrice: [],
     totalFee: [],
-    createdBy: [null, [Validators.required, Validators.maxLength(50)]],
-    createdDate: [],
-    lastModifiedBy: [null, [Validators.maxLength(50)]],
-    lastModifiedDate: [],
     customerId: [null, Validators.required],
     itemId: [null, Validators.required],
   });
@@ -68,10 +64,6 @@ export class OrderedUpdateComponent implements OnInit {
       quantity: ordered.quantity,
       unitPrice: ordered.unitPrice,
       totalFee: ordered.totalFee,
-      createdBy: ordered.createdBy,
-      createdDate: ordered.createdDate ? ordered.createdDate.format(DATE_TIME_FORMAT) : null,
-      lastModifiedBy: ordered.lastModifiedBy,
-      lastModifiedDate: ordered.lastModifiedDate ? ordered.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       customerId: ordered.customerId,
       itemId: ordered.itemId,
     });
@@ -98,14 +90,6 @@ export class OrderedUpdateComponent implements OnInit {
       quantity: this.editForm.get(['quantity'])!.value,
       unitPrice: this.editForm.get(['unitPrice'])!.value,
       totalFee: this.editForm.get(['totalFee'])!.value,
-      createdBy: this.editForm.get(['createdBy'])!.value,
-      createdDate: this.editForm.get(['createdDate'])!.value
-        ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
-      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
-        ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
-        : undefined,
       customerId: this.editForm.get(['customerId'])!.value,
       itemId: this.editForm.get(['itemId'])!.value,
     };

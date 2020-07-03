@@ -182,7 +182,7 @@ public class OrderedResourceIT {
         int databaseSizeBeforeCreate = orderedRepository.findAll().size();
 
         // Create the Ordered with an existing ID
-        ordered.setId(1L);
+        ordered.setId("1L");
         OrderedDTO orderedDTO = orderedMapper.toDto(ordered);
 
         // An entity with an existing ID cannot be created, so this API call must fail
@@ -242,7 +242,7 @@ public class OrderedResourceIT {
             .perform(get("/api/ordereds?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(ordered.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(ordered.getId())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE)))
             .andExpect(jsonPath("$.[*].totalFee").value(hasItem(DEFAULT_TOTAL_FEE)))
@@ -263,7 +263,7 @@ public class OrderedResourceIT {
             .perform(get("/api/ordereds/{id}", ordered.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(ordered.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(ordered.getId()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
             .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE))
             .andExpect(jsonPath("$.totalFee").value(DEFAULT_TOTAL_FEE))

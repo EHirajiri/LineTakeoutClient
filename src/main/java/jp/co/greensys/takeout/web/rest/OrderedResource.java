@@ -104,7 +104,7 @@ public class OrderedResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the orderedDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/ordereds/{id}")
-    public ResponseEntity<OrderedDTO> getOrdered(@PathVariable Long id) {
+    public ResponseEntity<OrderedDTO> getOrdered(@PathVariable String id) {
         log.debug("REST request to get Ordered : {}", id);
         Optional<OrderedDTO> orderedDTO = orderedService.findOne(id);
         return ResponseUtil.wrapOrNotFound(orderedDTO);
@@ -117,7 +117,7 @@ public class OrderedResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/ordereds/{id}")
-    public ResponseEntity<Void> deleteOrdered(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOrdered(@PathVariable String id) {
         log.debug("REST request to delete Ordered : {}", id);
         orderedService.delete(id);
         return ResponseEntity

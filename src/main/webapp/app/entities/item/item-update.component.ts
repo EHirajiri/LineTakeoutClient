@@ -25,10 +25,6 @@ export class ItemUpdateComponent implements OnInit {
     description: [],
     price: [null, [Validators.required]],
     image: [null, [Validators.required]],
-    createdBy: [null, [Validators.required, Validators.maxLength(50)]],
-    createdDate: [],
-    lastModifiedBy: [null, [Validators.maxLength(50)]],
-    lastModifiedDate: [],
   });
 
   constructor(
@@ -58,10 +54,6 @@ export class ItemUpdateComponent implements OnInit {
       description: item.description,
       price: item.price,
       image: item.image,
-      createdBy: item.createdBy,
-      createdDate: item.createdDate ? item.createdDate.format(DATE_TIME_FORMAT) : null,
-      lastModifiedBy: item.lastModifiedBy,
-      lastModifiedDate: item.lastModifiedDate ? item.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
     });
   }
 
@@ -103,14 +95,6 @@ export class ItemUpdateComponent implements OnInit {
       description: this.editForm.get(['description'])!.value,
       price: this.editForm.get(['price'])!.value,
       image: this.editForm.get(['image'])!.value,
-      createdBy: this.editForm.get(['createdBy'])!.value,
-      createdDate: this.editForm.get(['createdDate'])!.value
-        ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
-      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
-        ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
-        : undefined,
     };
   }
 

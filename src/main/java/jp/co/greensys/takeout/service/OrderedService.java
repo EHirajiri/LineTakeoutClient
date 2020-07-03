@@ -102,7 +102,7 @@ public class OrderedService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<OrderedDTO> findOne(Long id) {
+    public Optional<OrderedDTO> findOne(String id) {
         log.debug("Request to get Ordered : {}", id);
         return orderedRepository.findById(id).map(orderedMapper::toDto);
     }
@@ -112,7 +112,7 @@ public class OrderedService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(String id) {
         log.debug("Request to delete Ordered : {}", id);
         orderedRepository.deleteById(id);
     }
