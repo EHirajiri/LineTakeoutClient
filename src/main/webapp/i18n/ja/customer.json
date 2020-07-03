@@ -2,7 +2,7 @@
   "lineTakeoutClientApp": {
     "customer": {
       "home": {
-        "title": "Customers",
+        "title": "顧客一覧",
         "createLabel": "Customer を追加",
         "createOrEditLabel": "Customerを追加または編集",
         "notFound": "No Customers found"
@@ -16,11 +16,11 @@
       "detail": {
         "title": "Customer"
       },
-      "userId": "User Id",
-      "nickname": "Nickname",
-      "language": "Language",
+      "userId": "LINE User ID",
+      "nickname": "ニックネーム",
+      "language": "使用する言語",
       "createdBy": "Created By",
-      "createdDate": "Created Date",
+      "createdDate": "登録日時",
       "lastModifiedBy": "Last Modified By",
       "lastModifiedDate": "Last Modified Date"
     }
