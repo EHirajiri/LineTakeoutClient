@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Ordered(0, 0, 0, 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
+      elemDefault = new Ordered(0, 0, 0, 0, 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
     });
 
     describe('Service methods', () => {
@@ -73,6 +73,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             quantity: 1,
+            unitPrice: 1,
             totalFee: 1,
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
@@ -101,6 +102,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             quantity: 1,
+            unitPrice: 1,
             totalFee: 1,
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),

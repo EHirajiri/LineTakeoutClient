@@ -18,6 +18,9 @@
             <column name="quantity" type="integer">
                 <constraints nullable="false" />
             </column>
+            <column name="unit_price" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="total_fee" type="integer">
                 <constraints nullable="true" />
             </column>
@@ -65,6 +68,7 @@
                   tableName="ordered">
             <column name="id" type="numeric"/>
             <column name="quantity" type="numeric"/>
+            <column name="unit_price" type="numeric"/>
             <column name="total_fee" type="numeric"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="datetime"/>

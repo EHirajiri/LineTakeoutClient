@@ -28,6 +28,7 @@ export class OrderedUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     quantity: [null, [Validators.required]],
+    unitPrice: [],
     totalFee: [],
     createdBy: [null, [Validators.required, Validators.maxLength(50)]],
     createdDate: [],
@@ -65,6 +66,7 @@ export class OrderedUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: ordered.id,
       quantity: ordered.quantity,
+      unitPrice: ordered.unitPrice,
       totalFee: ordered.totalFee,
       createdBy: ordered.createdBy,
       createdDate: ordered.createdDate ? ordered.createdDate.format(DATE_TIME_FORMAT) : null,
@@ -94,6 +96,7 @@ export class OrderedUpdateComponent implements OnInit {
       ...new Ordered(),
       id: this.editForm.get(['id'])!.value,
       quantity: this.editForm.get(['quantity'])!.value,
+      unitPrice: this.editForm.get(['unitPrice'])!.value,
       totalFee: this.editForm.get(['totalFee'])!.value,
       createdBy: this.editForm.get(['createdBy'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value

@@ -51,10 +51,10 @@ public class OrderedResource {
     @PostMapping("/ordereds")
     public ResponseEntity<OrderedDTO> createOrdered(@Valid @RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
         log.debug("REST request to save Ordered : {}", orderedDTO);
-        if (orderedDTO.getId() != null) {
+        if (orderedService.findOne(orderedDTO.getId()).isPresent()) {
             throw new BadRequestAlertException("A new ordered cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        OrderedDTO result = orderedService.save(orderedDTO);
+        OrderedDTO result = orderedService.save(orderedDTO, true);
         return ResponseEntity
             .created(new URI("/api/ordereds/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -76,7 +76,7 @@ public class OrderedResource {
         if (orderedDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        OrderedDTO result = orderedService.save(orderedDTO);
+        OrderedDTO result = orderedService.save(orderedDTO, false);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderedDTO.getId().toString()))

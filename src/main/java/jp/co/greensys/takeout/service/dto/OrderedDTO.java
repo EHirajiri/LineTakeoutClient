@@ -3,6 +3,8 @@ package jp.co.greensys.takeout.service.dto;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.validation.constraints.*;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.Ordered} entity.
@@ -13,9 +15,10 @@ public class OrderedDTO implements Serializable {
     @NotNull
     private Integer quantity;
 
+    private Integer unitPrice;
+
     private Integer totalFee;
 
-    @NotNull
     @Size(max = 50)
     private String createdBy;
 
@@ -28,7 +31,11 @@ public class OrderedDTO implements Serializable {
 
     private Long customerId;
 
+    private String customerUserId;
+
     private Long itemId;
+
+    private String itemName;
 
     public Long getId() {
         return id;
@@ -44,6 +51,14 @@ public class OrderedDTO implements Serializable {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Integer getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Integer unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public Integer getTotalFee() {
@@ -94,12 +109,28 @@ public class OrderedDTO implements Serializable {
         this.customerId = customerId;
     }
 
+    public String getCustomerUserId() {
+        return customerUserId;
+    }
+
+    public void setCustomerUserId(String customerUserId) {
+        this.customerUserId = customerUserId;
+    }
+
     public Long getItemId() {
         return itemId;
     }
 
     public void setItemId(Long itemId) {
         this.itemId = itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     @Override
@@ -122,16 +153,6 @@ public class OrderedDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "OrderedDTO{" +
-            "id=" + getId() +
-            ", quantity=" + getQuantity() +
-            ", totalFee=" + getTotalFee() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            ", customerId=" + getCustomerId() +
-            ", itemId=" + getItemId() +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }

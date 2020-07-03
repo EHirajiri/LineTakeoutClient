@@ -3,19 +3,23 @@ import { Moment } from 'moment';
 export interface IOrdered {
   id?: number;
   quantity?: number;
+  unitPrice?: number;
   totalFee?: number;
   createdBy?: string;
   createdDate?: Moment;
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
   customerId?: number;
+  customerUserId?: string;
   itemId?: number;
+  itemName?: string;
 }
 
 export class Ordered implements IOrdered {
   constructor(
     public id?: number,
     public quantity?: number,
+    public unitPrice?: number,
     public totalFee?: number,
     public createdBy?: string,
     public createdDate?: Moment,

@@ -26,6 +26,10 @@
       "fieldValidateRules": ["required"]
     },
     {
+      "fieldName": "unitPrice",
+      "fieldType": "Integer"
+    },
+    {
       "fieldName": "totalFee",
       "fieldType": "Integer"
     },

@@ -1,7 +1,11 @@
 package jp.co.greensys.takeout.service;
 
 import java.util.Optional;
+import jp.co.greensys.takeout.domain.Customer;
+import jp.co.greensys.takeout.domain.Item;
 import jp.co.greensys.takeout.domain.Ordered;
+import jp.co.greensys.takeout.repository.CustomerRepository;
+import jp.co.greensys.takeout.repository.ItemRepository;
 import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.service.mapper.OrderedMapper;
@@ -24,20 +28,55 @@ public class OrderedService {
 
     private final OrderedMapper orderedMapper;
 
-    public OrderedService(OrderedRepository orderedRepository, OrderedMapper orderedMapper) {
+    private final CustomerRepository customerRepository;
+
+    private final ItemRepository itemRepository;
+
+    public OrderedService(
+        OrderedRepository orderedRepository,
+        OrderedMapper orderedMapper,
+        CustomerRepository customerRepository,
+        ItemRepository itemRepository
+    ) {
         this.orderedRepository = orderedRepository;
         this.orderedMapper = orderedMapper;
+        this.customerRepository = customerRepository;
+        this.itemRepository = itemRepository;
     }
 
     /**
      * Save a ordered.
      *
      * @param orderedDTO the entity to save.
+     * @param createFlag createFlag
      * @return the persisted entity.
      */
-    public OrderedDTO save(OrderedDTO orderedDTO) {
+    public OrderedDTO save(OrderedDTO orderedDTO, boolean createFlag) {
         log.debug("Request to save Ordered : {}", orderedDTO);
         Ordered ordered = orderedMapper.toEntity(orderedDTO);
+
+        if (createFlag) {
+            // 顧客情報取得
+            if (orderedDTO.getCustomerUserId() != null) {
+                Optional<Customer> customer = customerRepository.findOneByUserId(orderedDTO.getCustomerUserId());
+                if (customer.isPresent()) {
+                    ordered.setCustomer(customer.get());
+                } else {
+                    throw new IllegalArgumentException("Invalid userId=" + orderedDTO.getCustomerUserId());
+                }
+            }
+
+            // 商品情報取得
+            Optional<Item> item = itemRepository.findById(orderedDTO.getItemId());
+            if (item.isPresent()) {
+                ordered.setItem(item.get());
+                ordered.setUnitPrice(item.get().getPrice());
+                ordered.setTotalFee(item.get().getPrice() * orderedDTO.getQuantity());
+            } else {
+                throw new IllegalArgumentException("Invalid itemId=" + orderedDTO.getItemId());
+            }
+        }
+
         ordered = orderedRepository.save(ordered);
         return orderedMapper.toDto(ordered);
     }

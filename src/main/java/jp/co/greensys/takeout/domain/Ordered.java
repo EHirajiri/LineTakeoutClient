@@ -20,13 +20,16 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @NotNull
+    @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
     @NotNull
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @Column(name = "unit_price")
+    private Integer unitPrice;
 
     @Column(name = "total_fee")
     private Integer totalFee;
@@ -61,6 +64,19 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Integer getUnitPrice() {
+        return unitPrice;
+    }
+
+    public Ordered unitPrice(Integer unitPrice) {
+        this.unitPrice = unitPrice;
+        return this;
+    }
+
+    public void setUnitPrice(Integer unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public Integer getTotalFee() {

@@ -37,6 +37,9 @@ public class OrderedResourceIT {
     private static final Integer DEFAULT_QUANTITY = 1;
     private static final Integer UPDATED_QUANTITY = 2;
 
+    private static final Integer DEFAULT_UNIT_PRICE = 1;
+    private static final Integer UPDATED_UNIT_PRICE = 2;
+
     private static final Integer DEFAULT_TOTAL_FEE = 1;
     private static final Integer UPDATED_TOTAL_FEE = 2;
 
@@ -78,6 +81,7 @@ public class OrderedResourceIT {
     public static Ordered createEntity(EntityManager em) {
         Ordered ordered = new Ordered()
             .quantity(DEFAULT_QUANTITY)
+            .unitPrice(DEFAULT_UNIT_PRICE)
             .totalFee(DEFAULT_TOTAL_FEE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdDate(DEFAULT_CREATED_DATE)
@@ -88,6 +92,7 @@ public class OrderedResourceIT {
         if (TestUtil.findAll(em, Customer.class).isEmpty()) {
             customer = CustomerResourceIT.createEntity(em);
             em.persist(customer);
+            em.flush();
         } else {
             customer = TestUtil.findAll(em, Customer.class).get(0);
         }
@@ -114,6 +119,7 @@ public class OrderedResourceIT {
     public static Ordered createUpdatedEntity(EntityManager em) {
         Ordered ordered = new Ordered()
             .quantity(UPDATED_QUANTITY)
+            .unitPrice(UPDATED_UNIT_PRICE)
             .totalFee(UPDATED_TOTAL_FEE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
@@ -162,6 +168,7 @@ public class OrderedResourceIT {
         assertThat(orderedList).hasSize(databaseSizeBeforeCreate + 1);
         Ordered testOrdered = orderedList.get(orderedList.size() - 1);
         assertThat(testOrdered.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
+        assertThat(testOrdered.getUnitPrice()).isEqualTo(DEFAULT_UNIT_PRICE);
         assertThat(testOrdered.getTotalFee()).isEqualTo(DEFAULT_TOTAL_FEE);
         assertThat(testOrdered.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testOrdered.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
@@ -237,6 +244,7 @@ public class OrderedResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(ordered.getId().intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
+            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE)))
             .andExpect(jsonPath("$.[*].totalFee").value(hasItem(DEFAULT_TOTAL_FEE)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
@@ -257,6 +265,7 @@ public class OrderedResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(ordered.getId().intValue()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
+            .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE))
             .andExpect(jsonPath("$.totalFee").value(DEFAULT_TOTAL_FEE))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
@@ -285,6 +294,7 @@ public class OrderedResourceIT {
         em.detach(updatedOrdered);
         updatedOrdered
             .quantity(UPDATED_QUANTITY)
+            .unitPrice(UPDATED_UNIT_PRICE)
             .totalFee(UPDATED_TOTAL_FEE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
@@ -301,6 +311,7 @@ public class OrderedResourceIT {
         assertThat(orderedList).hasSize(databaseSizeBeforeUpdate);
         Ordered testOrdered = orderedList.get(orderedList.size() - 1);
         assertThat(testOrdered.getQuantity()).isEqualTo(UPDATED_QUANTITY);
+        assertThat(testOrdered.getUnitPrice()).isEqualTo(UPDATED_UNIT_PRICE);
         assertThat(testOrdered.getTotalFee()).isEqualTo(UPDATED_TOTAL_FEE);
         assertThat(testOrdered.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testOrdered.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);

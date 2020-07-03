@@ -2,7 +2,7 @@
   "lineTakeoutClientApp": {
     "ordered": {
       "home": {
-        "title": "Ordereds",
+        "title": "注文一覧",
         "createLabel": "Ordered を追加",
         "createOrEditLabel": "Orderedを追加または編集",
         "notFound": "No Ordereds found"
@@ -16,14 +16,16 @@
       "detail": {
         "title": "Ordered"
       },
-      "quantity": "Quantity",
-      "totalFee": "Total Fee",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
+      "quantity": "注文数",
+      "unitPrice": "単価",
+      "totalFee": "合計金額",
+      "createdBy": "注文日時",
+      "createdDate": "注文日時",
       "lastModifiedBy": "Last Modified By",
       "lastModifiedDate": "Last Modified Date",
-      "customer": "Customer",
-      "item": "Item"
+      "customer": "LINE User ID",
+      "item": "商品ID",
+      "itemName": "商品名"
     }
   }
 }

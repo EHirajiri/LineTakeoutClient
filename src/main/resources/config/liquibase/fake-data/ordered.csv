@@ -1,11 +1,11 @@
-id;quantity;total_fee;created_by;created_date;last_modified_by;last_modified_date;customer_id;item_id
-1;83477;30940;compressing deliverables;2020-07-02T00:23:07;deposit Sleek;2020-07-02T06:35:15;1;1
-2;36731;41497;auxiliary program;2020-07-01T23:48:41;networks sky blue Industrial;2020-07-02T09:41:26;2;2
-3;9835;61023;synthesizing Officer orange;2020-07-02T06:23:46;Ergonomic Wooden Pizza;2020-07-01T23:19:47;3;3
-4;50824;37937;strategy;2020-07-01T19:32:00;vertical Pizza Borders;2020-07-01T11:28:05;4;4
-5;65451;22233;mindshare Moldova;2020-07-01T13:11:22;cross-platform Books;2020-07-01T20:56:19;5;5
-6;56902;43143;Pants Credit Card Account optimal;2020-07-02T02:10:04;Administrator navigating;2020-07-02T02:23:05;6;6
-7;34812;59551;Developer Handmade Steel;2020-07-01T16:01:20;Namibia;2020-07-02T10:23:45;7;7
-8;7719;37162;Forward;2020-07-01T12:05:08;hacking Personal Loan Account;2020-07-01T22:16:45;8;8
-9;49137;83486;efficient Bacon;2020-07-01T16:17:23;Checking Account Principal;2020-07-01T21:55:54;9;9
-10;65730;43360;Regional hacking Cambridgeshire;2020-07-02T06:27:54;Vermont primary secondary;2020-07-01T12:29:59;10;10
+id;quantity;unit_price;total_fee;created_by;created_date;last_modified_by;last_modified_date;customer_id;item_id
+1;83477;30940;37625;full-range connect systems;2020-07-02T06:53:42;Bedfordshire;2020-07-02T02:15:34;1;1
+2;41497;64530;79767;program;2020-07-01T23:48:41;networks sky blue Industrial;2020-07-02T09:41:26;2;2
+3;9835;61023;79564;parse Bike complexity;2020-07-02T06:49:28;Ergonomic;2020-07-01T14:58:09;3;3
+4;48938;50824;37937;strategy;2020-07-01T19:32:00;vertical Pizza Borders;2020-07-01T11:28:05;4;4
+5;65451;22233;63199;generate Virginia;2020-07-01T22:42:10;utilize Toys Michigan;2020-07-01T13:32:24;5;5
+6;18004;36105;59630;optimal deploy Administrator;2020-07-01T14:42:40;virtual Personal Loan Account;2020-07-01T11:45:07;6;6
+7;69559;7712;72310;Jewelery;2020-07-02T05:51:19;Checking Account Fantastic;2020-07-02T07:26:00;7;7
+8;90934;78420;95789;hacking Personal Loan Account;2020-07-01T22:16:45;copying efficient;2020-07-02T07:28:21;8;8
+9;81769;78271;55308;Frozen Designer;2020-07-01T19:17:59;Chief revolutionize;2020-07-02T06:46:50;9;9
+10;49390;88664;19208;Vermont primary secondary;2020-07-01T12:29:59;transmit metrics hard drive;2020-07-02T02:43:24;10;10

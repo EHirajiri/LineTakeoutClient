@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.Item} entity.
@@ -23,7 +25,6 @@ public class ItemDTO implements Serializable {
     @NotNull
     private String image;
 
-    @NotNull
     @Size(max = 50)
     private String createdBy;
 
@@ -126,16 +127,6 @@ public class ItemDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "ItemDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", price=" + getPrice() +
-            ", image='" + getImage() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }
