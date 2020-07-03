@@ -27,8 +27,22 @@
             <column name="image" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_by" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="item" columnName="created_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="item" columnName="last_modified_date" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200702101036-1-relations" author="jhipster">
@@ -54,6 +68,10 @@
             <column name="description" type="clob"/>
             <column name="price" type="numeric"/>
             <column name="image" type="string"/>
+            <column name="created_by" type="string"/>
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_by" type="string"/>
+            <column name="last_modified_date" type="datetime"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

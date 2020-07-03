@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jp.co.greensys.takeout.LineTakeoutClientApp;
@@ -43,6 +45,18 @@ public class ItemResourceIT {
     private static final String DEFAULT_IMAGE = "AAAAAAAAAA";
     private static final String UPDATED_IMAGE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_LAST_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_LAST_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     @Autowired
     private ItemRepository itemRepository;
 
@@ -67,7 +81,15 @@ public class ItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Item createEntity(EntityManager em) {
-        Item item = new Item().name(DEFAULT_NAME).description(DEFAULT_DESCRIPTION).price(DEFAULT_PRICE).image(DEFAULT_IMAGE);
+        Item item = new Item()
+            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
+            .price(DEFAULT_PRICE)
+            .image(DEFAULT_IMAGE)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
         return item;
     }
 
@@ -78,7 +100,15 @@ public class ItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Item createUpdatedEntity(EntityManager em) {
-        Item item = new Item().name(UPDATED_NAME).description(UPDATED_DESCRIPTION).price(UPDATED_PRICE).image(UPDATED_IMAGE);
+        Item item = new Item()
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .price(UPDATED_PRICE)
+            .image(UPDATED_IMAGE)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         return item;
     }
 
@@ -105,6 +135,10 @@ public class ItemResourceIT {
         assertThat(testItem.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testItem.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testItem.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testItem.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testItem.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testItem.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testItem.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -182,6 +216,24 @@ public class ItemResourceIT {
 
     @Test
     @Transactional
+    public void checkCreatedByIsRequired() throws Exception {
+        int databaseSizeBeforeTest = itemRepository.findAll().size();
+        // set the field null
+        item.setCreatedBy(null);
+
+        // Create the Item, which fails.
+        ItemDTO itemDTO = itemMapper.toDto(item);
+
+        restItemMockMvc
+            .perform(post("/api/items").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Item> itemList = itemRepository.findAll();
+        assertThat(itemList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllItems() throws Exception {
         // Initialize the database
         itemRepository.saveAndFlush(item);
@@ -195,7 +247,11 @@ public class ItemResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
-            .andExpect(jsonPath("$.[*].image").value(hasItem(DEFAULT_IMAGE)));
+            .andExpect(jsonPath("$.[*].image").value(hasItem(DEFAULT_IMAGE)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
     }
 
     @Test
@@ -213,7 +269,11 @@ public class ItemResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
-            .andExpect(jsonPath("$.image").value(DEFAULT_IMAGE));
+            .andExpect(jsonPath("$.image").value(DEFAULT_IMAGE))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
+            .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -235,7 +295,15 @@ public class ItemResourceIT {
         Item updatedItem = itemRepository.findById(item.getId()).get();
         // Disconnect from session so that the updates on updatedItem are not directly saved in db
         em.detach(updatedItem);
-        updatedItem.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).price(UPDATED_PRICE).image(UPDATED_IMAGE);
+        updatedItem
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .price(UPDATED_PRICE)
+            .image(UPDATED_IMAGE)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         ItemDTO itemDTO = itemMapper.toDto(updatedItem);
 
         restItemMockMvc
@@ -250,6 +318,10 @@ public class ItemResourceIT {
         assertThat(testItem.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testItem.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testItem.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testItem.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testItem.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testItem.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testItem.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test

@@ -25,6 +25,10 @@
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="quantity"><span jhiTranslate="lineTakeoutClientApp.ordered.quantity">Quantity</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalFee"><span jhiTranslate="lineTakeoutClientApp.ordered.totalFee">Total Fee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.ordered.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.ordered.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="customerId"><span jhiTranslate="lineTakeoutClientApp.ordered.customer">Customer</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="itemId"><span jhiTranslate="lineTakeoutClientApp.ordered.item">Item</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
@@ -35,6 +39,10 @@
                     <td><a [routerLink]="['/ordered', ordered.id, 'view']">{{ ordered.id }}</a></td>
                     <td>{{ ordered.quantity }}</td>
                     <td>{{ ordered.totalFee }}</td>
+                    <td>{{ ordered.createdBy }}</td>
+                    <td>{{ ordered.createdDate | date:'medium' }}</td>
+                    <td>{{ ordered.lastModifiedBy }}</td>
+                    <td>{{ ordered.lastModifiedDate | date:'medium' }}</td>
                     <td>
                         <div *ngIf="ordered.customerId">
                             <a [routerLink]="['/customer', ordered.customerId , 'view']" >{{ ordered.customerId }}</a>

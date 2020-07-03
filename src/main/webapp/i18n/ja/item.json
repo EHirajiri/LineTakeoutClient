@@ -19,7 +19,11 @@
       "name": "Name",
       "description": "Description",
       "price": "Price",
-      "image": "Image"
+      "image": "Image",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
     }
   }
 }

@@ -20,9 +20,21 @@
                 <dd>
                     <span>{{ customer.language }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.customer.createdDate">CreatedDate</span></dt>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ customer.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.createdDate">Created Date</span></dt>
                 <dd>
                     <span>{{ customer.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ customer.lastModifiedBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ customer.lastModifiedDate }}</span>
                 </dd>
             </dl>
 

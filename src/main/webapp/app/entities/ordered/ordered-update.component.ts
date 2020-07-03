@@ -4,6 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IOrdered, Ordered } from 'app/shared/model/ordered.model';
 import { OrderedService } from './ordered.service';
@@ -25,10 +27,14 @@ export class OrderedUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    quantity: [],
+    quantity: [null, [Validators.required]],
     totalFee: [],
-    customerId: [],
-    itemId: [],
+    createdBy: [null, [Validators.required, Validators.maxLength(50)]],
+    createdDate: [],
+    lastModifiedBy: [null, [Validators.maxLength(50)]],
+    lastModifiedDate: [],
+    customerId: [null, Validators.required],
+    itemId: [null, Validators.required],
   });
 
   constructor(
@@ -41,6 +47,12 @@ export class OrderedUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ ordered }) => {
+      if (!ordered.id) {
+        const today = moment().startOf('day');
+        ordered.createdDate = today;
+        ordered.lastModifiedDate = today;
+      }
+
       this.updateForm(ordered);
 
       this.customerService.query().subscribe((res: HttpResponse<ICustomer[]>) => (this.customers = res.body || []));
@@ -54,6 +66,10 @@ export class OrderedUpdateComponent implements OnInit {
       id: ordered.id,
       quantity: ordered.quantity,
       totalFee: ordered.totalFee,
+      createdBy: ordered.createdBy,
+      createdDate: ordered.createdDate ? ordered.createdDate.format(DATE_TIME_FORMAT) : null,
+      lastModifiedBy: ordered.lastModifiedBy,
+      lastModifiedDate: ordered.lastModifiedDate ? ordered.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       customerId: ordered.customerId,
       itemId: ordered.itemId,
     });
@@ -79,6 +95,14 @@ export class OrderedUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       quantity: this.editForm.get(['quantity'])!.value,
       totalFee: this.editForm.get(['totalFee'])!.value,
+      createdBy: this.editForm.get(['createdBy'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value
+        ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
+        ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       customerId: this.editForm.get(['customerId'])!.value,
       itemId: this.editForm.get(['itemId'])!.value,
     };

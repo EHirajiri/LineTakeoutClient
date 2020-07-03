@@ -26,7 +26,10 @@
                     <th scope="col"  jhiSortBy="userId"><span jhiTranslate="lineTakeoutClientApp.customer.userId">User Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="nickname"><span jhiTranslate="lineTakeoutClientApp.customer.nickname">Nickname</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="language"><span jhiTranslate="lineTakeoutClientApp.customer.language">Language</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col" jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.customer.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.customer.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.customer.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -36,7 +39,10 @@
                     <td>{{ customer.userId }}</td>
                     <td>{{ customer.nickname }}</td>
                     <td>{{ customer.language }}</td>
-                    <td>{{ customer.createdDate | date:'dd/MM/yy HH:mm' }}</td>
+                    <td>{{ customer.createdBy }}</td>
+                    <td>{{ customer.createdDate | date:'medium' }}</td>
+                    <td>{{ customer.lastModifiedBy }}</td>
+                    <td>{{ customer.lastModifiedDate | date:'medium' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

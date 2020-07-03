@@ -1,5 +1,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { CustomerService } from 'app/entities/customer/customer.service';
 import { ICustomer, Customer } from 'app/shared/model/customer.model';
 
@@ -10,6 +12,7 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: ICustomer;
     let expectedResult: ICustomer | ICustomer[] | boolean | null;
+    let currentDate: moment.Moment;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -19,13 +22,20 @@ describe('Service Tests', () => {
       injector = getTestBed();
       service = injector.get(CustomerService);
       httpMock = injector.get(HttpTestingController);
+      currentDate = moment();
 
-      elemDefault = new Customer(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Customer(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            createdDate: currentDate.format(DATE_TIME_FORMAT),
+            lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
+          },
+          elemDefault
+        );
 
         service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -38,11 +48,19 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            createdDate: currentDate.format(DATE_TIME_FORMAT),
+            lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.create(new Customer()).subscribe(resp => (expectedResult = resp.body));
 
@@ -57,11 +75,21 @@ describe('Service Tests', () => {
             userId: 'BBBBBB',
             nickname: 'BBBBBB',
             language: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: currentDate.format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -76,11 +104,21 @@ describe('Service Tests', () => {
             userId: 'BBBBBB',
             nickname: 'BBBBBB',
             language: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: currentDate.format(DATE_TIME_FORMAT),
+            lastModifiedBy: 'BBBBBB',
+            lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            createdDate: currentDate,
+            lastModifiedDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.query().subscribe(resp => (expectedResult = resp.body));
 

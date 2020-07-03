@@ -6,6 +6,7 @@
       "relationshipName": "customer",
       "otherEntityName": "customer",
       "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
       "otherEntityField": "id",
       "otherEntityRelationshipName": "ordered"
     },
@@ -13,6 +14,7 @@
       "relationshipName": "item",
       "otherEntityName": "item",
       "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
       "otherEntityField": "id",
       "otherEntityRelationshipName": "ordered"
     }
@@ -20,11 +22,32 @@
   "fields": [
     {
       "fieldName": "quantity",
-      "fieldType": "Integer"
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "totalFee",
       "fieldType": "Integer"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
     }
   ],
   "changelogDate": "20200702110431",

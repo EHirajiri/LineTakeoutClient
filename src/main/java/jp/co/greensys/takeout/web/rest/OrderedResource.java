@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import jp.co.greensys.takeout.service.OrderedService;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.web.rest.errors.BadRequestAlertException;
@@ -48,7 +49,7 @@ public class OrderedResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/ordereds")
-    public ResponseEntity<OrderedDTO> createOrdered(@RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
+    public ResponseEntity<OrderedDTO> createOrdered(@Valid @RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
         log.debug("REST request to save Ordered : {}", orderedDTO);
         if (orderedDTO.getId() != null) {
             throw new BadRequestAlertException("A new ordered cannot already have an ID", ENTITY_NAME, "idexists");
@@ -70,7 +71,7 @@ public class OrderedResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/ordereds")
-    public ResponseEntity<OrderedDTO> updateOrdered(@RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
+    public ResponseEntity<OrderedDTO> updateOrdered(@Valid @RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
         log.debug("REST request to update Ordered : {}", orderedDTO);
         if (orderedDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

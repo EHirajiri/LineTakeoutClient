@@ -27,6 +27,10 @@
                     <th scope="col"  jhiSortBy="description"><span jhiTranslate="lineTakeoutClientApp.item.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="price"><span jhiTranslate="lineTakeoutClientApp.item.price">Price</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="image"><span jhiTranslate="lineTakeoutClientApp.item.image">Image</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.item.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.item.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -37,6 +41,10 @@
                     <td>{{ item.description }}</td>
                     <td>{{ item.price }}</td>
                     <td>{{ item.image }}</td>
+                    <td>{{ item.createdBy }}</td>
+                    <td>{{ item.createdDate | date:'medium' }}</td>
+                    <td>{{ item.lastModifiedBy }}</td>
+                    <td>{{ item.lastModifiedDate | date:'medium' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
