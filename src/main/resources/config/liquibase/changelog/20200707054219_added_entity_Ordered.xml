@@ -16,7 +16,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="order_id" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_ordered_order_id" />
             </column>
             <column name="quantity" type="integer">
                 <constraints nullable="true" />

@@ -27,7 +27,7 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "order_id", nullable = false)
+    @Column(name = "order_id", nullable = false, unique = true)
     private String orderId;
 
     @Column(name = "quantity")

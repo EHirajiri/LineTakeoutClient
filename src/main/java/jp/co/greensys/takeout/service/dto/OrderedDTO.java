@@ -25,6 +25,8 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long customerId;
 
+    private String customerUserId;
+
     public Long getId() {
         return id;
     }
@@ -79,6 +81,14 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public String getCustomerUserId() {
+        return customerUserId;
+    }
+
+    public void setCustomerUserId(String customerUserId) {
+        this.customerUserId = customerUserId;
     }
 
     @Override
