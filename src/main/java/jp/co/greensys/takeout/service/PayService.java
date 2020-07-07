@@ -9,6 +9,7 @@ import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.repository.PayRepository;
 import jp.co.greensys.takeout.service.dto.PayDTO;
 import jp.co.greensys.takeout.service.mapper.PayMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -55,7 +56,7 @@ public class PayService {
         Pay pay = payMapper.toEntity(payDTO);
 
         // 顧客情報取得
-        if (payDTO.getCustomerUserId() != null) {
+        if (StringUtils.isNotEmpty(payDTO.getCustomerUserId())) {
             Optional<Customer> customer = customerRepository.findByUserId(payDTO.getCustomerUserId());
             if (customer.isPresent()) {
                 pay.setCustomer(customer.get());
@@ -65,11 +66,13 @@ public class PayService {
         }
 
         // 注文情報取得
-        Optional<Ordered> ordered = orderedRepository.findByOrderId(payDTO.getOrderedOrderId());
-        if (ordered.isPresent()) {
-            pay.setOrdered(ordered.get());
-        } else {
-            throw new IllegalArgumentException("Invalid orderId. orderId=" + payDTO.getOrderedOrderId());
+        if (StringUtils.isNotEmpty(payDTO.getOrderedOrderId())) {
+            Optional<Ordered> ordered = orderedRepository.findByOrderId(payDTO.getOrderedOrderId());
+            if (ordered.isPresent()) {
+                pay.setOrdered(ordered.get());
+            } else {
+                throw new IllegalArgumentException("Invalid orderId. orderId=" + payDTO.getOrderedOrderId());
+            }
         }
 
         pay = payRepository.save(pay);
@@ -80,12 +83,17 @@ public class PayService {
      * Get all the pays.
      *
      * @param pageable the pagination information.
+     * @param orderId the orderId
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<PayDTO> findAll(Pageable pageable) {
+    public Page<PayDTO> findAll(Pageable pageable, String orderId) {
         log.debug("Request to get all Pays");
-        return payRepository.findAll(pageable).map(payMapper::toDto);
+        if (StringUtils.isEmpty(orderId)) {
+            return payRepository.findAll(pageable).map(payMapper::toDto);
+        } else {
+            return payRepository.findByOrderedOrderId(orderId, pageable).map(payMapper::toDto);
+        }
     }
 
     /**
