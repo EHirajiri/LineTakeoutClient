@@ -21,7 +21,7 @@
       "fieldValues": "PREPARING,READY,DELIVERED"
     },
     {
-      "fieldName": "paiedDate",
+      "fieldName": "paidDate",
       "fieldType": "Instant"
     },
     {

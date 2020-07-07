@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.domain.enumeration.PayState;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -17,7 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "pay")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Pay implements Serializable {
+public class Pay extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -41,24 +43,10 @@ public class Pay implements Serializable {
     private DeliveryState deliveryState;
 
     @Column(name = "paied_date")
-    private Instant paiedDate;
+    private Instant paidDate;
 
     @Column(name = "received_date")
     private Instant receivedDate;
-
-    @Size(max = 50)
-    @Column(name = "created_by", length = 50)
-    private String createdBy;
-
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Size(max = 50)
-    @Column(name = "last_modified_by", length = 50)
-    private String lastModifiedBy;
-
-    @Column(name = "last_modified_date")
-    private Instant lastModifiedDate;
 
     @OneToOne(mappedBy = "pay")
     @JsonIgnore
@@ -129,17 +117,17 @@ public class Pay implements Serializable {
         this.deliveryState = deliveryState;
     }
 
-    public Instant getPaiedDate() {
-        return paiedDate;
+    public Instant getPaidDate() {
+        return paidDate;
     }
 
-    public Pay paiedDate(Instant paiedDate) {
-        this.paiedDate = paiedDate;
+    public Pay paidDate(Instant paidDate) {
+        this.paidDate = paidDate;
         return this;
     }
 
-    public void setPaiedDate(Instant paiedDate) {
-        this.paiedDate = paiedDate;
+    public void setPaidDate(Instant paidDate) {
+        this.paidDate = paidDate;
     }
 
     public Instant getReceivedDate() {
@@ -155,56 +143,24 @@ public class Pay implements Serializable {
         this.receivedDate = receivedDate;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
     public Pay createdBy(String createdBy) {
-        this.createdBy = createdBy;
+        this.setCreatedBy(createdBy);
         return this;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
     }
 
     public Pay createdDate(Instant createdDate) {
-        this.createdDate = createdDate;
+        this.setCreatedDate(createdDate);
         return this;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
     }
 
     public Pay lastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
+        this.setLastModifiedBy(lastModifiedBy);
         return this;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
     }
 
     public Pay lastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+        this.setLastModifiedDate(lastModifiedDate);
         return this;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Ordered getOrdered() {
@@ -254,18 +210,6 @@ public class Pay implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Pay{" +
-            "id=" + getId() +
-            ", transactionId=" + getTransactionId() +
-            ", title='" + getTitle() + "'" +
-            ", payState='" + getPayState() + "'" +
-            ", deliveryState='" + getDeliveryState() + "'" +
-            ", paiedDate='" + getPaiedDate() + "'" +
-            ", receivedDate='" + getReceivedDate() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }

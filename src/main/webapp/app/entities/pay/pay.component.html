@@ -27,7 +27,7 @@
                     <th scope="col"  jhiSortBy="title"><span jhiTranslate="lineTakeoutClientApp.pay.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="payState"><span jhiTranslate="lineTakeoutClientApp.pay.payState">Pay State</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deliveryState"><span jhiTranslate="lineTakeoutClientApp.pay.deliveryState">Delivery State</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="paiedDate"><span jhiTranslate="lineTakeoutClientApp.pay.paiedDate">Paied Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="paidDate"><span jhiTranslate="lineTakeoutClientApp.pay.paidDate">Paied Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="receivedDate"><span jhiTranslate="lineTakeoutClientApp.pay.receivedDate">Received Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.pay.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.pay.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
@@ -44,7 +44,7 @@
                     <td>{{ pay.title }}</td>
                     <td jhiTranslate="{{ 'lineTakeoutClientApp.PayState.' + pay.payState }}">{{ pay.payState }}</td>
                     <td jhiTranslate="{{ 'lineTakeoutClientApp.DeliveryState.' + pay.deliveryState }}">{{ pay.deliveryState }}</td>
-                    <td>{{ pay.paiedDate | date:'medium' }}</td>
+                    <td>{{ pay.paidDate | date:'medium' }}</td>
                     <td>{{ pay.receivedDate | date:'medium' }}</td>
                     <td>{{ pay.createdBy }}</td>
                     <td>{{ pay.createdDate | date:'medium' }}</td>

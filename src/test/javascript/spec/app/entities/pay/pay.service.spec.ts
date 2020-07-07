@@ -45,7 +45,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            paiedDate: currentDate.format(DATE_TIME_FORMAT),
+            paidDate: currentDate.format(DATE_TIME_FORMAT),
             receivedDate: currentDate.format(DATE_TIME_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
@@ -64,7 +64,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            paiedDate: currentDate.format(DATE_TIME_FORMAT),
+            paidDate: currentDate.format(DATE_TIME_FORMAT),
             receivedDate: currentDate.format(DATE_TIME_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
@@ -74,7 +74,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            paiedDate: currentDate,
+            paidDate: currentDate,
             receivedDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
@@ -96,7 +96,7 @@ describe('Service Tests', () => {
             title: 'BBBBBB',
             payState: 'BBBBBB',
             deliveryState: 'BBBBBB',
-            paiedDate: currentDate.format(DATE_TIME_FORMAT),
+            paidDate: currentDate.format(DATE_TIME_FORMAT),
             receivedDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
@@ -108,7 +108,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            paiedDate: currentDate,
+            paidDate: currentDate,
             receivedDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
@@ -130,7 +130,7 @@ describe('Service Tests', () => {
             title: 'BBBBBB',
             payState: 'BBBBBB',
             deliveryState: 'BBBBBB',
-            paiedDate: currentDate.format(DATE_TIME_FORMAT),
+            paidDate: currentDate.format(DATE_TIME_FORMAT),
             receivedDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
@@ -142,7 +142,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            paiedDate: currentDate,
+            paidDate: currentDate,
             receivedDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,

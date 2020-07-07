@@ -26,7 +26,7 @@ export class PayUpdateComponent implements OnInit {
     title: [],
     payState: [],
     deliveryState: [],
-    paiedDate: [],
+    paidDate: [],
     receivedDate: [],
     createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
@@ -46,7 +46,7 @@ export class PayUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ pay }) => {
       if (!pay.id) {
         const today = moment().startOf('day');
-        pay.paiedDate = today;
+        pay.paidDate = today;
         pay.receivedDate = today;
         pay.createdDate = today;
         pay.lastModifiedDate = today;
@@ -65,7 +65,7 @@ export class PayUpdateComponent implements OnInit {
       title: pay.title,
       payState: pay.payState,
       deliveryState: pay.deliveryState,
-      paiedDate: pay.paiedDate ? pay.paiedDate.format(DATE_TIME_FORMAT) : null,
+      paidDate: pay.paidDate ? pay.paidDate.format(DATE_TIME_FORMAT) : null,
       receivedDate: pay.receivedDate ? pay.receivedDate.format(DATE_TIME_FORMAT) : null,
       createdBy: pay.createdBy,
       createdDate: pay.createdDate ? pay.createdDate.format(DATE_TIME_FORMAT) : null,
@@ -97,7 +97,7 @@ export class PayUpdateComponent implements OnInit {
       title: this.editForm.get(['title'])!.value,
       payState: this.editForm.get(['payState'])!.value,
       deliveryState: this.editForm.get(['deliveryState'])!.value,
-      paiedDate: this.editForm.get(['paiedDate'])!.value ? moment(this.editForm.get(['paiedDate'])!.value, DATE_TIME_FORMAT) : undefined,
+      paidDate: this.editForm.get(['paidDate'])!.value ? moment(this.editForm.get(['paidDate'])!.value, DATE_TIME_FORMAT) : undefined,
       receivedDate: this.editForm.get(['receivedDate'])!.value
         ? moment(this.editForm.get(['receivedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,

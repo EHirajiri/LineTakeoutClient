@@ -35,7 +35,7 @@ entity Pay {
     title String,
     payState PayState,
     deliveryState DeliveryState
-    paiedDate Instant,
+    paidDate Instant,
     receivedDate Instant,
     createdBy String maxlength(50),
     createdDate Instant,

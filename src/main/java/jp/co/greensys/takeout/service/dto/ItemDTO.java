@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.Item} entity.
  */
-public class ItemDTO implements Serializable {
+public class ItemDTO extends AbstractAuditingDTO implements Serializable {
     private Long id;
 
     @NotNull
@@ -22,16 +24,6 @@ public class ItemDTO implements Serializable {
 
     @NotNull
     private String imageUrl;
-
-    @Size(max = 50)
-    private String createdBy;
-
-    private Instant createdDate;
-
-    @Size(max = 50)
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
 
     private Long orderedId;
 
@@ -75,38 +67,6 @@ public class ItemDTO implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
     public Long getOrderedId() {
         return orderedId;
     }
@@ -135,17 +95,6 @@ public class ItemDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "ItemDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", price=" + getPrice() +
-            ", imageUrl='" + getImageUrl() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            ", orderedId=" + getOrderedId() +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }

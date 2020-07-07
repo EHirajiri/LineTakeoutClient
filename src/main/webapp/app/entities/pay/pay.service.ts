@@ -50,7 +50,7 @@ export class PayService {
 
   protected convertDateFromClient(pay: IPay): IPay {
     const copy: IPay = Object.assign({}, pay, {
-      paiedDate: pay.paiedDate && pay.paiedDate.isValid() ? pay.paiedDate.toJSON() : undefined,
+      paidDate: pay.paidDate && pay.paidDate.isValid() ? pay.paidDate.toJSON() : undefined,
       receivedDate: pay.receivedDate && pay.receivedDate.isValid() ? pay.receivedDate.toJSON() : undefined,
       createdDate: pay.createdDate && pay.createdDate.isValid() ? pay.createdDate.toJSON() : undefined,
       lastModifiedDate: pay.lastModifiedDate && pay.lastModifiedDate.isValid() ? pay.lastModifiedDate.toJSON() : undefined,
@@ -60,7 +60,7 @@ export class PayService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.paiedDate = res.body.paiedDate ? moment(res.body.paiedDate) : undefined;
+      res.body.paidDate = res.body.paidDate ? moment(res.body.paidDate) : undefined;
       res.body.receivedDate = res.body.receivedDate ? moment(res.body.receivedDate) : undefined;
       res.body.createdDate = res.body.createdDate ? moment(res.body.createdDate) : undefined;
       res.body.lastModifiedDate = res.body.lastModifiedDate ? moment(res.body.lastModifiedDate) : undefined;
@@ -71,7 +71,7 @@ export class PayService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((pay: IPay) => {
-        pay.paiedDate = pay.paiedDate ? moment(pay.paiedDate) : undefined;
+        pay.paidDate = pay.paidDate ? moment(pay.paidDate) : undefined;
         pay.receivedDate = pay.receivedDate ? moment(pay.receivedDate) : undefined;
         pay.createdDate = pay.createdDate ? moment(pay.createdDate) : undefined;
         pay.lastModifiedDate = pay.lastModifiedDate ? moment(pay.lastModifiedDate) : undefined;

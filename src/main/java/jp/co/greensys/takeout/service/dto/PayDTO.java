@@ -5,11 +5,13 @@ import java.time.Instant;
 import javax.validation.constraints.*;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.domain.enumeration.PayState;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.Pay} entity.
  */
-public class PayDTO implements Serializable {
+public class PayDTO extends AbstractAuditingDTO implements Serializable {
     private Long id;
 
     @NotNull
@@ -21,19 +23,9 @@ public class PayDTO implements Serializable {
 
     private DeliveryState deliveryState;
 
-    private Instant paiedDate;
+    private Instant paidDate;
 
     private Instant receivedDate;
-
-    @Size(max = 50)
-    private String createdBy;
-
-    private Instant createdDate;
-
-    @Size(max = 50)
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
 
     private Long customerId;
 
@@ -77,12 +69,12 @@ public class PayDTO implements Serializable {
         this.deliveryState = deliveryState;
     }
 
-    public Instant getPaiedDate() {
-        return paiedDate;
+    public Instant getPaidDate() {
+        return paidDate;
     }
 
-    public void setPaiedDate(Instant paiedDate) {
-        this.paiedDate = paiedDate;
+    public void setPaidDate(Instant paidDate) {
+        this.paidDate = paidDate;
     }
 
     public Instant getReceivedDate() {
@@ -91,38 +83,6 @@ public class PayDTO implements Serializable {
 
     public void setReceivedDate(Instant receivedDate) {
         this.receivedDate = receivedDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Long getCustomerId() {
@@ -153,19 +113,6 @@ public class PayDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "PayDTO{" +
-            "id=" + getId() +
-            ", transactionId=" + getTransactionId() +
-            ", title='" + getTitle() + "'" +
-            ", payState='" + getPayState() + "'" +
-            ", deliveryState='" + getDeliveryState() + "'" +
-            ", paiedDate='" + getPaiedDate() + "'" +
-            ", receivedDate='" + getReceivedDate() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            ", customerId=" + getCustomerId() +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }

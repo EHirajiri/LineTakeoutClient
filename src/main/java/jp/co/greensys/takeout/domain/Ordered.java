@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -16,7 +18,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "ordered")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Ordered implements Serializable {
+public class Ordered extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -36,20 +38,6 @@ public class Ordered implements Serializable {
 
     @Column(name = "total_fee")
     private Integer totalFee;
-
-    @Size(max = 50)
-    @Column(name = "created_by", length = 50)
-    private String createdBy;
-
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Size(max = 50)
-    @Column(name = "last_modified_by", length = 50)
-    private String lastModifiedBy;
-
-    @Column(name = "last_modified_date")
-    private Instant lastModifiedDate;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -124,56 +112,24 @@ public class Ordered implements Serializable {
         this.totalFee = totalFee;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
     public Ordered createdBy(String createdBy) {
-        this.createdBy = createdBy;
+        this.setCreatedBy(createdBy);
         return this;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
     }
 
     public Ordered createdDate(Instant createdDate) {
-        this.createdDate = createdDate;
+        this.setCreatedDate(createdDate);
         return this;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
     }
 
     public Ordered lastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
+        this.setLastModifiedBy(lastModifiedBy);
         return this;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
     }
 
     public Ordered lastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+        this.setLastModifiedDate(lastModifiedDate);
         return this;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Pay getPay() {
@@ -248,16 +204,6 @@ public class Ordered implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Ordered{" +
-            "id=" + getId() +
-            ", orderId='" + getOrderId() + "'" +
-            ", quantity=" + getQuantity() +
-            ", unitPrice=" + getUnitPrice() +
-            ", totalFee=" + getTotalFee() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }
