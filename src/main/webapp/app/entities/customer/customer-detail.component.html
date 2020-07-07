@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="customer">
+            <h2><span jhiTranslate="lineTakeoutClientApp.customer.detail.title">Customer</span> {{ customer.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.userId">User Id</span></dt>
+                <dd>
+                    <span>{{ customer.userId }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.nickname">Nickname</span></dt>
+                <dd>
+                    <span>{{ customer.nickname }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.language">Language</span></dt>
+                <dd>
+                    <span>{{ customer.language }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ customer.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ customer.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ customer.lastModifiedBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ customer.lastModifiedDate }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/customer', customer.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

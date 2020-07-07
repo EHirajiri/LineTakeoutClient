@@ -1,0 +1,64 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="item">
+            <h2><span jhiTranslate="lineTakeoutClientApp.item.detail.title">Item</span> {{ item.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.name">Name</span></dt>
+                <dd>
+                    <span>{{ item.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.description">Description</span></dt>
+                <dd>
+                    <span>{{ item.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.price">Price</span></dt>
+                <dd>
+                    <span>{{ item.price }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.imageUrl">Image Url</span></dt>
+                <dd>
+                    <span>{{ item.imageUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{ item.createdBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.createdDate">Created Date</span></dt>
+                <dd>
+                    <span>{{ item.createdDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedBy">Last Modified By</span></dt>
+                <dd>
+                    <span>{{ item.lastModifiedBy }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedDate">Last Modified Date</span></dt>
+                <dd>
+                    <span>{{ item.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.ordered">Ordered</span></dt>
+                <dd>
+                    <div *ngIf="item.orderedId">
+                        <a [routerLink]="['/ordered', item.orderedId, 'view']">{{ item.orderedId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/item', item.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+entity Customer {
+    userId String required unique,
+    nickname String,
+    language String,
+    createdBy String maxlength(50),
+    createdDate Instant,
+    lastModifiedBy String maxlength(50),
+    lastModifiedDate Instant
+}
+
+entity Item {
+    name String required,
+    description TextBlob,
+    price Integer required,
+    imageUrl String required,
+    createdBy String maxlength(50),
+    createdDate Instant,
+    lastModifiedBy String maxlength(50),
+    lastModifiedDate Instant
+}
+
+entity Ordered {
+    orderId String required,
+    quantity Integer,
+    unitPrice Integer,
+    totalFee Integer,
+    createdBy String maxlength(50),
+    createdDate Instant,
+    lastModifiedBy String maxlength(50),
+    lastModifiedDate Instant
+}
+
+entity Pay {
+    transactionId Long required,
+    title String,
+    payState PayState,
+    deliveryState DeliveryState
+    paiedDate Instant,
+    receivedDate Instant,
+    createdBy String maxlength(50),
+    createdDate Instant,
+    lastModifiedBy String maxlength(50),
+    lastModifiedDate Instant
+}
+
+enum PayState {
+    ORDERED, PAYING, PAID
+}
+
+enum DeliveryState {
+    PREPARING, READY, DELIVERED
+}
+
+relationship OneToMany {
+    Customer to Ordered,
+    Customer to Pay,
+    Ordered to Item
+}
+
+relationship OneToOne {
+    Ordered to Pay
+}
+
+dto * with mapstruct
+service * with serviceClass
+paginate * with pagination

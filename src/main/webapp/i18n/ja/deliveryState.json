@@ -1,0 +1,10 @@
+{
+  "lineTakeoutClientApp": {
+    "DeliveryState": {
+      "null": "",
+      "PREPARING": "PREPARING",
+      "READY": "READY",
+      "DELIVERED": "DELIVERED"
+    }
+  }
+}

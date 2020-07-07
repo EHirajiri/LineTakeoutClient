@@ -1,0 +1,10 @@
+{
+  "lineTakeoutClientApp": {
+    "PayState": {
+      "null": "",
+      "ORDERED": "ORDERED",
+      "PAYING": "PAYING",
+      "PAID": "PAID"
+    }
+  }
+}
