@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import jp.co.greensys.takeout.domain.Customer;
+import jp.co.greensys.takeout.domain.Ordered;
 import jp.co.greensys.takeout.domain.Pay;
+import jp.co.greensys.takeout.repository.CustomerRepository;
+import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.repository.PayRepository;
 import jp.co.greensys.takeout.service.dto.PayDTO;
 import jp.co.greensys.takeout.service.mapper.PayMapper;
@@ -28,9 +32,20 @@ public class PayService {
 
     private final PayMapper payMapper;
 
-    public PayService(PayRepository payRepository, PayMapper payMapper) {
+    private final CustomerRepository customerRepository;
+
+    private final OrderedRepository orderedRepository;
+
+    public PayService(
+        PayRepository payRepository,
+        PayMapper payMapper,
+        CustomerRepository customerRepository,
+        OrderedRepository orderedRepository
+    ) {
         this.payRepository = payRepository;
         this.payMapper = payMapper;
+        this.customerRepository = customerRepository;
+        this.orderedRepository = orderedRepository;
     }
 
     /**
@@ -42,6 +57,25 @@ public class PayService {
     public PayDTO save(PayDTO payDTO) {
         log.debug("Request to save Pay : {}", payDTO);
         Pay pay = payMapper.toEntity(payDTO);
+
+        // 顧客情報取得
+        if (payDTO.getCustomerUserId() != null) {
+            Optional<Customer> customer = customerRepository.findByUserId(payDTO.getCustomerUserId());
+            if (customer.isPresent()) {
+                pay.setCustomer(customer.get());
+            } else {
+                throw new IllegalArgumentException("Invalid userId. userId=" + payDTO.getCustomerUserId());
+            }
+        }
+
+        // 注文情報取得
+        Optional<Ordered> ordered = orderedRepository.findByOrderId(payDTO.getOrderedOrderId());
+        if (ordered.isPresent()) {
+            pay.setOrdered(ordered.get());
+        } else {
+            throw new IllegalArgumentException("Invalid orderId. orderId=" + payDTO.getOrderedOrderId());
+        }
+
         pay = payRepository.save(pay);
         return payMapper.toDto(pay);
     }

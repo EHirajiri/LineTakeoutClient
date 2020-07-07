@@ -45,11 +45,13 @@ public class OrderedService {
         Ordered ordered = orderedMapper.toEntity(orderedDTO);
 
         // 顧客情報取得
-        Optional<Customer> customer = customerRepository.findByUserId(orderedDTO.getCustomerUserId());
-        if (customer.isPresent()) {
-            ordered.setCustomer(customer.get());
-        } else {
-            throw new IllegalArgumentException("Invalid userId. userId=" + orderedDTO.getCustomerUserId());
+        if (orderedDTO.getCustomerUserId() != null) {
+            Optional<Customer> customer = customerRepository.findByUserId(orderedDTO.getCustomerUserId());
+            if (customer.isPresent()) {
+                ordered.setCustomer(customer.get());
+            } else {
+                throw new IllegalArgumentException("Invalid userId. userId=" + orderedDTO.getCustomerUserId());
+            }
         }
 
         // 合計金額計算
