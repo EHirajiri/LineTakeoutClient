@@ -1,4 +1,4 @@
-id;transaction_id;title;pay_state;delivery_state;paied_date;received_date;created_by;created_date;last_modified_by;last_modified_date
+id;transaction_id;title;pay_state;delivery_state;paid_date;received_date;created_by;created_date;last_modified_by;last_modified_date
 1;68944;Gloves;ORDERED;DELIVERED;2020-07-06T11:30:18;2020-07-06T10:39:51;monitoring;2020-07-07T01:44:28;Realigned Chicken;2020-07-06T22:44:48
 2;72250;web-enabled East Caribbean Dollar;PAID;PREPARING;2020-07-07T03:44:25;2020-07-06T20:06:40;Designer EXE pink;2020-07-07T02:38:56;optical Engineer Officer;2020-07-06T06:52:45
 3;24305;extend;ORDERED;READY;2020-07-07T02:49:18;2020-07-06T23:52:08;client-driven;2020-07-06T13:36:15;Berkshire Quality;2020-07-06T11:40:30

@@ -1,10 +1,6 @@
 package jp.co.greensys.takeout.service;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import jp.co.greensys.takeout.domain.Customer;
 import jp.co.greensys.takeout.domain.Ordered;
 import jp.co.greensys.takeout.domain.Pay;
@@ -90,20 +86,6 @@ public class PayService {
     public Page<PayDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Pays");
         return payRepository.findAll(pageable).map(payMapper::toDto);
-    }
-
-    /**
-     *  Get all the pays where Ordered is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<PayDTO> findAllWhereOrderedIsNull() {
-        log.debug("Request to get all pays where Ordered is null");
-        return StreamSupport
-            .stream(payRepository.findAll().spliterator(), false)
-            .filter(pay -> pay.getOrdered() == null)
-            .map(payMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

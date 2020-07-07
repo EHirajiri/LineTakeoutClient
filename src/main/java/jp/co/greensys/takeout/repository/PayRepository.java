@@ -1,7 +1,7 @@
 package jp.co.greensys.takeout.repository;
 
 import jp.co.greensys.takeout.domain.Pay;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 /**

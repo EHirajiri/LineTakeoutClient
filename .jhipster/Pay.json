@@ -55,7 +55,7 @@
       "otherEntityName": "ordered",
       "otherEntityRelationshipName": "pay",
       "relationshipName": "ordered",
-      "ownerSide": false
+      "ownerSide": true
     },
     {
       "relationshipType": "many-to-one",

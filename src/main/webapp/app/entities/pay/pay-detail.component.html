@@ -24,7 +24,7 @@
                 <dd>
                     <span jhiTranslate="{{ 'lineTakeoutClientApp.DeliveryState.' + pay.deliveryState }}">{{ pay.deliveryState }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.pay.paidDate">Paied Date</span></dt>
+                <dt><span jhiTranslate="lineTakeoutClientApp.pay.paidDate">Paid Date</span></dt>
                 <dd>
                     <span>{{ pay.paidDate }}</span>
                 </dd>
@@ -47,6 +47,12 @@
                 <dt><span jhiTranslate="lineTakeoutClientApp.pay.lastModifiedDate">Last Modified Date</span></dt>
                 <dd>
                     <span>{{ pay.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.pay.ordered">Ordered</span></dt>
+                <dd>
+                    <div *ngIf="pay.orderedId">
+                        <a [routerLink]="['/ordered', pay.orderedId, 'view']">{{ pay.orderedId }}</a>
+                    </div>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.pay.customer">Customer</span></dt>
                 <dd>

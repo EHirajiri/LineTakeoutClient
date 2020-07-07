@@ -46,8 +46,8 @@ public class PayResourceIT {
     private static final DeliveryState DEFAULT_DELIVERY_STATE = DeliveryState.PREPARING;
     private static final DeliveryState UPDATED_DELIVERY_STATE = DeliveryState.READY;
 
-    private static final Instant DEFAULT_PAIED_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_PAIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_PAID_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_PAID_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Instant DEFAULT_RECEIVED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_RECEIVED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -93,7 +93,7 @@ public class PayResourceIT {
             .title(DEFAULT_TITLE)
             .payState(DEFAULT_PAY_STATE)
             .deliveryState(DEFAULT_DELIVERY_STATE)
-            .paidDate(DEFAULT_PAIED_DATE)
+            .paidDate(DEFAULT_PAID_DATE)
             .receivedDate(DEFAULT_RECEIVED_DATE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdDate(DEFAULT_CREATED_DATE)
@@ -114,7 +114,7 @@ public class PayResourceIT {
             .title(UPDATED_TITLE)
             .payState(UPDATED_PAY_STATE)
             .deliveryState(UPDATED_DELIVERY_STATE)
-            .paidDate(UPDATED_PAIED_DATE)
+            .paidDate(UPDATED_PAID_DATE)
             .receivedDate(UPDATED_RECEIVED_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
@@ -146,7 +146,7 @@ public class PayResourceIT {
         assertThat(testPay.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testPay.getPayState()).isEqualTo(DEFAULT_PAY_STATE);
         assertThat(testPay.getDeliveryState()).isEqualTo(DEFAULT_DELIVERY_STATE);
-        assertThat(testPay.getPaidDate()).isEqualTo(DEFAULT_PAIED_DATE);
+        assertThat(testPay.getPaidDate()).isEqualTo(DEFAULT_PAID_DATE);
         assertThat(testPay.getReceivedDate()).isEqualTo(DEFAULT_RECEIVED_DATE);
         assertThat(testPay.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testPay.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
@@ -207,7 +207,7 @@ public class PayResourceIT {
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].payState").value(hasItem(DEFAULT_PAY_STATE.toString())))
             .andExpect(jsonPath("$.[*].deliveryState").value(hasItem(DEFAULT_DELIVERY_STATE.toString())))
-            .andExpect(jsonPath("$.[*].paidDate").value(hasItem(DEFAULT_PAIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].paidDate").value(hasItem(DEFAULT_PAID_DATE.toString())))
             .andExpect(jsonPath("$.[*].receivedDate").value(hasItem(DEFAULT_RECEIVED_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
@@ -231,7 +231,7 @@ public class PayResourceIT {
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.payState").value(DEFAULT_PAY_STATE.toString()))
             .andExpect(jsonPath("$.deliveryState").value(DEFAULT_DELIVERY_STATE.toString()))
-            .andExpect(jsonPath("$.paidDate").value(DEFAULT_PAIED_DATE.toString()))
+            .andExpect(jsonPath("$.paidDate").value(DEFAULT_PAID_DATE.toString()))
             .andExpect(jsonPath("$.receivedDate").value(DEFAULT_RECEIVED_DATE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
@@ -263,7 +263,7 @@ public class PayResourceIT {
             .title(UPDATED_TITLE)
             .payState(UPDATED_PAY_STATE)
             .deliveryState(UPDATED_DELIVERY_STATE)
-            .paidDate(UPDATED_PAIED_DATE)
+            .paidDate(UPDATED_PAID_DATE)
             .receivedDate(UPDATED_RECEIVED_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
@@ -283,7 +283,7 @@ public class PayResourceIT {
         assertThat(testPay.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testPay.getPayState()).isEqualTo(UPDATED_PAY_STATE);
         assertThat(testPay.getDeliveryState()).isEqualTo(UPDATED_DELIVERY_STATE);
-        assertThat(testPay.getPaidDate()).isEqualTo(UPDATED_PAIED_DATE);
+        assertThat(testPay.getPaidDate()).isEqualTo(UPDATED_PAID_DATE);
         assertThat(testPay.getReceivedDate()).isEqualTo(UPDATED_RECEIVED_DATE);
         assertThat(testPay.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testPay.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);

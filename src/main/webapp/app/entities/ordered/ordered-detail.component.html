@@ -40,12 +40,6 @@
                 <dd>
                     <span>{{ ordered.lastModifiedDate }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.pay">Pay</span></dt>
-                <dd>
-                    <div *ngIf="ordered.payId">
-                        <a [routerLink]="['/pay', ordered.payId, 'view']">{{ ordered.payId }}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.customer">Customer</span></dt>
                 <dd>
                     <div *ngIf="ordered.customerId">

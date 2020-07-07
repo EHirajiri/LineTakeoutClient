@@ -27,12 +27,13 @@
                     <th scope="col"  jhiSortBy="title"><span jhiTranslate="lineTakeoutClientApp.pay.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="payState"><span jhiTranslate="lineTakeoutClientApp.pay.payState">Pay State</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deliveryState"><span jhiTranslate="lineTakeoutClientApp.pay.deliveryState">Delivery State</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="paidDate"><span jhiTranslate="lineTakeoutClientApp.pay.paidDate">Paied Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="paidDate"><span jhiTranslate="lineTakeoutClientApp.pay.paidDate">Paid Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="receivedDate"><span jhiTranslate="lineTakeoutClientApp.pay.receivedDate">Received Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.pay.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.pay.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.pay.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.pay.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="orderedId"><span jhiTranslate="lineTakeoutClientApp.pay.ordered">Ordered</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="customerId"><span jhiTranslate="lineTakeoutClientApp.pay.customer">Customer</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -50,6 +51,11 @@
                     <td>{{ pay.createdDate | date:'medium' }}</td>
                     <td>{{ pay.lastModifiedBy }}</td>
                     <td>{{ pay.lastModifiedDate | date:'medium' }}</td>
+                    <td>
+                        <div *ngIf="pay.orderedId">
+                            <a [routerLink]="['/ordered', pay.orderedId , 'view']" >{{ pay.orderedId }}</a>
+                        </div>
+                    </td>
                     <td>
                         <div *ngIf="pay.customerId">
                             <a [routerLink]="['/customer', pay.customerId , 'view']" >{{ pay.customerId }}</a>

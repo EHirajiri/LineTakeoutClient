@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import jp.co.greensys.takeout.service.PayService;
 import jp.co.greensys.takeout.service.dto.PayDTO;
@@ -88,15 +87,10 @@ public class PayResource {
      * {@code GET  /pays} : get all the pays.
      *
      * @param pageable the pagination information.
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of pays in body.
      */
     @GetMapping("/pays")
-    public ResponseEntity<List<PayDTO>> getAllPays(Pageable pageable, @RequestParam(required = false) String filter) {
-        if ("ordered-is-null".equals(filter)) {
-            log.debug("REST request to get all Pays where ordered is null");
-            return new ResponseEntity<>(payService.findAllWhereOrderedIsNull(), HttpStatus.OK);
-        }
+    public ResponseEntity<List<PayDTO>> getAllPays(Pageable pageable) {
         log.debug("REST request to get a page of Pays");
         Page<PayDTO> page = payService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

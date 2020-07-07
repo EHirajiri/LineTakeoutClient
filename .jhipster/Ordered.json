@@ -46,7 +46,7 @@
       "otherEntityRelationshipName": "ordered",
       "relationshipName": "pay",
       "otherEntityField": "id",
-      "ownerSide": true
+      "ownerSide": false
     },
     {
       "relationshipType": "one-to-many",

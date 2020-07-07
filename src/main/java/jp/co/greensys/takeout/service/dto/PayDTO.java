@@ -27,6 +27,8 @@ public class PayDTO extends AbstractAuditingDTO implements Serializable {
 
     private Instant receivedDate;
 
+    private Long orderedId;
+
     private String orderedOrderId;
 
     private Long customerId;
@@ -87,6 +89,14 @@ public class PayDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setReceivedDate(Instant receivedDate) {
         this.receivedDate = receivedDate;
+    }
+
+    public Long getOrderedId() {
+        return orderedId;
+    }
+
+    public void setOrderedId(Long orderedId) {
+        this.orderedId = orderedId;
     }
 
     public String getOrderedOrderId() {

@@ -7,12 +7,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Pay} and its DTO {@link PayDTO}.
  */
-@Mapper(componentModel = "spring", uses = { CustomerMapper.class })
+@Mapper(componentModel = "spring", uses = { OrderedMapper.class, CustomerMapper.class })
 public interface PayMapper extends EntityMapper<PayDTO, Pay> {
+    @Mapping(source = "ordered.id", target = "orderedId")
     @Mapping(source = "customer.id", target = "customerId")
     PayDTO toDto(Pay pay);
 
-    @Mapping(target = "ordered", ignore = true)
+    @Mapping(source = "orderedId", target = "ordered")
     @Mapping(source = "customerId", target = "customer")
     Pay toEntity(PayDTO payDTO);
 

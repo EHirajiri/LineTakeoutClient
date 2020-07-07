@@ -27,7 +27,7 @@
             <column name="delivery_state" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="paied_date" type="datetime">
+            <column name="paid_date" type="datetime">
                 <constraints nullable="true" />
             </column>
             <column name="received_date" type="datetime">
@@ -45,12 +45,15 @@
             <column name="last_modified_date" type="datetime">
                 <constraints nullable="true" />
             </column>
+            <column name="ordered_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_pay_ordered_id" />
+            </column>
             <column name="customer_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="pay" columnName="paied_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="pay" columnName="paid_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="pay" columnName="received_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="pay" columnName="created_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="pay" columnName="last_modified_date" columnDataType="datetime"/>
@@ -79,7 +82,7 @@
             <column name="title" type="string"/>
             <column name="pay_state" type="string"/>
             <column name="delivery_state" type="string"/>
-            <column name="paied_date" type="datetime"/>
+            <column name="paid_date" type="datetime"/>
             <column name="received_date" type="datetime"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="datetime"/>
