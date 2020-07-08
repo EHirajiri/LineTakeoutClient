@@ -24,8 +24,8 @@
       "createdDate": "Created Date",
       "lastModifiedBy": "Last Modified By",
       "lastModifiedDate": "Last Modified Date",
-      "pay": "Pay",
       "item": "Item",
+      "pay": "Pay",
       "customer": "Customer"
     }
   }

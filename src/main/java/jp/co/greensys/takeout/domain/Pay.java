@@ -44,8 +44,11 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
     @Column(name = "paid_date")
     private Instant paidDate;
 
-    @Column(name = "received_date")
-    private Instant receivedDate;
+    @Column(name = "delivery_date")
+    private Instant deliveryDate;
+
+    @Column(name = "amount")
+    private Integer amount;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -129,17 +132,30 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
         this.paidDate = paidDate;
     }
 
-    public Instant getReceivedDate() {
-        return receivedDate;
+    public Instant getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public Pay receivedDate(Instant receivedDate) {
-        this.receivedDate = receivedDate;
+    public Pay deliveryDate(Instant deliveryDate) {
+        this.deliveryDate = deliveryDate;
         return this;
     }
 
-    public void setReceivedDate(Instant receivedDate) {
-        this.receivedDate = receivedDate;
+    public void setDeliveryDate(Instant deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public Pay amount(Integer amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Pay createdBy(String createdBy) {

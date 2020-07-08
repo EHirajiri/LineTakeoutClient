@@ -59,10 +59,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.pay.receivedDate" for="field_receivedDate">Received Date</label>
+                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.pay.deliveryDate" for="field_deliveryDate">Delivery Date</label>
                     <div class="d-flex">
-                        <input id="field_receivedDate" type="datetime-local" class="form-control" name="receivedDate" formControlName="receivedDate" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_deliveryDate" type="datetime-local" class="form-control" name="deliveryDate" formControlName="deliveryDate" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.pay.amount" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                           formControlName="amount"/>
                 </div>
 
                 <div class="form-group">

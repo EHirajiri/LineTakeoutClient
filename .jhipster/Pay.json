@@ -29,6 +29,10 @@
       "fieldType": "Instant"
     },
     {
+      "fieldName": "amount",
+      "fieldType": "Integer"
+    },
+    {
       "fieldName": "createdBy",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
@@ -55,6 +59,7 @@
       "otherEntityName": "ordered",
       "otherEntityRelationshipName": "pay",
       "relationshipName": "ordered",
+      "otherEntityField": "id",
       "ownerSide": true
     },
     {

@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
+
     <!--
         Added the entity Pay.
     -->
@@ -30,7 +30,10 @@
             <column name="paid_date" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="received_date" type="datetime">
+            <column name="delivery_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="amount" type="integer">
                 <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(50)">
@@ -54,7 +57,7 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="pay" columnName="paid_date" columnDataType="datetime"/>
-        <dropDefaultValue tableName="pay" columnName="received_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="pay" columnName="delivery_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="pay" columnName="created_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="pay" columnName="last_modified_date" columnDataType="datetime"/>
     </changeSet>
@@ -83,11 +86,14 @@
             <column name="pay_state" type="string"/>
             <column name="delivery_state" type="string"/>
             <column name="paid_date" type="datetime"/>
-            <column name="received_date" type="datetime"/>
+            <column name="delivery_date" type="datetime"/>
+            <column name="amount" type="numeric"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="datetime"/>
             <column name="last_modified_by" type="string"/>
             <column name="last_modified_date" type="datetime"/>
+            <column name="ordered_id" type="numeric"/>
+            <column name="customer_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

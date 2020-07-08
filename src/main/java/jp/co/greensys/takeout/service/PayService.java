@@ -1,5 +1,6 @@
 package jp.co.greensys.takeout.service;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import java.util.Optional;
 import jp.co.greensys.takeout.domain.Customer;
 import jp.co.greensys.takeout.domain.Ordered;
@@ -9,7 +10,6 @@ import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.repository.PayRepository;
 import jp.co.greensys.takeout.service.dto.PayDTO;
 import jp.co.greensys.takeout.service.mapper.PayMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

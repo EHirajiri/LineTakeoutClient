@@ -9,7 +9,8 @@ export interface IPay {
   payState?: PayState;
   deliveryState?: DeliveryState;
   paidDate?: Moment;
-  receivedDate?: Moment;
+  deliveryDate?: Moment;
+  amount?: number;
   createdBy?: string;
   createdDate?: Moment;
   lastModifiedBy?: string;
@@ -26,7 +27,8 @@ export class Pay implements IPay {
     public payState?: PayState,
     public deliveryState?: DeliveryState,
     public paidDate?: Moment,
-    public receivedDate?: Moment,
+    public deliveryDate?: Moment,
+    public amount?: number,
     public createdBy?: string,
     public createdDate?: Moment,
     public lastModifiedBy?: string,

@@ -33,7 +33,8 @@ export class PayUpdateComponent implements OnInit {
     payState: [],
     deliveryState: [],
     paidDate: [],
-    receivedDate: [],
+    deliveryDate: [],
+    amount: [],
     createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
@@ -55,7 +56,7 @@ export class PayUpdateComponent implements OnInit {
       if (!pay.id) {
         const today = moment().startOf('day');
         pay.paidDate = today;
-        pay.receivedDate = today;
+        pay.deliveryDate = today;
         pay.createdDate = today;
         pay.lastModifiedDate = today;
       }
@@ -96,7 +97,8 @@ export class PayUpdateComponent implements OnInit {
       payState: pay.payState,
       deliveryState: pay.deliveryState,
       paidDate: pay.paidDate ? pay.paidDate.format(DATE_TIME_FORMAT) : null,
-      receivedDate: pay.receivedDate ? pay.receivedDate.format(DATE_TIME_FORMAT) : null,
+      deliveryDate: pay.deliveryDate ? pay.deliveryDate.format(DATE_TIME_FORMAT) : null,
+      amount: pay.amount,
       createdBy: pay.createdBy,
       createdDate: pay.createdDate ? pay.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: pay.lastModifiedBy,
@@ -129,9 +131,10 @@ export class PayUpdateComponent implements OnInit {
       payState: this.editForm.get(['payState'])!.value,
       deliveryState: this.editForm.get(['deliveryState'])!.value,
       paidDate: this.editForm.get(['paidDate'])!.value ? moment(this.editForm.get(['paidDate'])!.value, DATE_TIME_FORMAT) : undefined,
-      receivedDate: this.editForm.get(['receivedDate'])!.value
-        ? moment(this.editForm.get(['receivedDate'])!.value, DATE_TIME_FORMAT)
+      deliveryDate: this.editForm.get(['deliveryDate'])!.value
+        ? moment(this.editForm.get(['deliveryDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      amount: this.editForm.get(['amount'])!.value,
       createdBy: this.editForm.get(['createdBy'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)

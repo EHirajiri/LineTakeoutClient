@@ -34,6 +34,7 @@ describe('Service Tests', () => {
         DeliveryState.PREPARING,
         currentDate,
         currentDate,
+        0,
         'AAAAAAA',
         currentDate,
         'AAAAAAA',
@@ -46,7 +47,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             paidDate: currentDate.format(DATE_TIME_FORMAT),
-            receivedDate: currentDate.format(DATE_TIME_FORMAT),
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
@@ -65,7 +66,7 @@ describe('Service Tests', () => {
           {
             id: 0,
             paidDate: currentDate.format(DATE_TIME_FORMAT),
-            receivedDate: currentDate.format(DATE_TIME_FORMAT),
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
@@ -75,7 +76,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             paidDate: currentDate,
-            receivedDate: currentDate,
+            deliveryDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },
@@ -97,7 +98,8 @@ describe('Service Tests', () => {
             payState: 'BBBBBB',
             deliveryState: 'BBBBBB',
             paidDate: currentDate.format(DATE_TIME_FORMAT),
-            receivedDate: currentDate.format(DATE_TIME_FORMAT),
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
+            amount: 1,
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedBy: 'BBBBBB',
@@ -109,7 +111,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             paidDate: currentDate,
-            receivedDate: currentDate,
+            deliveryDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },
@@ -131,7 +133,8 @@ describe('Service Tests', () => {
             payState: 'BBBBBB',
             deliveryState: 'BBBBBB',
             paidDate: currentDate.format(DATE_TIME_FORMAT),
-            receivedDate: currentDate.format(DATE_TIME_FORMAT),
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
+            amount: 1,
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedBy: 'BBBBBB',
@@ -143,7 +146,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             paidDate: currentDate,
-            receivedDate: currentDate,
+            deliveryDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },

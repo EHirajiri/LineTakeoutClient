@@ -11,8 +11,8 @@ export interface IOrdered {
   createdDate?: Moment;
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
-  payId?: number;
   items?: IItem[];
+  payId?: number;
   customerId?: number;
 }
 
@@ -27,8 +27,8 @@ export class Ordered implements IOrdered {
     public createdDate?: Moment,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
-    public payId?: number,
     public items?: IItem[],
+    public payId?: number,
     public customerId?: number
   ) {}
 }
