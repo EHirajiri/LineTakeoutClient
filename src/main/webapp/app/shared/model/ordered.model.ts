@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-import { IItem } from 'app/shared/model/item.model';
 
 export interface IOrdered {
   id?: number;
@@ -12,8 +11,8 @@ export interface IOrdered {
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
   payId?: number;
-  items?: IItem[];
   customerId?: number;
+  itemId?: number;
 }
 
 export class Ordered implements IOrdered {
@@ -28,7 +27,7 @@ export class Ordered implements IOrdered {
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
     public payId?: number,
-    public items?: IItem[],
-    public customerId?: number
+    public customerId?: number,
+    public itemId?: number
   ) {}
 }

@@ -11,8 +11,6 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IItem, Item } from 'app/shared/model/item.model';
 import { ItemService } from './item.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IOrdered } from 'app/shared/model/ordered.model';
-import { OrderedService } from 'app/entities/ordered/ordered.service';
 
 @Component({
   selector: 'jhi-item-update',
@@ -20,7 +18,6 @@ import { OrderedService } from 'app/entities/ordered/ordered.service';
 })
 export class ItemUpdateComponent implements OnInit {
   isSaving = false;
-  ordereds: IOrdered[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -32,14 +29,12 @@ export class ItemUpdateComponent implements OnInit {
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
-    orderedId: [],
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected itemService: ItemService,
-    protected orderedService: OrderedService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -53,8 +48,6 @@ export class ItemUpdateComponent implements OnInit {
       }
 
       this.updateForm(item);
-
-      this.orderedService.query().subscribe((res: HttpResponse<IOrdered[]>) => (this.ordereds = res.body || []));
     });
   }
 
@@ -69,7 +62,6 @@ export class ItemUpdateComponent implements OnInit {
       createdDate: item.createdDate ? item.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: item.lastModifiedBy,
       lastModifiedDate: item.lastModifiedDate ? item.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
-      orderedId: item.orderedId,
     });
   }
 
@@ -119,7 +111,6 @@ export class ItemUpdateComponent implements OnInit {
       lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
-      orderedId: this.editForm.get(['orderedId'])!.value,
     };
   }
 
@@ -137,9 +128,5 @@ export class ItemUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
-  }
-
-  trackById(index: number, item: IOrdered): any {
-    return item.id;
   }
 }

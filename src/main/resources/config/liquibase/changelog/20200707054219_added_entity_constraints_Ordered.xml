@@ -20,5 +20,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="customer"/>
 
+        <addForeignKeyConstraint baseColumnNames="item_id"
+                                 baseTableName="ordered"
+                                 constraintName="fk_ordered_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item"/>
+
     </changeSet>
 </databaseChangeLog>

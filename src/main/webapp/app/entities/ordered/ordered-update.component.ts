@@ -14,8 +14,10 @@ import { IPay } from 'app/shared/model/pay.model';
 import { PayService } from 'app/entities/pay/pay.service';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer/customer.service';
+import { IItem } from 'app/shared/model/item.model';
+import { ItemService } from 'app/entities/item/item.service';
 
-type SelectableEntity = IPay | ICustomer;
+type SelectableEntity = IPay | ICustomer | IItem;
 
 @Component({
   selector: 'jhi-ordered-update',
@@ -25,6 +27,7 @@ export class OrderedUpdateComponent implements OnInit {
   isSaving = false;
   pays: IPay[] = [];
   customers: ICustomer[] = [];
+  items: IItem[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -38,12 +41,14 @@ export class OrderedUpdateComponent implements OnInit {
     lastModifiedDate: [],
     payId: [],
     customerId: [],
+    itemId: [],
   });
 
   constructor(
     protected orderedService: OrderedService,
     protected payService: PayService,
     protected customerService: CustomerService,
+    protected itemService: ItemService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -81,6 +86,8 @@ export class OrderedUpdateComponent implements OnInit {
         });
 
       this.customerService.query().subscribe((res: HttpResponse<ICustomer[]>) => (this.customers = res.body || []));
+
+      this.itemService.query().subscribe((res: HttpResponse<IItem[]>) => (this.items = res.body || []));
     });
   }
 
@@ -97,6 +104,7 @@ export class OrderedUpdateComponent implements OnInit {
       lastModifiedDate: ordered.lastModifiedDate ? ordered.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       payId: ordered.payId,
       customerId: ordered.customerId,
+      itemId: ordered.itemId,
     });
   }
 
@@ -132,6 +140,7 @@ export class OrderedUpdateComponent implements OnInit {
         : undefined,
       payId: this.editForm.get(['payId'])!.value,
       customerId: this.editForm.get(['customerId'])!.value,
+      itemId: this.editForm.get(['itemId'])!.value,
     };
   }
 

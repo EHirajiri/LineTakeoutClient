@@ -3,8 +3,6 @@ package jp.co.greensys.takeout.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -43,13 +41,13 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     @JoinColumn(unique = true)
     private Pay pay;
 
-    @OneToMany(mappedBy = "ordered")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Item> items = new HashSet<>();
-
     @ManyToOne
     @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
     private Customer customer;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
+    private Item item;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -145,31 +143,6 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
         this.pay = pay;
     }
 
-    public Set<Item> getItems() {
-        return items;
-    }
-
-    public Ordered items(Set<Item> items) {
-        this.items = items;
-        return this;
-    }
-
-    public Ordered addItem(Item item) {
-        this.items.add(item);
-        item.setOrdered(this);
-        return this;
-    }
-
-    public Ordered removeItem(Item item) {
-        this.items.remove(item);
-        item.setOrdered(null);
-        return this;
-    }
-
-    public void setItems(Set<Item> items) {
-        this.items = items;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
@@ -181,6 +154,19 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public Ordered item(Item item) {
+        this.item = item;
+        return this;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

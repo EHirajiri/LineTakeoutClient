@@ -31,7 +31,6 @@
                     <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.item.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="orderedId"><span jhiTranslate="lineTakeoutClientApp.item.ordered">Ordered</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -46,11 +45,6 @@
                     <td>{{ item.createdDate | date:'medium' }}</td>
                     <td>{{ item.lastModifiedBy }}</td>
                     <td>{{ item.lastModifiedDate | date:'medium' }}</td>
-                    <td>
-                        <div *ngIf="item.orderedId">
-                            <a [routerLink]="['/ordered', item.orderedId , 'view']" >{{ item.orderedId }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

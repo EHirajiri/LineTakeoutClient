@@ -94,6 +94,14 @@
                         <option [ngValue]="customerOption.id" *ngFor="let customerOption of customers; trackBy: trackById">{{ customerOption.id }}</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.item" for="field_item">Item</label>
+                    <select class="form-control" id="field_item" name="item" formControlName="itemId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="itemOption.id" *ngFor="let itemOption of items; trackBy: trackById">{{ itemOption.id }}</option>
+                    </select>
+                </div>
             </div>
 
             <div>

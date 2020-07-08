@@ -39,9 +39,6 @@
             <column name="last_modified_date" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="ordered_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="item" columnName="created_date" columnDataType="datetime"/>

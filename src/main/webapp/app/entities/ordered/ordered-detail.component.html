@@ -52,6 +52,12 @@
                         <a [routerLink]="['/customer', ordered.customerId, 'view']">{{ ordered.customerId }}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.item">Item</span></dt>
+                <dd>
+                    <div *ngIf="ordered.itemId">
+                        <a [routerLink]="['/item', ordered.itemId, 'view']">{{ ordered.itemId }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

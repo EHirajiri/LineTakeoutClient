@@ -49,16 +49,17 @@
       "ownerSide": true
     },
     {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "item",
-      "otherEntityRelationshipName": "ordered",
-      "relationshipName": "item"
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "customer",
       "otherEntityRelationshipName": "ordered",
       "relationshipName": "customer",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "ordered",
+      "relationshipName": "item",
       "otherEntityField": "id"
     }
   ],

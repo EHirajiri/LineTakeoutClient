@@ -55,7 +55,7 @@ enum DeliveryState {
 relationship OneToMany {
     Customer to Ordered,
     Customer to Pay,
-    Ordered to Item
+    Item to Ordered
 }
 
 relationship OneToOne {

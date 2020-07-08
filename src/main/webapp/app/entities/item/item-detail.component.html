@@ -40,12 +40,6 @@
                 <dd>
                     <span>{{ item.lastModifiedDate }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.item.ordered">Ordered</span></dt>
-                <dd>
-                    <div *ngIf="item.orderedId">
-                        <a [routerLink]="['/ordered', item.orderedId, 'view']">{{ item.orderedId }}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"
