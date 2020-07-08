@@ -55,17 +55,17 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "ordered",
-      "otherEntityRelationshipName": "pay",
-      "relationshipName": "ordered",
-      "ownerSide": false
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "customer",
       "otherEntityRelationshipName": "pay",
       "relationshipName": "customer",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "ordered",
+      "otherEntityRelationshipName": "pay",
+      "relationshipName": "ordered",
       "otherEntityField": "id"
     }
   ],

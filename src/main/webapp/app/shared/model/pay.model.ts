@@ -15,8 +15,8 @@ export interface IPay {
   createdDate?: Moment;
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
-  orderedId?: number;
   customerId?: number;
+  orderedId?: number;
 }
 
 export class Pay implements IPay {
@@ -33,7 +33,7 @@ export class Pay implements IPay {
     public createdDate?: Moment,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
-    public orderedId?: number,
-    public customerId?: number
+    public customerId?: number,
+    public orderedId?: number
   ) {}
 }

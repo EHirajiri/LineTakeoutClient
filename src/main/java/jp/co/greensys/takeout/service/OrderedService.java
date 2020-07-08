@@ -88,7 +88,7 @@ public class OrderedService {
         log.debug("Request to get all ordereds where Pay is null");
         return StreamSupport
             .stream(orderedRepository.findAll().spliterator(), false)
-            .filter(ordered -> ordered.getPay() == null)
+            .filter(ordered -> ordered.getPays() == null)
             .map(orderedMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }

@@ -35,6 +35,7 @@
                     <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.pay.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.pay.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="customerId"><span jhiTranslate="lineTakeoutClientApp.pay.customer">Customer</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="orderedId"><span jhiTranslate="lineTakeoutClientApp.pay.ordered">Ordered</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -55,6 +56,11 @@
                     <td>
                         <div *ngIf="pay.customerId">
                             <a [routerLink]="['/customer', pay.customerId , 'view']" >{{ pay.customerId }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="pay.orderedId">
+                            <a [routerLink]="['/ordered', pay.orderedId , 'view']" >{{ pay.orderedId }}</a>
                         </div>
                     </td>
                     <td class="text-right">

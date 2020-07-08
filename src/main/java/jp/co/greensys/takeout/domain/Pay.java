@@ -1,6 +1,5 @@
 package jp.co.greensys.takeout.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
@@ -51,13 +50,13 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
     @Column(name = "amount")
     private Integer amount;
 
-    @OneToOne(mappedBy = "pay")
-    @JsonIgnore
-    private Ordered ordered;
-
     @ManyToOne
     @JsonIgnoreProperties(value = "pays", allowSetters = true)
     private Customer customer;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "pays", allowSetters = true)
+    private Ordered ordered;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -179,19 +178,6 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
         return this;
     }
 
-    public Ordered getOrdered() {
-        return ordered;
-    }
-
-    public Pay ordered(Ordered ordered) {
-        this.ordered = ordered;
-        return this;
-    }
-
-    public void setOrdered(Ordered ordered) {
-        this.ordered = ordered;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
@@ -203,6 +189,19 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Ordered getOrdered() {
+        return ordered;
+    }
+
+    public Pay ordered(Ordered ordered) {
+        this.ordered = ordered;
+        return this;
+    }
+
+    public void setOrdered(Ordered ordered) {
+        this.ordered = ordered;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -41,12 +41,10 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
+      "relationshipType": "one-to-many",
       "otherEntityName": "pay",
       "otherEntityRelationshipName": "ordered",
-      "relationshipName": "pay",
-      "otherEntityField": "id",
-      "ownerSide": true
+      "relationshipName": "pay"
     },
     {
       "relationshipType": "many-to-one",

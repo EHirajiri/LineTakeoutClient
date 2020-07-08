@@ -11,6 +11,10 @@ import { IPay, Pay } from 'app/shared/model/pay.model';
 import { PayService } from './pay.service';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer/customer.service';
+import { IOrdered } from 'app/shared/model/ordered.model';
+import { OrderedService } from 'app/entities/ordered/ordered.service';
+
+type SelectableEntity = ICustomer | IOrdered;
 
 @Component({
   selector: 'jhi-pay-update',
@@ -19,6 +23,7 @@ import { CustomerService } from 'app/entities/customer/customer.service';
 export class PayUpdateComponent implements OnInit {
   isSaving = false;
   customers: ICustomer[] = [];
+  ordereds: IOrdered[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -34,11 +39,13 @@ export class PayUpdateComponent implements OnInit {
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
     customerId: [],
+    orderedId: [],
   });
 
   constructor(
     protected payService: PayService,
     protected customerService: CustomerService,
+    protected orderedService: OrderedService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -56,6 +63,8 @@ export class PayUpdateComponent implements OnInit {
       this.updateForm(pay);
 
       this.customerService.query().subscribe((res: HttpResponse<ICustomer[]>) => (this.customers = res.body || []));
+
+      this.orderedService.query().subscribe((res: HttpResponse<IOrdered[]>) => (this.ordereds = res.body || []));
     });
   }
 
@@ -74,6 +83,7 @@ export class PayUpdateComponent implements OnInit {
       lastModifiedBy: pay.lastModifiedBy,
       lastModifiedDate: pay.lastModifiedDate ? pay.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       customerId: pay.customerId,
+      orderedId: pay.orderedId,
     });
   }
 
@@ -113,6 +123,7 @@ export class PayUpdateComponent implements OnInit {
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
       customerId: this.editForm.get(['customerId'])!.value,
+      orderedId: this.editForm.get(['orderedId'])!.value,
     };
   }
 
@@ -132,7 +143,7 @@ export class PayUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: ICustomer): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

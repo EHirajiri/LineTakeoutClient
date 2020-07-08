@@ -51,6 +51,9 @@
             <column name="customer_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="ordered_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="pay" columnName="paid_date" columnDataType="datetime"/>

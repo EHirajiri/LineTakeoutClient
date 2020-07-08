@@ -3,6 +3,8 @@ package jp.co.greensys.takeout.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -37,9 +39,9 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     @Column(name = "total_fee")
     private Integer totalFee;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Pay pay;
+    @OneToMany(mappedBy = "ordered")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Pay> pays = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
@@ -130,17 +132,29 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
         return this;
     }
 
-    public Pay getPay() {
-        return pay;
+    public Set<Pay> getPays() {
+        return pays;
     }
 
-    public Ordered pay(Pay pay) {
-        this.pay = pay;
+    public Ordered pays(Set<Pay> pays) {
+        this.pays = pays;
         return this;
     }
 
-    public void setPay(Pay pay) {
-        this.pay = pay;
+    public Ordered addPay(Pay pay) {
+        this.pays.add(pay);
+        pay.setOrdered(this);
+        return this;
+    }
+
+    public Ordered removePay(Pay pay) {
+        this.pays.remove(pay);
+        pay.setOrdered(null);
+        return this;
+    }
+
+    public void setPays(Set<Pay> pays) {
+        this.pays = pays;
     }
 
     public Customer getCustomer() {

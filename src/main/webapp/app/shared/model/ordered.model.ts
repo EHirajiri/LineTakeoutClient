@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IPay } from 'app/shared/model/pay.model';
 
 export interface IOrdered {
   id?: number;
@@ -10,7 +11,7 @@ export interface IOrdered {
   createdDate?: Moment;
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
-  payId?: number;
+  pays?: IPay[];
   customerId?: number;
   itemId?: number;
 }
@@ -26,7 +27,7 @@ export class Ordered implements IOrdered {
     public createdDate?: Moment,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
-    public payId?: number,
+    public pays?: IPay[],
     public customerId?: number,
     public itemId?: number
   ) {}

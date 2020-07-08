@@ -11,6 +11,8 @@
         "customer": "顧客管理",
         "pay": "決済管理",
         "ordered": "注文管理",
+        "ordered": "Ordered",
+        "pay": "Pay",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

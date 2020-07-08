@@ -55,11 +55,8 @@ enum DeliveryState {
 relationship OneToMany {
     Customer to Ordered,
     Customer to Pay,
+    Ordered to Pay,
     Item to Ordered
-}
-
-relationship OneToOne {
-    Ordered to Pay
 }
 
 dto * with mapstruct
