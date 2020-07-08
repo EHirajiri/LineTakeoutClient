@@ -1,5 +1,6 @@
 package jp.co.greensys.takeout.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
@@ -27,7 +28,7 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "transaction_id", nullable = false)
+    @Column(name = "transaction_id", nullable = false, unique = true)
     private Long transactionId;
 
     @Column(name = "title")
@@ -50,8 +51,8 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
     @Column(name = "amount")
     private Integer amount;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @OneToOne(mappedBy = "pay")
+    @JsonIgnore
     private Ordered ordered;
 
     @ManyToOne

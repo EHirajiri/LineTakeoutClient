@@ -4,18 +4,13 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IPay, Pay } from 'app/shared/model/pay.model';
 import { PayService } from './pay.service';
-import { IOrdered } from 'app/shared/model/ordered.model';
-import { OrderedService } from 'app/entities/ordered/ordered.service';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer/customer.service';
-
-type SelectableEntity = IOrdered | ICustomer;
 
 @Component({
   selector: 'jhi-pay-update',
@@ -23,7 +18,6 @@ type SelectableEntity = IOrdered | ICustomer;
 })
 export class PayUpdateComponent implements OnInit {
   isSaving = false;
-  ordereds: IOrdered[] = [];
   customers: ICustomer[] = [];
 
   editForm = this.fb.group({
@@ -39,13 +33,11 @@ export class PayUpdateComponent implements OnInit {
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
-    orderedId: [],
     customerId: [],
   });
 
   constructor(
     protected payService: PayService,
-    protected orderedService: OrderedService,
     protected customerService: CustomerService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -62,28 +54,6 @@ export class PayUpdateComponent implements OnInit {
       }
 
       this.updateForm(pay);
-
-      this.orderedService
-        .query({ filter: 'pay-is-null' })
-        .pipe(
-          map((res: HttpResponse<IOrdered[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: IOrdered[]) => {
-          if (!pay.orderedId) {
-            this.ordereds = resBody;
-          } else {
-            this.orderedService
-              .find(pay.orderedId)
-              .pipe(
-                map((subRes: HttpResponse<IOrdered>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IOrdered[]) => (this.ordereds = concatRes));
-          }
-        });
 
       this.customerService.query().subscribe((res: HttpResponse<ICustomer[]>) => (this.customers = res.body || []));
     });
@@ -103,7 +73,6 @@ export class PayUpdateComponent implements OnInit {
       createdDate: pay.createdDate ? pay.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: pay.lastModifiedBy,
       lastModifiedDate: pay.lastModifiedDate ? pay.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
-      orderedId: pay.orderedId,
       customerId: pay.customerId,
     });
   }
@@ -143,7 +112,6 @@ export class PayUpdateComponent implements OnInit {
       lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
-      orderedId: this.editForm.get(['orderedId'])!.value,
       customerId: this.editForm.get(['customerId'])!.value,
     };
   }
@@ -164,7 +132,7 @@ export class PayUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: ICustomer): any {
     return item.id;
   }
 }

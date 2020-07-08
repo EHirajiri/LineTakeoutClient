@@ -39,6 +39,9 @@
             <column name="last_modified_date" type="datetime">
                 <constraints nullable="true" />
             </column>
+            <column name="pay_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_ordered_pay_id" />
+            </column>
             <column name="customer_id" type="bigint">
                 <constraints nullable="true" />
             </column>

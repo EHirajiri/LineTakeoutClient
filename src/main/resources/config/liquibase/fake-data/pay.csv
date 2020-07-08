@@ -1,11 +1,11 @@
-id;transaction_id;title;pay_state;delivery_state;paid_date;delivery_date;amount;created_by;created_date;last_modified_by;last_modified_date;ordered_id;customer_id
-1;68944;Gloves;ORDERED;DELIVERED;2020-07-06T11:30:18;2020-07-06T10:39:51;27706;deposit;2020-07-06T18:34:00;panel;2020-07-06T13:11:00;1;1
-2;28613;Money Market Account Branding Lead;PAYING;PREPARING;2020-07-06T20:06:40;2020-07-06T08:52:04;99058;EXE pink;2020-07-07T02:38:56;optical Engineer Officer;2020-07-06T06:52:45;2;2
-3;24305;extend;ORDERED;READY;2020-07-07T02:49:18;2020-07-06T23:52:08;12986;Chicken;2020-07-06T15:11:44;collaborative Dobra;2020-07-06T10:06:24;3;3
-4;27914;Money Market Account synthesizing;PAID;READY;2020-07-07T05:24:28;2020-07-07T03:50:39;84613;Plastic system-worthy zero tolerance;2020-07-06T16:53:30;USB sexy;2020-07-07T02:35:02;4;4
-5;3956;quantify asymmetric;PAYING;DELIVERED;2020-07-06T23:58:57;2020-07-07T03:10:49;26722;compelling;2020-07-06T10:59:53;web-enabled;2020-07-06T06:37:25;5;5
-6;51937;bus;PAID;PREPARING;2020-07-06T11:28:19;2020-07-06T10:30:32;95802;Island;2020-07-07T00:41:17;primary Plains;2020-07-06T13:50:32;6;6
-7;57236;Coordinator Michigan Handcrafted;ORDERED;READY;2020-07-06T06:16:01;2020-07-06T16:39:33;92288;functionalities SSL;2020-07-06T08:35:11;productize Georgia;2020-07-07T00:02:37;7;7
-8;24788;Tasty Cape Verde;PAID;DELIVERED;2020-07-06T19:34:52;2020-07-06T11:28:13;92058;virtual Phased;2020-07-07T02:23:16;New York PCI;2020-07-06T18:04:46;8;8
-9;6423;Tasty Fresh Cheese;ORDERED;PREPARING;2020-07-07T00:41:26;2020-07-06T14:15:38;46549;withdrawal;2020-07-06T07:34:32;indexing Licensed Concrete Keyboard;2020-07-06T09:11:51;9;9
-10;71892;capacitor;PAID;DELIVERED;2020-07-07T00:04:35;2020-07-06T18:03:48;80325;Networked application;2020-07-06T08:32:21;benchmark Money Market Account revolutionary;2020-07-06T13:22:17;10;10
+id;transaction_id;title;pay_state;delivery_state;paid_date;delivery_date;amount;created_by;created_date;last_modified_by;last_modified_date
+1;68944;Gloves;ORDERED;DELIVERED;2020-07-06T11:30:18;2020-07-06T10:39:51;27706;deposit;2020-07-06T18:34:00;panel;2020-07-06T13:11:00
+2;28613;Money Market Account Branding Lead;PAYING;PREPARING;2020-07-06T20:06:40;2020-07-06T08:52:04;99058;EXE pink;2020-07-07T02:38:56;optical Engineer Officer;2020-07-06T06:52:45
+3;24305;extend;ORDERED;READY;2020-07-07T02:49:18;2020-07-06T23:52:08;12986;Chicken;2020-07-06T15:11:44;collaborative Dobra;2020-07-06T10:06:24
+4;27914;Money Market Account synthesizing;PAID;READY;2020-07-07T05:24:28;2020-07-07T03:50:39;84613;Plastic system-worthy zero tolerance;2020-07-06T16:53:30;USB sexy;2020-07-07T02:35:02
+5;3956;quantify asymmetric;PAYING;DELIVERED;2020-07-06T23:58:57;2020-07-07T03:10:49;26722;compelling;2020-07-06T10:59:53;web-enabled;2020-07-06T06:37:25
+6;51937;bus;PAID;PREPARING;2020-07-06T11:28:19;2020-07-06T10:30:32;95802;Island;2020-07-07T00:41:17;primary Plains;2020-07-06T13:50:32
+7;57236;Coordinator Michigan Handcrafted;ORDERED;READY;2020-07-06T06:16:01;2020-07-06T16:39:33;92288;functionalities SSL;2020-07-06T08:35:11;productize Georgia;2020-07-07T00:02:37
+8;24788;Tasty Cape Verde;PAID;DELIVERED;2020-07-06T19:34:52;2020-07-06T11:28:13;92058;virtual Phased;2020-07-07T02:23:16;New York PCI;2020-07-06T18:04:46
+9;6423;Tasty Fresh Cheese;ORDERED;PREPARING;2020-07-07T00:41:26;2020-07-06T14:15:38;46549;withdrawal;2020-07-06T07:34:32;indexing Licensed Concrete Keyboard;2020-07-06T09:11:51
+10;71892;capacitor;PAID;DELIVERED;2020-07-07T00:04:35;2020-07-06T18:03:48;80325;Networked application;2020-07-06T08:32:21;benchmark Money Market Account revolutionary;2020-07-06T13:22:17

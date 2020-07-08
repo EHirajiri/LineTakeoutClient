@@ -110,14 +110,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.pay.ordered" for="field_ordered">Ordered</label>
-                    <select class="form-control" id="field_ordered" name="ordered" formControlName="orderedId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="orderedOption.id" *ngFor="let orderedOption of ordereds; trackBy: trackById">{{ orderedOption.id }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.pay.customer" for="field_customer">Customer</label>
                     <select class="form-control" id="field_customer" name="customer" formControlName="customerId">
                         <option [ngValue]="null"></option>

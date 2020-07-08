@@ -41,17 +41,18 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "item",
-      "otherEntityRelationshipName": "ordered",
-      "relationshipName": "item"
-    },
-    {
       "relationshipType": "one-to-one",
       "otherEntityName": "pay",
       "otherEntityRelationshipName": "ordered",
       "relationshipName": "pay",
-      "ownerSide": false
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "item",
+      "otherEntityRelationshipName": "ordered",
+      "relationshipName": "item"
     },
     {
       "relationshipType": "many-to-one",

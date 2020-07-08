@@ -4,13 +4,18 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IOrdered, Ordered } from 'app/shared/model/ordered.model';
 import { OrderedService } from './ordered.service';
+import { IPay } from 'app/shared/model/pay.model';
+import { PayService } from 'app/entities/pay/pay.service';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer/customer.service';
+
+type SelectableEntity = IPay | ICustomer;
 
 @Component({
   selector: 'jhi-ordered-update',
@@ -18,6 +23,7 @@ import { CustomerService } from 'app/entities/customer/customer.service';
 })
 export class OrderedUpdateComponent implements OnInit {
   isSaving = false;
+  pays: IPay[] = [];
   customers: ICustomer[] = [];
 
   editForm = this.fb.group({
@@ -30,11 +36,13 @@ export class OrderedUpdateComponent implements OnInit {
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
+    payId: [],
     customerId: [],
   });
 
   constructor(
     protected orderedService: OrderedService,
+    protected payService: PayService,
     protected customerService: CustomerService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -49,6 +57,28 @@ export class OrderedUpdateComponent implements OnInit {
       }
 
       this.updateForm(ordered);
+
+      this.payService
+        .query({ filter: 'ordered-is-null' })
+        .pipe(
+          map((res: HttpResponse<IPay[]>) => {
+            return res.body || [];
+          })
+        )
+        .subscribe((resBody: IPay[]) => {
+          if (!ordered.payId) {
+            this.pays = resBody;
+          } else {
+            this.payService
+              .find(ordered.payId)
+              .pipe(
+                map((subRes: HttpResponse<IPay>) => {
+                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
+                })
+              )
+              .subscribe((concatRes: IPay[]) => (this.pays = concatRes));
+          }
+        });
 
       this.customerService.query().subscribe((res: HttpResponse<ICustomer[]>) => (this.customers = res.body || []));
     });
@@ -65,6 +95,7 @@ export class OrderedUpdateComponent implements OnInit {
       createdDate: ordered.createdDate ? ordered.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: ordered.lastModifiedBy,
       lastModifiedDate: ordered.lastModifiedDate ? ordered.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
+      payId: ordered.payId,
       customerId: ordered.customerId,
     });
   }
@@ -99,6 +130,7 @@ export class OrderedUpdateComponent implements OnInit {
       lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      payId: this.editForm.get(['payId'])!.value,
       customerId: this.editForm.get(['customerId'])!.value,
     };
   }
@@ -119,7 +151,7 @@ export class OrderedUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: ICustomer): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

@@ -4,7 +4,7 @@
     {
       "fieldName": "transactionId",
       "fieldType": "Long",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "unique"]
     },
     {
       "fieldName": "title",
@@ -59,8 +59,7 @@
       "otherEntityName": "ordered",
       "otherEntityRelationshipName": "pay",
       "relationshipName": "ordered",
-      "otherEntityField": "id",
-      "ownerSide": true
+      "ownerSide": false
     },
     {
       "relationshipType": "many-to-one",

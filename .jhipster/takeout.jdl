@@ -20,7 +20,7 @@ entity Item {
 }
 
 entity Ordered {
-    orderId String required,
+    orderId String required unique,
     quantity Integer,
     unitPrice Integer,
     totalFee Integer,
@@ -31,12 +31,13 @@ entity Ordered {
 }
 
 entity Pay {
-    transactionId Long required,
+    transactionId Long required unique,
     title String,
     payState PayState,
     deliveryState DeliveryState
     paidDate Instant,
-    receivedDate Instant,
+    deliveryDate Instant,
+    amount Integer,
     createdBy String maxlength(50),
     createdDate Instant,
     lastModifiedBy String maxlength(50),
