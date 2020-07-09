@@ -117,4 +117,16 @@ public class PayService {
         log.debug("Request to delete Pay : {}", id);
         payRepository.deleteById(id);
     }
+
+    /**
+     * Get one pay by transactionId.
+     *
+     * @param transactionId the transactionId of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<PayDTO> findOneByTransactionId(Long transactionId) {
+        log.debug("Request to get Pay : {}", transactionId);
+        return payRepository.findByTransactionId(transactionId).map(payMapper::toDto);
+    }
 }

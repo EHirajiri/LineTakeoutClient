@@ -126,4 +126,29 @@ public class PayResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    /**
+     * {@code PUT  /pays} : Updates an existing pay.
+     *
+     * @param payDTO the payDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated payDTO,
+     * or with status {@code 400 (Bad Request)} if the payDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the payDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping("/pays/update")
+    public ResponseEntity<PayDTO> updatePayByLinebot(@Valid @RequestBody PayDTO payDTO) throws URISyntaxException {
+        log.debug("REST request to update Pay : {}", payDTO);
+        Optional<PayDTO> data = payService.findOneByTransactionId(payDTO.getTransactionId());
+        if (!data.isPresent()) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+
+        data.get().setPayState(payDTO.getPayState());
+        PayDTO result = payService.save(data.get());
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, payDTO.getId().toString()))
+            .body(result);
+    }
 }
