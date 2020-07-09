@@ -10,7 +10,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { CustomerMapper.class, OrderedMapper.class })
 public interface PayMapper extends EntityMapper<PayDTO, Pay> {
     @Mapping(source = "customer.id", target = "customerId")
+    @Mapping(source = "customer.userId", target = "customerUserId")
     @Mapping(source = "ordered.id", target = "orderedId")
+    @Mapping(source = "ordered.orderId", target = "orderedOrderId")
     PayDTO toDto(Pay pay);
 
     @Mapping(source = "customerId", target = "customer")
