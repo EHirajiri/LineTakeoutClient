@@ -1,5 +1,6 @@
 package jp.co.greensys.takeout.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -31,11 +32,21 @@ public class LineBotOrderedDTO implements Serializable {
 }
 
 class Record {
+    @JsonProperty("order_id")
     private Value orderId;
+
+    @JsonProperty("user_id")
     private Value userId;
+
+    @JsonProperty("item_id")
     private Value itemId;
+
+    @JsonProperty("item_name")
     private Value itemName;
+
+    @JsonProperty("unit_price")
     private IntValue unitPrice;
+
     private Value quantity;
 
     public Value getOrderId() {
