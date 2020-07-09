@@ -85,6 +85,11 @@ class Record {
     public void setQuantity(Value quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
+    }
 }
 
 class Value {
@@ -97,6 +102,11 @@ class Value {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
+    }
 }
 
 class IntValue {
@@ -108,5 +118,10 @@ class IntValue {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }
