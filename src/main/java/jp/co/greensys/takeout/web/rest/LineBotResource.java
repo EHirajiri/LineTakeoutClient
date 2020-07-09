@@ -3,6 +3,7 @@ package jp.co.greensys.takeout.web.rest;
 import java.net.URISyntaxException;
 import java.util.Map;
 import javax.validation.Valid;
+import jp.co.greensys.takeout.service.dto.LineBotOrderedDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class LineBotResource {
     public LineBotResource() {}
 
     @PostMapping("/linebot/ordereds")
-    public ResponseEntity<OrderedDTO> createOrdered(@Valid @RequestBody Map orderedDTO) throws URISyntaxException {
+    public ResponseEntity<OrderedDTO> createOrdered(@Valid @RequestBody LineBotOrderedDTO orderedDTO) throws URISyntaxException {
         log.debug("REST request to save Ordered : {}", orderedDTO);
         return null;
     }
