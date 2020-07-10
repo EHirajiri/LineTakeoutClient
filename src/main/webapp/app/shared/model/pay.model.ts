@@ -11,6 +11,7 @@ export interface IPay {
   paidDate?: Moment;
   deliveryDate?: Moment;
   amount?: number;
+  currency?: string;
   createdBy?: string;
   createdDate?: Moment;
   lastModifiedBy?: string;
@@ -29,6 +30,7 @@ export class Pay implements IPay {
     public paidDate?: Moment,
     public deliveryDate?: Moment,
     public amount?: number,
+    public currency?: string,
     public createdBy?: string,
     public createdDate?: Moment,
     public lastModifiedBy?: string,

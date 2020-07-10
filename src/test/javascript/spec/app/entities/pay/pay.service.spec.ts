@@ -36,6 +36,7 @@ describe('Service Tests', () => {
         currentDate,
         0,
         'AAAAAAA',
+        'AAAAAAA',
         currentDate,
         'AAAAAAA',
         currentDate
@@ -100,6 +101,7 @@ describe('Service Tests', () => {
             paidDate: currentDate.format(DATE_TIME_FORMAT),
             deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             amount: 1,
+            currency: 'BBBBBB',
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedBy: 'BBBBBB',
@@ -135,6 +137,7 @@ describe('Service Tests', () => {
             paidDate: currentDate.format(DATE_TIME_FORMAT),
             deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             amount: 1,
+            currency: 'BBBBBB',
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedBy: 'BBBBBB',

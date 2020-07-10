@@ -55,6 +55,9 @@ public class PayResourceIT {
     private static final Integer DEFAULT_AMOUNT = 1;
     private static final Integer UPDATED_AMOUNT = 2;
 
+    private static final String DEFAULT_CURRENCY = "AAAAAAAAAA";
+    private static final String UPDATED_CURRENCY = "BBBBBBBBBB";
+
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
@@ -99,6 +102,7 @@ public class PayResourceIT {
             .paidDate(DEFAULT_PAID_DATE)
             .deliveryDate(DEFAULT_DELIVERY_DATE)
             .amount(DEFAULT_AMOUNT)
+            .currency(DEFAULT_CURRENCY)
             .createdBy(DEFAULT_CREATED_BY)
             .createdDate(DEFAULT_CREATED_DATE)
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
@@ -121,6 +125,7 @@ public class PayResourceIT {
             .paidDate(UPDATED_PAID_DATE)
             .deliveryDate(UPDATED_DELIVERY_DATE)
             .amount(UPDATED_AMOUNT)
+            .currency(UPDATED_CURRENCY)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -154,6 +159,7 @@ public class PayResourceIT {
         assertThat(testPay.getPaidDate()).isEqualTo(DEFAULT_PAID_DATE);
         assertThat(testPay.getDeliveryDate()).isEqualTo(DEFAULT_DELIVERY_DATE);
         assertThat(testPay.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testPay.getCurrency()).isEqualTo(DEFAULT_CURRENCY);
         assertThat(testPay.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testPay.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testPay.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
@@ -216,6 +222,7 @@ public class PayResourceIT {
             .andExpect(jsonPath("$.[*].paidDate").value(hasItem(DEFAULT_PAID_DATE.toString())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
+            .andExpect(jsonPath("$.[*].currency").value(hasItem(DEFAULT_CURRENCY)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
@@ -241,6 +248,7 @@ public class PayResourceIT {
             .andExpect(jsonPath("$.paidDate").value(DEFAULT_PAID_DATE.toString()))
             .andExpect(jsonPath("$.deliveryDate").value(DEFAULT_DELIVERY_DATE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
+            .andExpect(jsonPath("$.currency").value(DEFAULT_CURRENCY))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
@@ -274,6 +282,7 @@ public class PayResourceIT {
             .paidDate(UPDATED_PAID_DATE)
             .deliveryDate(UPDATED_DELIVERY_DATE)
             .amount(UPDATED_AMOUNT)
+            .currency(UPDATED_CURRENCY)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -295,6 +304,7 @@ public class PayResourceIT {
         assertThat(testPay.getPaidDate()).isEqualTo(UPDATED_PAID_DATE);
         assertThat(testPay.getDeliveryDate()).isEqualTo(UPDATED_DELIVERY_DATE);
         assertThat(testPay.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testPay.getCurrency()).isEqualTo(UPDATED_CURRENCY);
         assertThat(testPay.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testPay.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testPay.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);

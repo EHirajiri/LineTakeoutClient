@@ -50,6 +50,9 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
     @Column(name = "amount")
     private Integer amount;
 
+    @Column(name = "currency")
+    private String currency;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "pays", allowSetters = true)
     private Customer customer;
@@ -156,6 +159,19 @@ public class Pay extends AbstractAuditingEntity implements Serializable {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public Pay currency(String currency) {
+        this.currency = currency;
+        return this;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public Pay createdBy(String createdBy) {

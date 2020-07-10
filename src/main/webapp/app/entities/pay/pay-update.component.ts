@@ -34,6 +34,7 @@ export class PayUpdateComponent implements OnInit {
     paidDate: [],
     deliveryDate: [],
     amount: [],
+    currency: [],
     createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
@@ -78,6 +79,7 @@ export class PayUpdateComponent implements OnInit {
       paidDate: pay.paidDate ? pay.paidDate.format(DATE_TIME_FORMAT) : null,
       deliveryDate: pay.deliveryDate ? pay.deliveryDate.format(DATE_TIME_FORMAT) : null,
       amount: pay.amount,
+      currency: pay.currency,
       createdBy: pay.createdBy,
       createdDate: pay.createdDate ? pay.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: pay.lastModifiedBy,
@@ -114,6 +116,7 @@ export class PayUpdateComponent implements OnInit {
         ? moment(this.editForm.get(['deliveryDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
       amount: this.editForm.get(['amount'])!.value,
+      currency: this.editForm.get(['currency'])!.value,
       createdBy: this.editForm.get(['createdBy'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)

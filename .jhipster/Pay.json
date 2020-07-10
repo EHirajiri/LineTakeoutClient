@@ -33,6 +33,10 @@
       "fieldType": "Integer"
     },
     {
+      "fieldName": "currency",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "createdBy",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],

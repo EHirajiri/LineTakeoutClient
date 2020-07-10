@@ -29,6 +29,8 @@ public class PayDTO extends AbstractAuditingDTO implements Serializable {
 
     private Integer amount;
 
+    private String currency;
+
     private Long orderedId;
 
     private String orderedOrderId;
@@ -101,6 +103,14 @@ public class PayDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public Long getOrderedId() {

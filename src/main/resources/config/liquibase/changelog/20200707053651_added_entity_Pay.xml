@@ -36,6 +36,9 @@
             <column name="amount" type="integer">
                 <constraints nullable="true" />
             </column>
+            <column name="currency" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="true" />
             </column>
@@ -88,6 +91,7 @@
             <column name="paid_date" type="datetime"/>
             <column name="delivery_date" type="datetime"/>
             <column name="amount" type="numeric"/>
+            <column name="currency" type="string"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="datetime"/>
             <column name="last_modified_by" type="string"/>
