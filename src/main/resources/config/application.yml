@@ -163,3 +163,9 @@ jhipster:
 # ===================================================================
 
 # application:
+line:
+  bot:
+    channelSecret: ${LINE_BOT_CHANNEL_SECRET}
+    channelToken: ${LINE_BOT_CHANNEL_TOKEN}
+    handler:
+      path: /callback
