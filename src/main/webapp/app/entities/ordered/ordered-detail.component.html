@@ -52,6 +52,12 @@
                         <a [routerLink]="['/item', ordered.itemId, 'view']">{{ ordered.itemId }}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.pay">Pay</span></dt>
+                <div *ngIf="ordered.pays">
+                    <dd *ngFor="let pay of ordered.pays">
+                        <a [routerLink]="['/pay', pay.id, 'view']">{{ pay.transactionId }}</a>
+                    </dd>
+                </div>
             </dl>
 
             <button type="submit"

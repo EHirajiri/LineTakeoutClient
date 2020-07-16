@@ -2,12 +2,13 @@ package jp.co.greensys.takeout.service.mapper;
 
 import jp.co.greensys.takeout.domain.*;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
+import jp.co.greensys.takeout.service.dto.PayDTO;
 import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link Ordered} and its DTO {@link OrderedDTO}.
  */
-@Mapper(componentModel = "spring", uses = { CustomerMapper.class, ItemMapper.class })
+@Mapper(componentModel = "spring", uses = { CustomerMapper.class, ItemMapper.class, PayMapper.class })
 public interface OrderedMapper extends EntityMapper<OrderedDTO, Ordered> {
     @Mapping(source = "customer.id", target = "customerId")
     @Mapping(source = "item.id", target = "itemId")

@@ -1,7 +1,7 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Set;
 import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -26,6 +26,8 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
     private String customerUserId;
 
     private Long itemId;
+
+    private Set<PayDTO> pays;
 
     public Long getId() {
         return id;
@@ -89,6 +91,14 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setItemId(Long itemId) {
         this.itemId = itemId;
+    }
+
+    public Set<PayDTO> getPays() {
+        return pays;
+    }
+
+    public void setPays(Set<PayDTO> pays) {
+        this.pays = pays;
     }
 
     @Override
