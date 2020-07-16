@@ -33,16 +33,20 @@ public class PayService {
 
     private final OrderedRepository orderedRepository;
 
+    private final BotService botService;
+
     public PayService(
         PayRepository payRepository,
         PayMapper payMapper,
         CustomerRepository customerRepository,
-        OrderedRepository orderedRepository
+        OrderedRepository orderedRepository,
+        BotService botService
     ) {
         this.payRepository = payRepository;
         this.payMapper = payMapper;
         this.customerRepository = customerRepository;
         this.orderedRepository = orderedRepository;
+        this.botService = botService;
     }
 
     /**
@@ -76,6 +80,13 @@ public class PayService {
         }
 
         pay = payRepository.save(pay);
+
+        // LINE BOTへ通知
+        switch (pay.getDeliveryState()) {
+            case READY:
+                botService.notifyOrderDeliveryState(pay.getOrdered().getOrderId(), pay.getDeliveryState());
+                break;
+        }
         return payMapper.toDto(pay);
     }
 

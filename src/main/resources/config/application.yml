@@ -169,3 +169,6 @@ line:
     channelToken: ${LINE_BOT_CHANNEL_TOKEN}
     handler:
       path: /callback
+bot:
+  server:
+    host: http://localhost:8080
