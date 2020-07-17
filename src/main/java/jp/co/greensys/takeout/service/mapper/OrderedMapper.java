@@ -34,7 +34,7 @@ public interface OrderedMapper extends EntityMapper<OrderedDTO, Ordered> {
         return ordered;
     }
 
-    default OrderedDTO toCustomerDTO(Map body) {
+    default OrderedDTO toOrderedDTO(Map body) {
         OrderedDTO dto = new OrderedDTO();
         Map record = (Map) body.get("record");
         dto.setOrderId((String) ((Map) record.get("order_id")).get("value"));
