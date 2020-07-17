@@ -1,29 +1,24 @@
 package jp.co.greensys.takeout.web.rest;
 
-import io.github.jhipster.web.util.HeaderUtil;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Map;
-import javax.validation.Valid;
 import jp.co.greensys.takeout.service.BotService;
 import jp.co.greensys.takeout.service.CustomerService;
 import jp.co.greensys.takeout.service.dto.CustomerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("/api/bot")
 public class BotResource {
     private final Logger log = LoggerFactory.getLogger(BotResource.class);
-
-    private static final String ENTITY_NAME = "item";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
 
     private final CustomerService customerService;
 
@@ -32,20 +27,50 @@ public class BotResource {
     }
 
     @PostMapping("/follow")
-    public ResponseEntity<CustomerDTO> createItem(@Valid @RequestBody Map request) throws URISyntaxException {
-        log.debug("REST request to save follow user : {}", request);
-        CustomerDTO result = customerService.save(convertDto(request));
-        return ResponseEntity
-            .created(new URI("/api/customers/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+    public ResponseEntity<Map> createItem(@RequestBody Map body) throws URISyntaxException {
+        log.debug("REST request to save follow user : {}", body);
+        CustomerDTO result = customerService.save(toCustomerDTO(body));
+        return ResponseEntity.created(new URI("/api/bot/follow")).body(toMap(result));
     }
 
-    private CustomerDTO convertDto(Map map) {
+    private CustomerDTO toCustomerDTO(Map body) {
         CustomerDTO dto = new CustomerDTO();
-        dto.setUserId((String) ((Map) map.get("user_id")).get("value"));
-        dto.setNickname((String) ((Map) map.get("nickname")).get("value"));
-        dto.setLanguage((String) ((Map) map.get("language")).get("value"));
+        dto.setUserId((String) ((Map) body.get("user_id")).get("value"));
+        dto.setNickname((String) ((Map) body.get("nickname")).get("value"));
+        dto.setLanguage((String) ((Map) body.get("language")).get("value"));
         return dto;
+    }
+
+    private Map<String, Object> toMap(CustomerDTO dto) {
+        log.debug(dto.toString());
+        Map<String, Object> map = new HashMap<>();
+        map.put(
+            "user_id",
+            new HashMap<String, Object>() {
+
+                {
+                    put("value", dto.getUserId());
+                }
+            }
+        );
+        map.put(
+            "nickname",
+            new HashMap<String, Object>() {
+
+                {
+                    put("value", dto.getNickname());
+                }
+            }
+        );
+        map.put(
+            "language",
+            new HashMap<String, Object>() {
+
+                {
+                    put("value", dto.getLanguage());
+                }
+            }
+        );
+        return map;
     }
 }
