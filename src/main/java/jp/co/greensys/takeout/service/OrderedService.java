@@ -6,8 +6,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import jp.co.greensys.takeout.domain.Customer;
+import jp.co.greensys.takeout.domain.Item;
 import jp.co.greensys.takeout.domain.Ordered;
 import jp.co.greensys.takeout.repository.CustomerRepository;
+import jp.co.greensys.takeout.repository.ItemRepository;
 import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.service.mapper.OrderedMapper;
@@ -32,10 +34,18 @@ public class OrderedService {
 
     private final CustomerRepository customerRepository;
 
-    public OrderedService(OrderedRepository orderedRepository, OrderedMapper orderedMapper, CustomerRepository customerRepository) {
+    private final ItemRepository itemRepository;
+
+    public OrderedService(
+        OrderedRepository orderedRepository,
+        OrderedMapper orderedMapper,
+        CustomerRepository customerRepository,
+        ItemRepository itemRepository
+    ) {
         this.orderedRepository = orderedRepository;
         this.orderedMapper = orderedMapper;
         this.customerRepository = customerRepository;
+        this.itemRepository = itemRepository;
     }
 
     /**
@@ -61,6 +71,14 @@ public class OrderedService {
         // 合計金額計算
         if (orderedDTO.getUnitPrice() != null && orderedDTO.getQuantity() != null) {
             ordered.setTotalFee(orderedDTO.getUnitPrice() * orderedDTO.getQuantity());
+        }
+
+        // 商品情報
+        Optional<Item> item = itemRepository.findById(orderedDTO.getItemId());
+        if (item.isPresent()) {
+            ordered.setItem(item.get());
+        } else {
+            throw new IllegalArgumentException("Invalid itemId. itemId=" + orderedDTO.getItemId());
         }
 
         ordered = orderedRepository.save(ordered);

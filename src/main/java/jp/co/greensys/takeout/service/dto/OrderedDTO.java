@@ -27,6 +27,8 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long itemId;
 
+    private String itemName;
+
     private Set<PayDTO> pays;
 
     public Long getId() {
@@ -91,6 +93,14 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setItemId(Long itemId) {
         this.itemId = itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public Set<PayDTO> getPays() {

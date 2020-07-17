@@ -1,5 +1,7 @@
 package jp.co.greensys.takeout.service.mapper;
 
+import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import jp.co.greensys.takeout.domain.*;
 import jp.co.greensys.takeout.service.dto.CustomerDTO;
 import org.mapstruct.*;
@@ -22,5 +24,24 @@ public interface CustomerMapper extends EntityMapper<CustomerDTO, Customer> {
         Customer customer = new Customer();
         customer.setId(id);
         return customer;
+    }
+
+    default CustomerDTO toCustomerDTO(Map body) {
+        CustomerDTO dto = new CustomerDTO();
+        dto.setUserId((String) ((Map) body.get("user_id")).get("value"));
+        dto.setNickname((String) ((Map) body.get("nickname")).get("value"));
+        dto.setLanguage((String) ((Map) body.get("language")).get("value"));
+        return dto;
+    }
+
+    default Map toMap(CustomerDTO dto) {
+        return ImmutableMap.of(
+            "user_id",
+            ImmutableMap.of("value", dto.getUserId()),
+            "nickname",
+            ImmutableMap.of("value", dto.getNickname()),
+            "language",
+            ImmutableMap.of("value", dto.getLanguage())
+        );
     }
 }
