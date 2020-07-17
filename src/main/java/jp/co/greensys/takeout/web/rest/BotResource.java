@@ -1,8 +1,8 @@
 package jp.co.greensys.takeout.web.rest;
 
+import com.google.common.collect.ImmutableMap;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.Map;
 import jp.co.greensys.takeout.service.BotService;
 import jp.co.greensys.takeout.service.CustomerService;
@@ -41,36 +41,14 @@ public class BotResource {
         return dto;
     }
 
-    private Map<String, Object> toMap(CustomerDTO dto) {
-        log.debug(dto.toString());
-        Map<String, Object> map = new HashMap<>();
-        map.put(
+    private Map toMap(CustomerDTO dto) {
+        return ImmutableMap.of(
             "user_id",
-            new HashMap<String, Object>() {
-
-                {
-                    put("value", dto.getUserId());
-                }
-            }
-        );
-        map.put(
+            ImmutableMap.of("value", dto.getUserId()),
             "nickname",
-            new HashMap<String, Object>() {
-
-                {
-                    put("value", dto.getNickname());
-                }
-            }
-        );
-        map.put(
+            ImmutableMap.of("value", dto.getNickname()),
             "language",
-            new HashMap<String, Object>() {
-
-                {
-                    put("value", dto.getLanguage());
-                }
-            }
+            ImmutableMap.of("value", dto.getLanguage())
         );
-        return map;
     }
 }
