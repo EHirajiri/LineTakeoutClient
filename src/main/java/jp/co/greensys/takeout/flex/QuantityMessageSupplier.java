@@ -1,38 +1,60 @@
 package jp.co.greensys.takeout.flex;
 
-import static java.util.Arrays.asList;
-
 import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
+import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
-import com.linecorp.bot.model.message.flex.container.Carousel;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class QuantityMessageSupplier implements Supplier<FlexMessage> {
 
     @Override
     public FlexMessage get() {
-        Bubble bubble = Bubble.builder().header(createHeroBlock()).body(createFooterBlock("001")).build();
-        return new FlexMessage("Quantity", bubble);
+        final Bubble bubble1 = createBubble("チーズバーガー", "500", "001");
+        return new FlexMessage("Menu", bubble1);
     }
 
-    private Box createHeroBlock() {
-        final Text titleBlock = Text.builder().text("title").wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
-        return Box.builder().contents(titleBlock).build();
+    private Bubble createBubble(String title, String price, String itemId) {
+        final Box bodyBlock = createBodyBlock(title, price);
+        final Box footerBlock = createFooterBlock(itemId);
+        return Bubble.builder().body(bodyBlock).footer(footerBlock).build();
+    }
+
+    private Box createBodyBlock(String title, String price) {
+        final Text titleBlock = Text
+            .builder()
+            .text("いくつ注文する？")
+            .wrap(true)
+            .weight(Text.TextWeight.BOLD)
+            .size(FlexFontSize.XL)
+            .build();
+
+        FlexComponent[] flexComponents = { titleBlock };
+        List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
+
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
     }
 
     private Box createFooterBlock(String itemId) {
-        final Button addToCartEnableButton = Button
-            .builder()
-            .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("注文を確定する", "type=order&item=" + itemId, "注文を確定する"))
-            .build();
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(asList(addToCartEnableButton)).build();
+        List list = new ArrayList();
+        for (int i = 1; i < 6; i++) {
+            final Button addToCartEnableButton = Button
+                .builder()
+                .style(Button.ButtonStyle.PRIMARY)
+                .action(new PostbackAction(i + "個", String.format("type=order&item=%s&quantity=%d", itemId, i), i + "個"))
+                .build();
+            list.add(addToCartEnableButton);
+        }
+
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(list).build();
     }
 }
