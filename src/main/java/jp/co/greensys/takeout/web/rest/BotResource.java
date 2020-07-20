@@ -1,8 +1,5 @@
 package jp.co.greensys.takeout.web.rest;
 
-import com.linecorp.bot.model.event.Event;
-import com.linecorp.bot.spring.boot.annotation.EventMapping;
-import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@LineMessageHandler
 @RestController
 @RequestMapping("/api/bot")
 public class BotResource {
@@ -57,11 +53,6 @@ public class BotResource {
         this.orderedMapper = orderedMapper;
         this.payService = payService;
         this.payMapper = payMapper;
-    }
-
-    @EventMapping
-    public void handleDefaultMessageEvent(Event event) {
-        log.debug("event: {}", event);
     }
 
     @PostMapping("/follow")
