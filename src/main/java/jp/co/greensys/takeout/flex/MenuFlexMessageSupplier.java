@@ -6,131 +6,147 @@ import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
-import com.linecorp.bot.model.message.flex.component.Icon;
+import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Image;
-import com.linecorp.bot.model.message.flex.component.Separator;
-import com.linecorp.bot.model.message.flex.component.Spacer;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
-import com.linecorp.bot.model.message.flex.unit.FlexAlign;
+import com.linecorp.bot.model.message.flex.container.Carousel;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexGravity;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
 
     @Override
     public FlexMessage get() {
-        final Box headerBlock = createHeaderBlock();
-        final Image heroBlock = createHeroBlock();
-        final Box bodyBlock = createBodyBlock();
-        final Box footerBlock = createFooterBlock();
-        final Bubble bubble = Bubble.builder().header(headerBlock).hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
-        return new FlexMessage("News", bubble);
+        final Bubble bubble1 = createBubble(
+            "Arm Chair, White",
+            "49.99",
+            "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/bubble1.png",
+            false
+        );
+        final Bubble bubble2 = createBubble(
+            "Metal Desk Lamp",
+            "11.99",
+            "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/bubble2.png",
+            true
+        );
+        final Bubble seeMore = createSeeMoreBubble();
+        final Carousel carousel = Carousel.builder().contents(asList(bubble1, bubble2, seeMore)).build();
+        return new FlexMessage("Catalogue", carousel);
     }
 
-    private Box createHeaderBlock() {
-        return Box
+    private Bubble createBubble(String title, String price, String imageURL, Boolean isOutOfStock) {
+        final Image heroBlock = createHeroBlock(imageURL);
+        final Box bodyBlock = createBodyBlock(title, price, isOutOfStock);
+        final Box footerBlock = createFooterBlock(isOutOfStock);
+        return Bubble.builder().hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
+    }
+
+    private Bubble createSeeMoreBubble() {
+        return Bubble
             .builder()
-            .layout(FlexLayout.HORIZONTAL)
-            .contents(
-                asList(Text.builder().text("NEWS DIGEST").weight(Text.TextWeight.BOLD).color("#aaaaaa").size(FlexFontSize.SM).build())
+            .body(
+                Box
+                    .builder()
+                    .layout(FlexLayout.VERTICAL)
+                    .spacing(FlexMarginSize.SM)
+                    .contents(
+                        asList(
+                            Button
+                                .builder()
+                                .flex(1)
+                                .gravity(FlexGravity.CENTER)
+                                //                        .action(new URIAction("See more", "http://example.com"))
+                                .build()
+                        )
+                    )
+                    .build()
             )
             .build();
     }
 
-    private Image createHeroBlock() {
+    private Image createHeroBlock(String imageURL) {
         return Image
             .builder()
-            .url(URI.create("https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/news.png"))
             .size(Image.ImageSize.FULL_WIDTH)
             .aspectRatio(Image.ImageAspectRatio.R20TO13)
             .aspectMode(Image.ImageAspectMode.Cover)
+            .url(URI.create(imageURL))
             .build();
     }
 
-    private Box createBodyBlock() {
-        final Box imageBlock = createThumbnailsBox();
-        final Box heightLightBlock = createNewsBlock();
-        return Box
+    private Box createBodyBlock(String title, String price, Boolean isOutOfStock) {
+        final Text titleBlock = Text.builder().text(title).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
+        final Box priceBlock = Box
             .builder()
-            .layout(FlexLayout.HORIZONTAL)
-            .spacing(FlexMarginSize.MD)
-            .contents(asList(imageBlock, heightLightBlock))
-            .build();
-    }
-
-    private Box createThumbnailsBox() {
-        final Image imagesContent1 = Image
-            .builder()
-            .url(
-                URI.create(
-                    "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/thumbnail1.png"
-                )
-            )
-            .aspectMode(Image.ImageAspectMode.Cover)
-            .aspectRatio(Image.ImageAspectRatio.R4TO3)
-            .size(Image.ImageSize.SM)
-            .gravity(FlexGravity.BOTTOM)
-            .build();
-        final Image imagesContent2 = Image
-            .builder()
-            .url(
-                URI.create(
-                    "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/thumbnail2.png"
-                )
-            )
-            .aspectMode(Image.ImageAspectMode.Cover)
-            .aspectRatio(Image.ImageAspectRatio.R4TO3)
-            .size(Image.ImageSize.SM)
-            .margin(FlexMarginSize.MD)
-            .build();
-
-        return Box.builder().layout(FlexLayout.VERTICAL).flex(1).contents(asList(imagesContent1, imagesContent2)).build();
-    }
-
-    private Box createNewsBlock() {
-        final Separator separator = Separator.builder().build();
-
-        return Box
-            .builder()
-            .layout(FlexLayout.VERTICAL)
-            .flex(2)
+            .layout(FlexLayout.BASELINE)
             .contents(
                 asList(
-                    Text.builder().text("7 Things to Know for Today").gravity(FlexGravity.TOP).size(FlexFontSize.XS).flex(1).build(),
-                    separator,
-                    Text.builder().text("Hay fever goes wild").gravity(FlexGravity.CENTER).size(FlexFontSize.XS).flex(2).build(),
-                    separator,
                     Text
                         .builder()
-                        .text("LINE Pay Begins Barcode Payment Service")
-                        .gravity(FlexGravity.CENTER)
-                        .size(FlexFontSize.XS)
-                        .flex(2)
+                        .text("$" + price.split("\\.")[0])
+                        .wrap(true)
+                        .weight(Text.TextWeight.BOLD)
+                        .size(FlexFontSize.XL)
+                        .flex(0)
                         .build(),
-                    separator,
-                    Text.builder().text("LINE Adds LINE Wallet").gravity(FlexGravity.BOTTOM).size(FlexFontSize.XS).flex(1).build()
-                )
-            )
-            .build();
-    }
-
-    private Box createFooterBlock() {
-        return Box
-            .builder()
-            .layout(FlexLayout.HORIZONTAL)
-            .contents(
-                asList(
-                    Button
+                    Text
                         .builder()
-                        .action(new URIAction("more", URI.create("https://example.com"), new URIAction.AltUri(URI.create("test"))))
+                        .text("." + price.split("\\.")[1])
+                        .wrap(true)
+                        .weight(Text.TextWeight.BOLD)
+                        .size(FlexFontSize.SM)
+                        .flex(0)
                         .build()
                 )
             )
+            .build();
+        final Text outOfStock = Text
+            .builder()
+            .text("Temporarily out of stock")
+            .wrap(true)
+            .size(FlexFontSize.XXS)
+            .margin(FlexMarginSize.MD)
+            .color("#FF5551")
+            .build();
+
+        FlexComponent[] flexComponents = { titleBlock, priceBlock };
+        List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
+        if (isOutOfStock) {
+            listComponent.add(outOfStock);
+        }
+
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
+    }
+
+    private Box createFooterBlock(Boolean isOutOfStock) {
+        final Button addToCartEnableButton = Button
+            .builder()
+            .style(Button.ButtonStyle.PRIMARY)
+            //            .action(new URIAction("Add to Cart", "http://example.com"))
+            .build();
+        final Button addToCartDisableButton = Button
+            .builder()
+            .style(Button.ButtonStyle.PRIMARY)
+            .color("#aaaaaa")
+            //            .action(new URIAction("Add to Cart", "http://example.com"))
+            .build();
+        final Button addToWishlistButton = Button
+            .builder()
+            //            .action(new URIAction("Add to wishlist", "http://example.com"))
+            .build();
+        return Box
+            .builder()
+            .layout(FlexLayout.VERTICAL)
+            .spacing(FlexMarginSize.SM)
+            .contents(asList((!isOutOfStock) ? addToCartEnableButton : addToCartDisableButton, addToWishlistButton))
             .build();
     }
 }
