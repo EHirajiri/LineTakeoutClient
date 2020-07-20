@@ -29,21 +29,25 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         final Bubble bubble1 = createBubble(
             "チーズバーガー",
             "500",
-            "https://2.bp.blogspot.com/-V6VfiVDMitg/WC5efOCqmFI/AAAAAAAA_5A/P97lsAxzB5kUDdJYLIz_DvdferdNRl6aACLcB/s400/food_hamburger_cheese.png"
+            "https://2.bp.blogspot.com/-V6VfiVDMitg/WC5efOCqmFI/AAAAAAAA_5A/P97lsAxzB5kUDdJYLIz_DvdferdNRl6aACLcB" +
+            "/s400/food_hamburger_cheese.png",
+            "001"
         );
         final Bubble bubble2 = createBubble(
             "テリヤキバーガー",
             "600",
-            "https://1.bp.blogspot.com/-ccmRa-W5FdQ/WGnPWhQSnzI/AAAAAAABA4w/krKcel6z1hobC87K1Vj9bG_Me_AfBo15QCLcB/s400/hamburger_teriyaki_burger.png"
+            "https://1.bp.blogspot.com/-ccmRa-W5FdQ/WGnPWhQSnzI/AAAAAAABA4w/krKcel6z1hobC87K1Vj9bG_Me_AfBo15QCLcB" +
+            "/s400/hamburger_teriyaki_burger.png",
+            "002"
         );
         final Carousel carousel = Carousel.builder().contents(asList(bubble1, bubble2)).build();
         return new FlexMessage("Menu", carousel);
     }
 
-    private Bubble createBubble(String title, String price, String imageURL) {
+    private Bubble createBubble(String title, String price, String imageURL, String itemId) {
         final Image heroBlock = createHeroBlock(imageURL);
         final Box bodyBlock = createBodyBlock(title, price);
-        final Box footerBlock = createFooterBlock();
+        final Box footerBlock = createFooterBlock(itemId);
         return Bubble.builder().hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
     }
 
@@ -73,11 +77,11 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
     }
 
-    private Box createFooterBlock() {
+    private Box createFooterBlock(String itemId) {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("注文する", "type=select&item=001", "チーズバーガー"))
+            .action(new PostbackAction("注文する", "type=select&item=" + itemId, null))
             .build();
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(asList(addToCartEnableButton)).build();
     }
