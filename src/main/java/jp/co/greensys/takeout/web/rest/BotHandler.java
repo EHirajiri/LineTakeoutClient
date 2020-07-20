@@ -14,6 +14,7 @@ import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
 import jp.co.greensys.takeout.util.QueryStringParser;
@@ -63,7 +64,17 @@ public class BotHandler {
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new MenuFlexMessageSupplier().get()));
                 break;
             case "select":
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new QuantityMessageSupplier().get()));
+                lineMessagingClient.replyMessage(
+                    new ReplyMessage(event.getReplyToken(), new QuantityMessageSupplier(parser.getParameterValue("item")).get())
+                );
+                break;
+            case "delivery":
+                lineMessagingClient.replyMessage(
+                    new ReplyMessage(
+                        event.getReplyToken(),
+                        new DeliveryMessageSupplier(parser.getParameterValue("item"), parser.getParameterValue("quantity")).get()
+                    )
+                );
                 break;
         }
     }

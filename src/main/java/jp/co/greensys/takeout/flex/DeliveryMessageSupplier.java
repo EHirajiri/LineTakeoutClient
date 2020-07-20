@@ -15,33 +15,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class QuantityMessageSupplier implements Supplier<FlexMessage> {
+public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
+    private final String quantity;
+    private final List<String> deliveryDate = Arrays.asList("12:00", "12:30", "13:00", "13:00");
 
-    public QuantityMessageSupplier(String itemId) {
+    public DeliveryMessageSupplier(String itemId, String quantity) {
         this.itemId = itemId;
+        this.quantity = quantity;
     }
 
     @Override
     public FlexMessage get() {
         final Bubble bubble1 = createBubble();
-        return new FlexMessage("Quantity", bubble1);
+        return new FlexMessage("Delivery", bubble1);
     }
 
     private Bubble createBubble() {
         final Box bodyBlock = createBodyBlock();
-        final Box footerBlock = createFooterBlock(itemId);
+        final Box footerBlock = createFooterBlock();
         return Bubble.builder().body(bodyBlock).footer(footerBlock).build();
     }
 
     private Box createBodyBlock() {
-        final Text titleBlock = Text
-            .builder()
-            .text("いくつ注文する？")
-            .wrap(true)
-            .weight(Text.TextWeight.BOLD)
-            .size(FlexFontSize.XL)
-            .build();
+        final Text titleBlock = Text.builder().text("いつ受け取る？").wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
 
         FlexComponent[] flexComponents = { titleBlock };
         List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
@@ -49,13 +46,15 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
     }
 
-    private Box createFooterBlock(String itemId) {
+    private Box createFooterBlock() {
         List list = new ArrayList();
-        for (int i = 1; i < 6; i++) {
+        for (String date : deliveryDate) {
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
-                .action(new PostbackAction(i + "個", String.format("type=delivery&item=%s&quantity=%d", itemId, i), null))
+                .action(
+                    new PostbackAction(date, String.format("type=order&item=%s&quantity=%d,deliveryDate=%s", itemId, quantity, date), null)
+                )
                 .build();
             list.add(addToCartEnableButton);
         }
