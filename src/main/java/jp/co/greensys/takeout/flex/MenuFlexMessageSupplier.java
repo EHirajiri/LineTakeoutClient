@@ -3,6 +3,8 @@ package jp.co.greensys.takeout.flex;
 import static java.util.Arrays.asList;
 
 import com.linecorp.bot.model.action.URIAction;
+import com.linecorp.bot.model.event.EventMode;
+import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
@@ -34,7 +36,7 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
             "テリヤキバーガー",
             "600",
             "https://1.bp.blogspot.com/-ccmRa-W5FdQ/WGnPWhQSnzI/AAAAAAABA4w/krKcel6z1hobC87K1Vj9bG_Me_AfBo15QCLcB/s400/hamburger_teriyaki_burger.png",
-            true
+            false
         );
         final Carousel carousel = Carousel.builder().contents(asList(bubble1, bubble2)).build();
         return new FlexMessage("Menu", carousel);
@@ -51,7 +53,7 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         return Image
             .builder()
             .size(Image.ImageSize.FULL_WIDTH)
-            .aspectRatio(Image.ImageAspectRatio.R20TO13)
+            .aspectRatio(Image.ImageAspectRatio.R1TO1)
             .aspectMode(Image.ImageAspectMode.Cover)
             .url(URI.create(imageURL))
             .build();
@@ -88,13 +90,13 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new URIAction("注文する", URI.create("http://example.com"), new URIAction.AltUri(null)))
+            .action(new URIAction("注文する", URI.create("https://apologetic-bunnyhug-41317.herokuapp.com/callback"), null))
             .build();
         final Button addToCartDisableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
             .color("#aaaaaa")
-            .action(new URIAction("Add to Cart", URI.create("http://example.com"), new URIAction.AltUri(null)))
+            .action(new URIAction("注文する", URI.create("http://example.com"), null))
             .build();
         return Box
             .builder()
