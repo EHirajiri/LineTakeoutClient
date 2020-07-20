@@ -63,7 +63,7 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
                                 .builder()
                                 .flex(1)
                                 .gravity(FlexGravity.CENTER)
-                                //                        .action(new URIAction("See more", "http://example.com"))
+                                .action(new URIAction("See more", URI.create("http://example.com"), new URIAction.AltUri(null)))
                                 .build()
                         )
                     )
@@ -130,17 +130,17 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            //            .action(new URIAction("Add to Cart", "http://example.com"))
+            .action(new URIAction("Add to Cart", URI.create("http://example.com"), new URIAction.AltUri(null)))
             .build();
         final Button addToCartDisableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
             .color("#aaaaaa")
-            //            .action(new URIAction("Add to Cart", "http://example.com"))
+            .action(new URIAction("Add to Cart", URI.create("http://example.com"), new URIAction.AltUri(null)))
             .build();
         final Button addToWishlistButton = Button
             .builder()
-            //            .action(new URIAction("Add to wishlist", "http://example.com"))
+            .action(new URIAction("Add to wishlist", URI.create("http://example.com"), new URIAction.AltUri(null)))
             .build();
         return Box
             .builder()
