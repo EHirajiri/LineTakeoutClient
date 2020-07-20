@@ -61,7 +61,7 @@ public class QueryStringParser {
 
     // This method is used to parse the query string
     private void parse(String queryString) {
-        for (String pair : queryString.split(",")) {
+        for (String pair : queryString.split("&")) {
             int idxOfEqual = pair.indexOf("=");
 
             if (idxOfEqual < 0) {

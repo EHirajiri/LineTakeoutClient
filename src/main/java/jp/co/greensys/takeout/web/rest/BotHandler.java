@@ -57,8 +57,9 @@ public class BotHandler {
         log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
         switch (parser.getParameterValue("type")) {
             case "menu":
-                log.debug("postback menu.");
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new MenuFlexMessageSupplier().get()));
+                break;
+            case "select":
                 break;
         }
     }

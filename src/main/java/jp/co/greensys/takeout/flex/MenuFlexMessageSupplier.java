@@ -2,9 +2,7 @@ package jp.co.greensys.takeout.flex;
 
 import static java.util.Arrays.asList;
 
-import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.PostbackAction;
-import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
