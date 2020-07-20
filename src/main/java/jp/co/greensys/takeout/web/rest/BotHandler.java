@@ -8,12 +8,11 @@ import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.UnfollowEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-import jp.co.greensys.takeout.flex.TicketFlexMessageSupplier;
+import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.util.QueryStringParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +28,9 @@ public class BotHandler {
     }
 
     @EventMapping
-    public void handleFollowEvent(FollowEvent event) {
+    public Message handleFollowEvent(FollowEvent event) {
         log.debug("handleFollowEvent: {}", event);
+        return new TextMessage("友達登録ありがとうございます");
     }
 
     @EventMapping
@@ -58,7 +58,7 @@ public class BotHandler {
         switch (parser.getParameterValue("type")) {
             case "menu":
                 log.debug("postback menu.");
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TicketFlexMessageSupplier().get()));
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new MenuFlexMessageSupplier().get()));
                 break;
         }
     }
