@@ -12,7 +12,6 @@ import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.container.Carousel;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
-import com.linecorp.bot.model.message.flex.unit.FlexGravity;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.net.URI;
@@ -26,19 +25,18 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     @Override
     public FlexMessage get() {
         final Bubble bubble1 = createBubble(
-            "Arm Chair, White",
+            "チーズバーガー",
             "49.99",
-            "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/bubble1.png",
+            "https://2.bp.blogspot.com/-V6VfiVDMitg/WC5efOCqmFI/AAAAAAAA_5A/P97lsAxzB5kUDdJYLIz_DvdferdNRl6aACLcB/s400/food_hamburger_cheese.png",
             false
         );
         final Bubble bubble2 = createBubble(
-            "Metal Desk Lamp",
+            "テリヤキバーガー",
             "11.99",
-            "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/bubble2.png",
+            "https://1.bp.blogspot.com/-ccmRa-W5FdQ/WGnPWhQSnzI/AAAAAAABA4w/krKcel6z1hobC87K1Vj9bG_Me_AfBo15QCLcB/s400/hamburger_teriyaki_burger.png",
             true
         );
-        final Bubble seeMore = createSeeMoreBubble();
-        final Carousel carousel = Carousel.builder().contents(asList(bubble1, bubble2, seeMore)).build();
+        final Carousel carousel = Carousel.builder().contents(asList(bubble1, bubble2)).build();
         return new FlexMessage("Catalogue", carousel);
     }
 
@@ -47,29 +45,6 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         final Box bodyBlock = createBodyBlock(title, price, isOutOfStock);
         final Box footerBlock = createFooterBlock(isOutOfStock);
         return Bubble.builder().hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
-    }
-
-    private Bubble createSeeMoreBubble() {
-        return Bubble
-            .builder()
-            .body(
-                Box
-                    .builder()
-                    .layout(FlexLayout.VERTICAL)
-                    .spacing(FlexMarginSize.SM)
-                    .contents(
-                        asList(
-                            Button
-                                .builder()
-                                .flex(1)
-                                .gravity(FlexGravity.CENTER)
-                                .action(new URIAction("See more", URI.create("http://example.com"), new URIAction.AltUri(null)))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .build();
     }
 
     private Image createHeroBlock(String imageURL) {
@@ -138,15 +113,11 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
             .color("#aaaaaa")
             .action(new URIAction("Add to Cart", URI.create("http://example.com"), new URIAction.AltUri(null)))
             .build();
-        final Button addToWishlistButton = Button
-            .builder()
-            .action(new URIAction("Add to wishlist", URI.create("http://example.com"), new URIAction.AltUri(null)))
-            .build();
         return Box
             .builder()
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
-            .contents(asList((!isOutOfStock) ? addToCartEnableButton : addToCartDisableButton, addToWishlistButton))
+            .contents(asList((!isOutOfStock) ? addToCartEnableButton : addToCartDisableButton))
             .build();
     }
 }
