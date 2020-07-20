@@ -55,7 +55,7 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
-                .action(new PostbackAction(i + "個", String.format("type=delivery&item=%s&quantity=%d", itemId, i), null))
+                .action(new PostbackAction(i + "個", String.format("type=delivery&item=%s&quantity=%s", itemId, i), null))
                 .build();
             list.add(addToCartEnableButton);
         }
