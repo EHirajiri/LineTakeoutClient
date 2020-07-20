@@ -2,6 +2,7 @@ package jp.co.greensys.takeout.web.rest;
 
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.FollowEvent;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -10,9 +11,11 @@ import com.linecorp.bot.model.event.UnfollowEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
+import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
 import jp.co.greensys.takeout.util.QueryStringParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +63,7 @@ public class BotHandler {
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new MenuFlexMessageSupplier().get()));
                 break;
             case "select":
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new QuantityMessageSupplier().get()));
                 break;
         }
     }
