@@ -4,7 +4,13 @@ import static java.util.Arrays.asList;
 
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
-import com.linecorp.bot.model.message.flex.component.*;
+import com.linecorp.bot.model.message.flex.component.Box;
+import com.linecorp.bot.model.message.flex.component.Button;
+import com.linecorp.bot.model.message.flex.component.Icon;
+import com.linecorp.bot.model.message.flex.component.Image;
+import com.linecorp.bot.model.message.flex.component.Separator;
+import com.linecorp.bot.model.message.flex.component.Spacer;
+import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexAlign;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
@@ -18,95 +24,113 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
 
     @Override
     public FlexMessage get() {
+        final Box headerBlock = createHeaderBlock();
         final Image heroBlock = createHeroBlock();
         final Box bodyBlock = createBodyBlock();
-        final Box footerBlock = createFooterBox();
+        final Box footerBlock = createFooterBlock();
+        final Bubble bubble = Bubble.builder().header(headerBlock).hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
+        return new FlexMessage("News", bubble);
+    }
 
-        final Bubble bubble = Bubble.builder().hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
-        return new FlexMessage("Restaurant Menu", bubble);
+    private Box createHeaderBlock() {
+        return Box
+            .builder()
+            .layout(FlexLayout.HORIZONTAL)
+            .contents(
+                asList(Text.builder().text("NEWS DIGEST").weight(Text.TextWeight.BOLD).color("#aaaaaa").size(FlexFontSize.SM).build())
+            )
+            .build();
     }
 
     private Image createHeroBlock() {
         return Image
             .builder()
-            .url(URI.create("https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/berger.png"))
+            .url(URI.create("https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/news.png"))
             .size(Image.ImageSize.FULL_WIDTH)
             .aspectRatio(Image.ImageAspectRatio.R20TO13)
             .aspectMode(Image.ImageAspectMode.Cover)
-            //            .action(new URIAction("label", "http://example.com"))
             .build();
     }
 
     private Box createBodyBlock() {
-        final Text title = Text.builder().text("Brown's Burger").weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
-        final Box menus = createMenusBox();
-        final Box recipe = createRecipeBox();
-
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.MD).contents(asList(title, menus, recipe)).build();
+        final Box imageBlock = createThumbnailsBox();
+        final Box heightLightBlock = createNewsBlock();
+        return Box
+            .builder()
+            .layout(FlexLayout.HORIZONTAL)
+            .spacing(FlexMarginSize.MD)
+            .contents(asList(imageBlock, heightLightBlock))
+            .build();
     }
 
-    private Box createRecipeBox() {
-        final Box recipe = Box
+    private Box createThumbnailsBox() {
+        final Image imagesContent1 = Image
             .builder()
-            .layout(FlexLayout.BASELINE)
-            .spacing(FlexMarginSize.XS)
-            .contents(
-                asList(
-                    Text.builder().text("Source, Onions, Pickles, Lettuce & Cheese").size(FlexFontSize.XS).color("#aaaaaa").flex(1).build()
+            .url(
+                URI.create(
+                    "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/thumbnail1.png"
                 )
             )
+            .aspectMode(Image.ImageAspectMode.Cover)
+            .aspectRatio(Image.ImageAspectRatio.R4TO3)
+            .size(Image.ImageSize.SM)
+            .gravity(FlexGravity.BOTTOM)
             .build();
-        return recipe;
+        final Image imagesContent2 = Image
+            .builder()
+            .url(
+                URI.create(
+                    "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/thumbnail2.png"
+                )
+            )
+            .aspectMode(Image.ImageAspectMode.Cover)
+            .aspectRatio(Image.ImageAspectRatio.R4TO3)
+            .size(Image.ImageSize.SM)
+            .margin(FlexMarginSize.MD)
+            .build();
+
+        return Box.builder().layout(FlexLayout.VERTICAL).flex(1).contents(asList(imagesContent1, imagesContent2)).build();
     }
 
-    private Box createMenusBox() {
-        final Box menu1 = Box
+    private Box createNewsBlock() {
+        final Separator separator = Separator.builder().build();
+
+        return Box
             .builder()
-            .layout(FlexLayout.BASELINE)
+            .layout(FlexLayout.VERTICAL)
+            .flex(2)
             .contents(
                 asList(
-                    Icon
+                    Text.builder().text("7 Things to Know for Today").gravity(FlexGravity.TOP).size(FlexFontSize.XS).flex(1).build(),
+                    separator,
+                    Text.builder().text("Hay fever goes wild").gravity(FlexGravity.CENTER).size(FlexFontSize.XS).flex(2).build(),
+                    separator,
+                    Text
                         .builder()
-                        .url(
-                            URI.create(
-                                "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/regular.png"
-                            )
-                        )
+                        .text("LINE Pay Begins Barcode Payment Service")
+                        .gravity(FlexGravity.CENTER)
+                        .size(FlexFontSize.XS)
+                        .flex(2)
                         .build(),
-                    Text.builder().text("$10.5").weight(Text.TextWeight.BOLD).margin(FlexMarginSize.SM).flex(0).build(),
-                    Text.builder().text("400kcl").size(FlexFontSize.SM).align(FlexAlign.END).color("#aaaaaa").build()
+                    separator,
+                    Text.builder().text("LINE Adds LINE Wallet").gravity(FlexGravity.BOTTOM).size(FlexFontSize.XS).flex(1).build()
                 )
             )
             .build();
-        final Box menu2 = Box
-            .builder()
-            .layout(FlexLayout.BASELINE)
-            .contents(
-                asList(
-                    Icon
-                        .builder()
-                        .url(
-                            URI.create(
-                                "https://raw.githubusercontent.com/iphayao/line-bot-spring-boot-flex/master/src/main/resources/img/large.png"
-                            )
-                        )
-                        .build(),
-                    Text.builder().text("$15.5").weight(Text.TextWeight.BOLD).margin(FlexMarginSize.SM).flex(0).build(),
-                    Text.builder().text("550kcl").size(FlexFontSize.SM).align(FlexAlign.END).color("#aaaaaa").build()
-                )
-            )
-            .build();
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(asList(menu1, menu2)).build();
     }
 
-    private Box createFooterBox() {
-        final Spacer spacer = Spacer.builder().size(FlexMarginSize.XXL).build();
-        final Button button = Button
+    private Box createFooterBlock() {
+        return Box
             .builder()
-            .style(Button.ButtonStyle.PRIMARY)
-            .color("#905c44")
-            //            .action(new URIAction("Add to Cart", "http://example.com"))
+            .layout(FlexLayout.HORIZONTAL)
+            .contents(
+                asList(
+                    Button
+                        .builder()
+                        .action(new URIAction("more", URI.create("https://example.com"), new URIAction.AltUri(URI.create("test"))))
+                        .build()
+                )
+            )
             .build();
-        return Box.builder().layout(FlexLayout.VERTICAL).contents(asList(spacer, button)).build();
     }
 }
