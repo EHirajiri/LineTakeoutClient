@@ -2,6 +2,7 @@ package jp.co.greensys.takeout.web.rest;
 
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
@@ -18,13 +19,18 @@ public class BotHandler {
 
     @EventMapping
     public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-        log.debug("event: {}", event);
+        log.debug("handleTextMessageEvent: {}", event);
         final String originalMessageText = event.getMessage().getText();
         return new TextMessage(originalMessageText);
     }
 
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
-        log.debug("event: {}", event);
+        log.debug("handleDefaultMessageEvent: {}", event);
+    }
+
+    @EventMapping
+    public void handlePostbackEvent(PostbackEvent event) {
+        log.debug("handlePostbackEvent: {}", event);
     }
 }
