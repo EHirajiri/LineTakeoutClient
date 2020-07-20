@@ -1,15 +1,19 @@
 package jp.co.greensys.takeout.web.rest;
 
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.FollowEvent;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.UnfollowEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import jp.co.greensys.takeout.flex.TicketFlexMessageSupplier;
 import jp.co.greensys.takeout.util.QueryStringParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +22,11 @@ import org.slf4j.LoggerFactory;
 public class BotHandler {
     private final Logger log = LoggerFactory.getLogger(BotHandler.class);
 
-    public BotHandler() {}
+    private final LineMessagingClient lineMessagingClient;
+
+    public BotHandler(LineMessagingClient lineMessagingClient) {
+        this.lineMessagingClient = lineMessagingClient;
+    }
 
     @EventMapping
     public void handleFollowEvent(FollowEvent event) {
@@ -46,10 +54,11 @@ public class BotHandler {
     public void handlePostbackEvent(PostbackEvent event) {
         log.debug("handlePostbackEvent: {}", event);
         QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
-        log.debug("PostbackDataType:{}", parser.getParameterValue("type"));
+        log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
         switch (parser.getParameterValue("type")) {
             case "menu":
                 log.debug("postback menu.");
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TicketFlexMessageSupplier().get()));
                 break;
         }
     }
