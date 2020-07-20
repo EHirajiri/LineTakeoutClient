@@ -26,18 +26,18 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     public FlexMessage get() {
         final Bubble bubble1 = createBubble(
             "チーズバーガー",
-            "49.99",
+            "500",
             "https://2.bp.blogspot.com/-V6VfiVDMitg/WC5efOCqmFI/AAAAAAAA_5A/P97lsAxzB5kUDdJYLIz_DvdferdNRl6aACLcB/s400/food_hamburger_cheese.png",
             false
         );
         final Bubble bubble2 = createBubble(
             "テリヤキバーガー",
-            "11.99",
+            "600",
             "https://1.bp.blogspot.com/-ccmRa-W5FdQ/WGnPWhQSnzI/AAAAAAABA4w/krKcel6z1hobC87K1Vj9bG_Me_AfBo15QCLcB/s400/hamburger_teriyaki_burger.png",
             true
         );
         final Carousel carousel = Carousel.builder().contents(asList(bubble1, bubble2)).build();
-        return new FlexMessage("Catalogue", carousel);
+        return new FlexMessage("Menu", carousel);
     }
 
     private Bubble createBubble(String title, String price, String imageURL, Boolean isOutOfStock) {
@@ -63,24 +63,7 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
             .builder()
             .layout(FlexLayout.BASELINE)
             .contents(
-                asList(
-                    Text
-                        .builder()
-                        .text("$" + price.split("\\.")[0])
-                        .wrap(true)
-                        .weight(Text.TextWeight.BOLD)
-                        .size(FlexFontSize.XL)
-                        .flex(0)
-                        .build(),
-                    Text
-                        .builder()
-                        .text("." + price.split("\\.")[1])
-                        .wrap(true)
-                        .weight(Text.TextWeight.BOLD)
-                        .size(FlexFontSize.SM)
-                        .flex(0)
-                        .build()
-                )
+                asList(Text.builder().text("￥" + price).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).flex(0).build())
             )
             .build();
         final Text outOfStock = Text
@@ -105,7 +88,7 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new URIAction("Add to Cart", URI.create("http://example.com"), new URIAction.AltUri(null)))
+            .action(new URIAction("注文する", URI.create("http://example.com"), new URIAction.AltUri(null)))
             .build();
         final Button addToCartDisableButton = Button
             .builder()
