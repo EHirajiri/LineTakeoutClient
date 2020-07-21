@@ -54,7 +54,7 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
         List list = new ArrayList();
         for (String date : deliveryDate) {
             String[] split = date.split(":");
-            Date deliveryDate = CalendarUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0, 0);
+            Date deliveryDate = CalendarUtil.getDateOfToday(12, 0, 0, 0);
 
             final Button addToCartEnableButton = Button
                 .builder()

@@ -1,9 +1,7 @@
 package jp.co.greensys.takeout.flex;
 
-import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
-import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Image;
 import com.linecorp.bot.model.message.flex.component.Text;
@@ -15,7 +13,6 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.function.Supplier;
@@ -25,7 +22,6 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final String quantity;
     private final TimeZone timeZone = TimeZone.getTimeZone("Asia/Tokyo");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd(E) HH:mm");
-    private final List<String> deliveryDate = Arrays.asList("12:00", "12:30", "13:00", "13:00");
 
     public OrderMessageSupplier(String itemId, String quantity) {
         this.itemId = itemId;
@@ -67,28 +63,6 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createFooterBlock() {
-        List list = new ArrayList();
-        Calendar calendar = Calendar.getInstance(timeZone);
-        for (String date : deliveryDate) {
-            String[] split = date.split(":");
-            calendar.set(Calendar.HOUR, Integer.parseInt(split[0]));
-            calendar.set(Calendar.MINUTE, Integer.parseInt(split[1]));
-            calendar.set(Calendar.SECOND, 0);
-
-            final Button addToCartEnableButton = Button
-                .builder()
-                .style(Button.ButtonStyle.PRIMARY)
-                .action(
-                    new PostbackAction(
-                        dateFormat.format(calendar.getTime()),
-                        String.format("type=order&item=%s&quantity" + "=%s," + "deliveryDate=%s", itemId, quantity, calendar.getTime()),
-                        null
-                    )
-                )
-                .build();
-            list.add(addToCartEnableButton);
-        }
-
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(list).build();
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).build();
     }
 }
