@@ -36,11 +36,19 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createBodyBlock() {
-        // 商品情報
-        final Text itemBlock = FlexComponentUtil.createText("お買い上げありがとうございます。", null, FlexFontSize.Md);
-        final Box itemBox = Box.builder().layout(FlexLayout.VERTICAL).contents(Arrays.asList(itemBlock)).build();
+        final Text messageBlock = FlexComponentUtil.createText(
+            "お買い上げありがとうございます。\n店舗窓口でスタッフにこのメッセージをお見せください",
+            null,
+            FlexFontSize.Md
+        );
+        final Text orderBlock = FlexComponentUtil.createTextDecoration(Long.toString(orderId), null, FlexFontSize.XXXXXL);
 
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(Arrays.asList(itemBox)).build();
+        return Box
+            .builder()
+            .layout(FlexLayout.VERTICAL)
+            .spacing(FlexMarginSize.SM)
+            .contents(Arrays.asList(messageBlock, orderBlock))
+            .build();
     }
 
     private Box createFooterBlock() {

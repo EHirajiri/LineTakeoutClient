@@ -124,6 +124,8 @@ public class BotHandler {
                     new ReplyMessage(event.getReplyToken(), new ReceiptMessageSupplier(orderedDTO.getId()).get())
                 );
                 break;
+            case "readiness":
+                break;
             default:
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました")));
         }

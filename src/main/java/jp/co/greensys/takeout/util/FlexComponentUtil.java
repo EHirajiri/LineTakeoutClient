@@ -9,4 +9,17 @@ public class FlexComponentUtil {
         final Text textBlock = Text.builder().text(text).wrap(true).color(color).weight(Text.TextWeight.BOLD).size(fontSize).build();
         return textBlock;
     }
+
+    public static Text createTextDecoration(String text, String color, FlexFontSize fontSize) {
+        final Text textBlock = Text
+            .builder()
+            .text(text)
+            .wrap(true)
+            .color(color)
+            .weight(Text.TextWeight.BOLD)
+            .size(fontSize)
+            .decoration(Text.TextDecoration.UNDERLINE)
+            .build();
+        return textBlock;
+    }
 }
