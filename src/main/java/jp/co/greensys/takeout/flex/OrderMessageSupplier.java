@@ -16,15 +16,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.function.Supplier;
+import jp.co.greensys.takeout.service.dto.ItemDTO;
 
 public class OrderMessageSupplier implements Supplier<FlexMessage> {
-    private final String itemId;
+    private final ItemDTO itemDTO;
     private final String quantity;
     private final TimeZone timeZone = TimeZone.getTimeZone("Asia/Tokyo");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd(E) HH:mm");
 
-    public OrderMessageSupplier(String itemId, String quantity) {
-        this.itemId = itemId;
+    public OrderMessageSupplier(ItemDTO itemDTO, String quantity) {
+        this.itemDTO = itemDTO;
         this.quantity = quantity;
     }
 
@@ -45,8 +46,9 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
         final Image imageBlock = createImageBlock(
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
+        final Text itemBlock = Text.builder().text(itemDTO.getName()).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
 
-        FlexComponent[] flexComponents = { titleBlock, imageBlock };
+        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock };
         List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
 
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
