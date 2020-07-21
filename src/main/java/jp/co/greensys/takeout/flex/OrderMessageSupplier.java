@@ -39,15 +39,24 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Bubble createBubble() {
-        final Image heroBlock = createHeroBlock(
-            "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
-        );
         final Box bodyBlock = createBodyBlock();
         final Box footerBlock = createFooterBlock();
-        return Bubble.builder().hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
+        return Bubble.builder().body(bodyBlock).footer(footerBlock).build();
     }
 
-    private Image createHeroBlock(String imageURL) {
+    private Box createBodyBlock() {
+        final Text titleBlock = Text.builder().text("レジ").wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
+        final Image imageBlock = createImageBlock(
+            "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
+        );
+
+        FlexComponent[] flexComponents = { titleBlock, imageBlock };
+        List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
+
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
+    }
+
+    private Image createImageBlock(String imageURL) {
         return Image
             .builder()
             .size(Image.ImageSize.FULL_WIDTH)
@@ -55,15 +64,6 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             .aspectMode(Image.ImageAspectMode.Cover)
             .url(URI.create(imageURL))
             .build();
-    }
-
-    private Box createBodyBlock() {
-        final Text titleBlock = Text.builder().text("レジ").wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
-
-        FlexComponent[] flexComponents = { titleBlock };
-        List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
-
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
     }
 
     private Box createFooterBlock() {

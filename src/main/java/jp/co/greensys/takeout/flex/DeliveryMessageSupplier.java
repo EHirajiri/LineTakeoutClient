@@ -13,15 +13,14 @@ import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.function.Supplier;
+import jp.co.greensys.takeout.util.CalendarUtil;
 
 public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
     private final String quantity;
-    private final TimeZone timeZone = TimeZone.getTimeZone("Asia/Tokyo");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd(E) HH:mm");
     private final List<String> deliveryDate = Arrays.asList("12:00", "12:30", "13:00", "13:00");
 
@@ -53,20 +52,17 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createFooterBlock() {
         List list = new ArrayList();
-        Calendar calendar = Calendar.getInstance(timeZone);
         for (String date : deliveryDate) {
             String[] split = date.split(":");
-            calendar.set(Calendar.HOUR, Integer.parseInt(split[0]));
-            calendar.set(Calendar.MINUTE, Integer.parseInt(split[1]));
-            calendar.set(Calendar.SECOND, 0);
+            Date deliveryDate = CalendarUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0, 0);
 
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
                 .action(
                     new PostbackAction(
-                        dateFormat.format(calendar.getTime()),
-                        String.format("type=order&item=%s&quantity" + "=%s," + "deliveryDate=%s", itemId, quantity, calendar.getTime()),
+                        dateFormat.format(deliveryDate),
+                        String.format("type=order&item=%s&quantity" + "=%s," + "deliveryDate=%s", itemId, quantity, deliveryDate),
                         null
                     )
                 )
