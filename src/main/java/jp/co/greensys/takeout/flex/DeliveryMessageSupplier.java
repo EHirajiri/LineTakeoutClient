@@ -11,6 +11,8 @@ import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -55,13 +57,13 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
         List list = new ArrayList();
         for (String date : deliveryDate) {
             String[] split = date.split(":");
-            Date deliveryDate = CalendarUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0, 0, 0);
+            ZonedDateTime deliveryDate = CalendarUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
                 .action(
                     new PostbackAction(
-                        dateFormat.format(deliveryDate),
+                        DateTimeFormatter.ofPattern("MM/dd(E) HH:mm").format(deliveryDate),
                         String.format("type=order&item=%s&quantity=%s&deliveryDate=%s", itemId, quantity, deliveryDate),
                         null
                     )
