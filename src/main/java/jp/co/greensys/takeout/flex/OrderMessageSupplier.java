@@ -6,6 +6,7 @@ import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Image;
+import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
@@ -49,8 +50,16 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
         final Text itemBlock = Text.builder().text(itemDTO.getName()).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
+        final Text totalFeeBlock = Text
+            .builder()
+            .text(String.format("%s円 × %s個", itemDTO.getPrice(), quantity))
+            .wrap(true)
+            .weight(Text.TextWeight.BOLD)
+            .size(FlexFontSize.XS)
+            .build();
+        final Separator separator = Separator.builder().build();
 
-        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock };
+        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock, totalFeeBlock, separator };
         List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
 
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();

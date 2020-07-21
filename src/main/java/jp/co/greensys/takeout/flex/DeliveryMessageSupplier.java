@@ -61,7 +61,7 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
                 .style(Button.ButtonStyle.PRIMARY)
                 .action(
                     new PostbackAction(
-                        dateFormat.format(deliveryDate),
+                        dateFormat.format(deliveryDate.getTime()),
                         String.format("type=order&item=%s&quantity=%s,deliveryDate=%s", itemId, quantity, deliveryDate),
                         null
                     )
