@@ -9,11 +9,11 @@ public class CalendarUtil {
 
     public static Date getDateOfToday(int hour, int minute, int second, int millisecond, int amount) {
         Calendar calendar = Calendar.getInstance(timeZone);
-        calendar.add(Calendar.DATE, amount);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.HOUR, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, second);
         calendar.set(Calendar.MILLISECOND, millisecond);
+        calendar.add(Calendar.DATE, amount);
 
         return calendar.getTime();
     }

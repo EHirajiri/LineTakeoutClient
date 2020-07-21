@@ -50,18 +50,22 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
         final Text itemBlock = Text.builder().text(itemDTO.getName()).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
+        final Text calcBlock = Text
+            .builder()
+            .text(String.format("[%s円 × %s個]", itemDTO.getPrice(), quantity))
+            .color("#555555")
+            .wrap(true)
+            .size(FlexFontSize.SM)
+            .build();
         final Text totalFeeBlock = Text
             .builder()
-            .text(String.format("%s円 × %s個", itemDTO.getPrice(), quantity))
-            .wrap(true)
-            .size(FlexFontSize.XS)
             .text(String.format("%s円", itemDTO.getPrice() * quantity))
             .weight(Text.TextWeight.BOLD)
             .wrap(true)
             .size(FlexFontSize.XL)
             .build();
 
-        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock, totalFeeBlock };
+        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock, calcBlock, totalFeeBlock };
         List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
 
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
@@ -83,6 +87,6 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             .style(Button.ButtonStyle.PRIMARY)
             .action(new PostbackAction("注文を確定する", "type=ordered&item=" + itemDTO.getId(), null))
             .build();
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
+        return Box.builder().layout(FlexLayout.HORIZONTAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
     }
 }
