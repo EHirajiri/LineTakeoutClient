@@ -12,6 +12,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import java.util.UUID;
 import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.flex.OrderMessageSupplier;
@@ -112,7 +113,7 @@ public class BotHandler {
             case "ordered":
                 // 注文情報登録
                 OrderedDTO orderedDTO = new OrderedDTO();
-                orderedDTO.setOrderId(event.getSource().getSenderId());
+                orderedDTO.setOrderId(UUID.randomUUID().toString());
                 orderedDTO.setQuantity(Integer.parseInt(parser.getParameterValue("quantity")));
                 orderedDTO.setUnitPrice(Integer.parseInt(parser.getParameterValue("unitPrice")));
                 orderedDTO.setTotalFee(Integer.parseInt(parser.getParameterValue("totalFee")));
