@@ -20,11 +20,13 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final ItemDTO itemDTO;
     private final int quantity;
     private final String deliveryDate;
+    private final int totalFee;
 
     public OrderMessageSupplier(ItemDTO itemDTO, String quantity, String deliveryDate) {
         this.itemDTO = itemDTO;
         this.quantity = Integer.parseInt(quantity);
         this.deliveryDate = deliveryDate;
+        this.totalFee = itemDTO.getPrice() * this.quantity;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createHeroBox() {
-        final Text titleBlock = FlexComponentUtil.createText("レジ", FlexFontSize.XL);
+        final Text titleBlock = FlexComponentUtil.createText("レジ", null, FlexFontSize.XL);
         final Image imageBlock = createImageBlock(
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
@@ -48,24 +50,19 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createBodyBlock() {
         // 商品情報
-        final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", itemDTO.getName()), FlexFontSize.LG);
-        final Text calcBlock = Text
-            .builder()
-            .text(String.format("[%s円 × %s個]", itemDTO.getPrice(), quantity))
-            .color("#555555")
-            .wrap(true)
-            .size(FlexFontSize.SM)
-            .build();
-        final Box itemBox = Box.builder().layout(FlexLayout.HORIZONTAL).contents(Arrays.asList(itemBlock, calcBlock)).build();
+        final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", itemDTO.getName()), null, FlexFontSize.LG);
+        final Text calcBlock = FlexComponentUtil.createText(
+            String.format("[%s円 × %s個]", itemDTO.getPrice(), quantity),
+            "#555555",
+            FlexFontSize.SM
+        );
+        final Box itemBox = Box.builder().layout(FlexLayout.VERTICAL).contents(Arrays.asList(itemBlock, calcBlock)).build();
 
         // 合計金額
-        final Text totalFeeBlock = FlexComponentUtil.createText(
-            String.format("合計: %s円", itemDTO.getPrice() * quantity),
-            FlexFontSize.LG
-        );
+        final Text totalFeeBlock = FlexComponentUtil.createText(String.format("合計: %s円", totalFee), null, FlexFontSize.LG);
 
         // 受け取り日時
-        final Text deliveryDateBlock = FlexComponentUtil.createText(String.format("受取日時： %s", deliveryDate), FlexFontSize.LG);
+        final Text deliveryDateBlock = FlexComponentUtil.createText(String.format("受取日時： %s", deliveryDate), null, FlexFontSize.LG);
 
         return Box
             .builder()
@@ -89,7 +86,19 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("注文を確定する", String.format("type=ordered&item={}", itemDTO.getId()), null))
+            .action(
+                new PostbackAction(
+                    "注文を確定する",
+                    String.format(
+                        "type=ordered&item=%s&quantity=%s&totalFee=%s&deliveryDate=%s",
+                        itemDTO.getId(),
+                        quantity,
+                        totalFee,
+                        deliveryDate
+                    ),
+                    null
+                )
+            )
             .build();
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
     }
