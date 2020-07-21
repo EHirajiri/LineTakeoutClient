@@ -15,18 +15,21 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
+import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final ItemDTO itemDTO;
     private final int quantity;
     private final String deliveryDate;
     private final int totalFee;
+    private final String orderId;
 
-    public OrderMessageSupplier(ItemDTO itemDTO, String quantity, String deliveryDate) {
+    public OrderMessageSupplier(ItemDTO itemDTO, QueryStringParser parser) {
         this.itemDTO = itemDTO;
-        this.quantity = Integer.parseInt(quantity);
-        this.deliveryDate = deliveryDate;
+        this.quantity = Integer.parseInt(parser.getParameterValue("quantity"));
+        this.deliveryDate = parser.getParameterValue("deliveryDate");
         this.totalFee = itemDTO.getPrice() * this.quantity;
+        this.orderId = parser.getParameterValue("orderId");
     }
 
     @Override
@@ -90,12 +93,13 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
                 new PostbackAction(
                     "注文を確定する",
                     String.format(
-                        "type=ordered&item=%s&unitPrice=%s&quantity=%s&totalFee=%s&deliveryDate=%s",
+                        "type=ordered&item=%s&unitPrice=%s&quantity=%s&totalFee=%s&deliveryDate=%s&orderId=%s",
                         itemDTO.getId(),
                         itemDTO.getPrice(),
                         quantity,
                         totalFee,
-                        deliveryDate
+                        deliveryDate,
+                        orderId
                     ),
                     null
                 )

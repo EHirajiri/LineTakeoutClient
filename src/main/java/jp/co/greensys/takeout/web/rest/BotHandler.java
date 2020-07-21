@@ -87,33 +87,20 @@ public class BotHandler {
                 }
                 break;
             case "select":
-                lineMessagingClient.replyMessage(
-                    new ReplyMessage(event.getReplyToken(), new QuantityMessageSupplier(parser.getParameterValue("item")).get())
-                );
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new QuantityMessageSupplier(parser).get()));
                 break;
             case "delivery":
-                lineMessagingClient.replyMessage(
-                    new ReplyMessage(
-                        event.getReplyToken(),
-                        new DeliveryMessageSupplier(parser.getParameterValue("item"), parser.getParameterValue("quantity")).get()
-                    )
-                );
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new DeliveryMessageSupplier(parser).get()));
                 break;
             case "order":
                 // 商品情報取得
                 ItemDTO itemDTO = itemService.findOne(Long.valueOf(parser.getParameterValue("item"))).get();
-                lineMessagingClient.replyMessage(
-                    new ReplyMessage(
-                        event.getReplyToken(),
-                        new OrderMessageSupplier(itemDTO, parser.getParameterValue("quantity"), parser.getParameterValue("deliveryDate"))
-                        .get()
-                    )
-                );
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new OrderMessageSupplier(itemDTO, parser).get()));
                 break;
             case "ordered":
                 // 注文情報登録
                 OrderedDTO orderedDTO = new OrderedDTO();
-                orderedDTO.setOrderId(UUID.randomUUID().toString());
+                orderedDTO.setOrderId(parser.getParameterValue("orderId"));
                 orderedDTO.setQuantity(Integer.parseInt(parser.getParameterValue("quantity")));
                 orderedDTO.setUnitPrice(Integer.parseInt(parser.getParameterValue("unitPrice")));
                 orderedDTO.setTotalFee(Integer.parseInt(parser.getParameterValue("totalFee")));
@@ -121,7 +108,9 @@ public class BotHandler {
                 orderedDTO.setCustomerUserId(event.getSource().getUserId());
                 OrderedDTO result = orderedService.save(orderedDTO);
 
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new ReceiptMessageSupplier(result.getId()).get()));
+                lineMessagingClient.replyMessage(
+                    new ReplyMessage(event.getReplyToken(), new ReceiptMessageSupplier(parser, result.getId()).get())
+                );
                 break;
             case "readiness":
                 break;

@@ -18,10 +18,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 
 public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
+    private String orderId = UUID.randomUUID().toString();
+
     private final List<ItemDTO> itemDTOS;
 
     public MenuFlexMessageSupplier(List<ItemDTO> itemDTOS) {
@@ -76,7 +79,7 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("注文する", "type=select&item=" + itemId, null))
+            .action(new PostbackAction("注文する", String.format("type=select&item=%s&orderId=%s", itemId, orderId), null))
             .build();
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(asList(addToCartEnableButton)).build();
     }

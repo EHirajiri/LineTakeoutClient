@@ -19,15 +19,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.util.DateTimeUtil;
+import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
     private final String quantity;
+    private final String orderId;
     private final List<String> deliveryDate = Arrays.asList("12:00", "12:30", "13:00", "13:00");
 
-    public DeliveryMessageSupplier(String itemId, String quantity) {
-        this.itemId = itemId;
-        this.quantity = quantity;
+    public DeliveryMessageSupplier(QueryStringParser parser) {
+        this.itemId = parser.getParameterValue("item");
+        this.quantity = parser.getParameterValue("quantity");
+        this.orderId = parser.getParameterValue("orderId");
     }
 
     @Override
@@ -62,7 +65,7 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
                 .action(
                     new PostbackAction(
                         deliveryDate,
-                        String.format("type=order&item=%s&quantity=%s&deliveryDate=%s", itemId, quantity, deliveryDate),
+                        String.format("type=order&item=%s&quantity=%s&deliveryDate=%s&orderId=%s", itemId, quantity, deliveryDate, orderId),
                         null
                     )
                 )

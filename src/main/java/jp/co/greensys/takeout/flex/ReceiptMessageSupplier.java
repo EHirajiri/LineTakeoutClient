@@ -12,12 +12,15 @@ import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
+import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
+    private final Long id;
     private final Long orderId;
 
-    public ReceiptMessageSupplier(Long orderId) {
-        this.orderId = orderId;
+    public ReceiptMessageSupplier(QueryStringParser parser, Long id) {
+        this.id = id;
+        this.orderId = Long.valueOf(parser.getParameterValue("orderId"));
     }
 
     @Override
@@ -41,7 +44,7 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
             null,
             FlexFontSize.Md
         );
-        final Text orderBlock = FlexComponentUtil.createText(Long.toString(orderId), null, FlexFontSize.XXXXXL);
+        final Text orderBlock = FlexComponentUtil.createText(Long.toString(id), null, FlexFontSize.XXXXXL);
 
         return Box
             .builder()
@@ -55,7 +58,7 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("準備状況を確認する", String.format("type=readiness&orderId=%s", orderId), null))
+            .action(new PostbackAction("準備状況を確認する", String.format("type=readiness&order=%s", id), null))
             .build();
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
     }

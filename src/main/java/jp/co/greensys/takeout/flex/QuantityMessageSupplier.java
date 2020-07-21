@@ -14,12 +14,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class QuantityMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
+    private final String orderId;
 
-    public QuantityMessageSupplier(String itemId) {
-        this.itemId = itemId;
+    public QuantityMessageSupplier(QueryStringParser parser) {
+        this.itemId = parser.getParameterValue("item");
+        this.orderId = parser.getParameterValue("order");
     }
 
     @Override
@@ -55,7 +58,9 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
-                .action(new PostbackAction(i + "個", String.format("type=delivery&item=%s&quantity=%s", itemId, i), null))
+                .action(
+                    new PostbackAction(i + "個", String.format("type=delivery&item=%s&quantity=%s&orderId=%s", itemId, i, orderId), null)
+                )
                 .build();
             list.add(addToCartEnableButton);
         }
