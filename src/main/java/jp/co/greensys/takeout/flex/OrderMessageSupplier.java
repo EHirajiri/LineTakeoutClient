@@ -23,13 +23,13 @@ import jp.co.greensys.takeout.service.dto.ItemDTO;
 
 public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final ItemDTO itemDTO;
-    private final String quantity;
+    private final int quantity;
     private final TimeZone timeZone = TimeZone.getTimeZone("Asia/Tokyo");
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd(E) HH:mm");
 
     public OrderMessageSupplier(ItemDTO itemDTO, String quantity) {
         this.itemDTO = itemDTO;
-        this.quantity = quantity;
+        this.quantity = Integer.parseInt(quantity);
     }
 
     @Override
@@ -54,8 +54,11 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             .builder()
             .text(String.format("%s円 × %s個", itemDTO.getPrice(), quantity))
             .wrap(true)
-            .weight(Text.TextWeight.BOLD)
             .size(FlexFontSize.XS)
+            .text(String.format("%s円", itemDTO.getPrice() * quantity))
+            .weight(Text.TextWeight.BOLD)
+            .wrap(true)
+            .size(FlexFontSize.XL)
             .build();
 
         FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock, totalFeeBlock };
