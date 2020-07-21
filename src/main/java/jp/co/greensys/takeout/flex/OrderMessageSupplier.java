@@ -1,7 +1,9 @@
 package jp.co.greensys.takeout.flex;
 
+import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
+import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Image;
 import com.linecorp.bot.model.message.flex.component.Text;
@@ -65,6 +67,11 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createFooterBlock() {
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).build();
+        final Button addToCartEnableButton = Button
+            .builder()
+            .style(Button.ButtonStyle.PRIMARY)
+            .action(new PostbackAction("注文を確定する", "type=ordered&item=" + itemDTO.getId(), null))
+            .build();
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
     }
 }
