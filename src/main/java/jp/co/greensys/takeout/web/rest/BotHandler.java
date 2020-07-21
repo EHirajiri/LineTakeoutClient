@@ -14,6 +14,7 @@ import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
+import jp.co.greensys.takeout.flex.OrderMessageSupplier;
 import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
 import jp.co.greensys.takeout.service.ItemService;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
@@ -21,6 +22,7 @@ import jp.co.greensys.takeout.util.QueryStringParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @LineMessageHandler
 public class BotHandler {
@@ -66,7 +68,7 @@ public class BotHandler {
         switch (parser.getParameterValue("type")) {
             case "menu":
                 // 商品情報取得
-                Page<ItemDTO> itemPage = itemService.findAll(null);
+                Page<ItemDTO> itemPage = itemService.findAll(Pageable.unpaged());
                 if (itemPage.getTotalPages() > 0) {
                     lineMessagingClient.replyMessage(
                         new ReplyMessage(event.getReplyToken(), new MenuFlexMessageSupplier(itemPage.getContent()).get())
@@ -91,6 +93,12 @@ public class BotHandler {
                 );
                 break;
             case "order":
+                lineMessagingClient.replyMessage(
+                    new ReplyMessage(
+                        event.getReplyToken(),
+                        new OrderMessageSupplier(parser.getParameterValue("item"), parser.getParameterValue("quantity")).get()
+                    )
+                );
                 break;
             default:
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました")));
