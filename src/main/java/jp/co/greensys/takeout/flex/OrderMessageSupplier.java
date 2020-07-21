@@ -57,9 +57,8 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             .weight(Text.TextWeight.BOLD)
             .size(FlexFontSize.XS)
             .build();
-        final Separator separator = Separator.builder().build();
 
-        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock, totalFeeBlock, separator };
+        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock, totalFeeBlock };
         List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
 
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
