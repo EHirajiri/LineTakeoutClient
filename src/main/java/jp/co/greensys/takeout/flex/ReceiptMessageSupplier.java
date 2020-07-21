@@ -41,7 +41,7 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
             null,
             FlexFontSize.Md
         );
-        final Text orderBlock = FlexComponentUtil.createTextDecoration(Long.toString(orderId), null, FlexFontSize.XXXXXL);
+        final Text orderBlock = FlexComponentUtil.createText(Long.toString(orderId), null, FlexFontSize.XXXXXL);
 
         return Box
             .builder()
