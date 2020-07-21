@@ -6,30 +6,27 @@ import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Image;
-import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 
 public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final ItemDTO itemDTO;
     private final int quantity;
-    private final TimeZone timeZone = TimeZone.getTimeZone("Asia/Tokyo");
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd(E) HH:mm");
+    private final String deliveryDate;
 
-    public OrderMessageSupplier(ItemDTO itemDTO, String quantity) {
+    public OrderMessageSupplier(ItemDTO itemDTO, String quantity, String deliveryDate) {
         this.itemDTO = itemDTO;
         this.quantity = Integer.parseInt(quantity);
+        this.deliveryDate = deliveryDate;
     }
 
     @Override
@@ -39,17 +36,27 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Bubble createBubble() {
-        final Box bodyBlock = createBodyBlock();
-        final Box footerBlock = createFooterBlock();
-        return Bubble.builder().body(bodyBlock).footer(footerBlock).build();
+        return Bubble.builder().hero(createHeroBox()).body(createBodyBlock()).footer(createFooterBlock()).build();
     }
 
-    private Box createBodyBlock() {
+    private Box createHeroBox() {
         final Text titleBlock = Text.builder().text("レジ").wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
         final Image imageBlock = createImageBlock(
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
-        final Text itemBlock = Text.builder().text(itemDTO.getName()).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
+
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(Arrays.asList(titleBlock, imageBlock)).build();
+    }
+
+    private Box createBodyBlock() {
+        // 商品情報
+        final Text itemBlock = Text
+            .builder()
+            .text(String.format("商品: %s", itemDTO.getName()))
+            .wrap(true)
+            .weight(Text.TextWeight.BOLD)
+            .size(FlexFontSize.XL)
+            .build();
         final Text calcBlock = Text
             .builder()
             .text(String.format("[%s円 × %s個]", itemDTO.getPrice(), quantity))
@@ -57,18 +64,32 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             .wrap(true)
             .size(FlexFontSize.SM)
             .build();
+        final Box itemBox = Box.builder().layout(FlexLayout.HORIZONTAL).contents(Arrays.asList(itemBlock, calcBlock)).build();
+
+        // 合計金額
         final Text totalFeeBlock = Text
             .builder()
-            .text(String.format("%s円", itemDTO.getPrice() * quantity))
+            .text(String.format("合計: %s円", itemDTO.getPrice() * quantity))
             .weight(Text.TextWeight.BOLD)
             .wrap(true)
             .size(FlexFontSize.XL)
             .build();
 
-        FlexComponent[] flexComponents = { titleBlock, imageBlock, itemBlock, calcBlock, totalFeeBlock };
-        List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
+        // 受け取り日時
+        final Text deliveryDateBlock = Text
+            .builder()
+            .text(String.format("受取日時： %s", deliveryDate))
+            .weight(Text.TextWeight.BOLD)
+            .wrap(true)
+            .size(FlexFontSize.XL)
+            .build();
 
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
+        return Box
+            .builder()
+            .layout(FlexLayout.VERTICAL)
+            .spacing(FlexMarginSize.SM)
+            .contents(Arrays.asList(itemBlock, totalFeeBlock, deliveryDateBlock))
+            .build();
     }
 
     private Image createImageBlock(String imageURL) {

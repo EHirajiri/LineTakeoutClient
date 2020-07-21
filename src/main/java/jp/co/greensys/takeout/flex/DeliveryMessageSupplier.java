@@ -15,11 +15,10 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
-import jp.co.greensys.takeout.util.CalendarUtil;
+import jp.co.greensys.takeout.util.DateTimeUtil;
 
 public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
@@ -57,13 +56,13 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
         List list = new ArrayList();
         for (String date : deliveryDate) {
             String[] split = date.split(":");
-            ZonedDateTime deliveryDate = CalendarUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+            String deliveryDate = DateTimeUtil.getStringDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
                 .action(
                     new PostbackAction(
-                        DateTimeFormatter.ofPattern("MM/dd(E) HH:mm").format(deliveryDate),
+                        deliveryDate,
                         String.format("type=order&item=%s&quantity=%s&deliveryDate=%s", itemId, quantity, deliveryDate),
                         null
                     )

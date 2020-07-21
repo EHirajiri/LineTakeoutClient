@@ -96,7 +96,11 @@ public class BotHandler {
                 // 商品情報取得
                 ItemDTO itemDTO = itemService.findOne(Long.valueOf(parser.getParameterValue("item"))).get();
                 lineMessagingClient.replyMessage(
-                    new ReplyMessage(event.getReplyToken(), new OrderMessageSupplier(itemDTO, parser.getParameterValue("quantity")).get())
+                    new ReplyMessage(
+                        event.getReplyToken(),
+                        new OrderMessageSupplier(itemDTO, parser.getParameterValue("quantity"), parser.getParameterValue("deliveryDate"))
+                        .get()
+                    )
                 );
                 break;
             default:
