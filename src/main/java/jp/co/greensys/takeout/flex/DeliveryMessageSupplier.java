@@ -13,10 +13,8 @@ import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.function.Supplier;
-import jp.co.greensys.takeout.util.CalendarUtil;
 
 public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
@@ -53,18 +51,11 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private Box createFooterBlock() {
         List list = new ArrayList();
         for (String date : deliveryDate) {
-            String[] split = date.split(":");
-            Calendar deliveryDate = CalendarUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 0, 0, 0);
-
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
                 .action(
-                    new PostbackAction(
-                        dateFormat.format(deliveryDate.getTime()),
-                        String.format("type=order&item=%s&quantity=%s,deliveryDate=%s", itemId, quantity, deliveryDate),
-                        null
-                    )
+                    new PostbackAction(date, String.format("type=order&item=%s&quantity=%s,deliveryDate=%s", itemId, quantity, date), null)
                 )
                 .build();
             list.add(addToCartEnableButton);
