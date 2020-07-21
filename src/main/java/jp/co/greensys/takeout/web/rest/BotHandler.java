@@ -119,11 +119,9 @@ public class BotHandler {
                 orderedDTO.setTotalFee(Integer.parseInt(parser.getParameterValue("totalFee")));
                 orderedDTO.setItemId(Long.parseLong(parser.getParameterValue("item")));
                 orderedDTO.setCustomerUserId(event.getSource().getUserId());
-                orderedService.save(orderedDTO);
+                OrderedDTO result = orderedService.save(orderedDTO);
 
-                lineMessagingClient.replyMessage(
-                    new ReplyMessage(event.getReplyToken(), new ReceiptMessageSupplier(orderedDTO.getId()).get())
-                );
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new ReceiptMessageSupplier(result.getId()).get()));
                 break;
             case "readiness":
                 break;
