@@ -103,6 +103,9 @@ public class BotHandler {
                     )
                 );
                 break;
+            case "ordered":
+                // 注文情報登録
+                break;
             default:
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました")));
         }

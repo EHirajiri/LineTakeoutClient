@@ -23,7 +23,6 @@ import jp.co.greensys.takeout.util.DateTimeUtil;
 public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
     private final String quantity;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd(E) HH:mm", Locale.JAPAN);
     private final List<String> deliveryDate = Arrays.asList("12:00", "12:30", "13:00", "13:00");
 
     public DeliveryMessageSupplier(String itemId, String quantity) {

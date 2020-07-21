@@ -4,7 +4,6 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
-import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Image;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
@@ -12,11 +11,10 @@ import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
+import jp.co.greensys.takeout.util.FlexComponentUtil;
 
 public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final ItemDTO itemDTO;
@@ -40,7 +38,7 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createHeroBox() {
-        final Text titleBlock = Text.builder().text("レジ").wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
+        final Text titleBlock = FlexComponentUtil.createText("レジ", FlexFontSize.XL);
         final Image imageBlock = createImageBlock(
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
@@ -50,13 +48,7 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createBodyBlock() {
         // 商品情報
-        final Text itemBlock = Text
-            .builder()
-            .text(String.format("商品: %s", itemDTO.getName()))
-            .wrap(true)
-            .weight(Text.TextWeight.BOLD)
-            .size(FlexFontSize.XL)
-            .build();
+        final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", itemDTO.getName()), FlexFontSize.LG);
         final Text calcBlock = Text
             .builder()
             .text(String.format("[%s円 × %s個]", itemDTO.getPrice(), quantity))
@@ -67,28 +59,19 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
         final Box itemBox = Box.builder().layout(FlexLayout.HORIZONTAL).contents(Arrays.asList(itemBlock, calcBlock)).build();
 
         // 合計金額
-        final Text totalFeeBlock = Text
-            .builder()
-            .text(String.format("合計: %s円", itemDTO.getPrice() * quantity))
-            .weight(Text.TextWeight.BOLD)
-            .wrap(true)
-            .size(FlexFontSize.XL)
-            .build();
+        final Text totalFeeBlock = FlexComponentUtil.createText(
+            String.format("合計: %s円", itemDTO.getPrice() * quantity),
+            FlexFontSize.LG
+        );
 
         // 受け取り日時
-        final Text deliveryDateBlock = Text
-            .builder()
-            .text(String.format("受取日時： %s", deliveryDate))
-            .weight(Text.TextWeight.BOLD)
-            .wrap(true)
-            .size(FlexFontSize.XL)
-            .build();
+        final Text deliveryDateBlock = FlexComponentUtil.createText(String.format("受取日時： %s", deliveryDate), FlexFontSize.LG);
 
         return Box
             .builder()
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
-            .contents(Arrays.asList(itemBlock, totalFeeBlock, deliveryDateBlock))
+            .contents(Arrays.asList(itemBox, totalFeeBlock, deliveryDateBlock))
             .build();
     }
 
@@ -106,8 +89,8 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("注文を確定する", "type=ordered&item=" + itemDTO.getId(), null))
+            .action(new PostbackAction("注文を確定する", String.format("type=ordered&item={}", itemDTO.getId()), null))
             .build();
-        return Box.builder().layout(FlexLayout.HORIZONTAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
     }
 }
