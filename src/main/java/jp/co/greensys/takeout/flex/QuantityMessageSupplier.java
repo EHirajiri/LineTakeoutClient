@@ -22,7 +22,7 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
 
     public QuantityMessageSupplier(QueryStringParser parser) {
         this.itemId = parser.getParameterValue("item");
-        this.orderId = parser.getParameterValue("order");
+        this.orderId = parser.getParameterValue("orderId");
     }
 
     @Override
