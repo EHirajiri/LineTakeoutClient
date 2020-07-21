@@ -40,7 +40,7 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createHeroBox() {
-        final Text titleBlock = FlexComponentUtil.createText("レジ", null, FlexFontSize.XL);
+        final Text titleBlock = FlexComponentUtil.createText("レジ", "#1DB446", FlexFontSize.XL);
         final Image imageBlock = createImageBlock(
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
@@ -90,8 +90,9 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
                 new PostbackAction(
                     "注文を確定する",
                     String.format(
-                        "type=ordered&item=%s&quantity=%s&totalFee=%s&deliveryDate=%s",
+                        "type=ordered&item=%s&unitPrice=%s&quantity=%s&totalFee=%s&deliveryDate=%s",
                         itemDTO.getId(),
+                        itemDTO.getPrice(),
                         quantity,
                         totalFee,
                         deliveryDate

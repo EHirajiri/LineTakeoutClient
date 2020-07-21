@@ -16,8 +16,11 @@ import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.flex.OrderMessageSupplier;
 import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
+import jp.co.greensys.takeout.flex.ReceiptMessageSupplier;
 import jp.co.greensys.takeout.service.ItemService;
+import jp.co.greensys.takeout.service.OrderedService;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
+import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.util.QueryStringParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +35,12 @@ public class BotHandler {
 
     private final ItemService itemService;
 
-    public BotHandler(LineMessagingClient lineMessagingClient, ItemService itemService) {
+    private final OrderedService orderedService;
+
+    public BotHandler(LineMessagingClient lineMessagingClient, ItemService itemService, OrderedService orderedService) {
         this.lineMessagingClient = lineMessagingClient;
         this.itemService = itemService;
+        this.orderedService = orderedService;
     }
 
     @EventMapping
@@ -105,6 +111,18 @@ public class BotHandler {
                 break;
             case "ordered":
                 // 注文情報登録
+                OrderedDTO orderedDTO = new OrderedDTO();
+                orderedDTO.setOrderId(event.getSource().getSenderId());
+                orderedDTO.setQuantity(Integer.parseInt(parser.getParameterValue("quantity")));
+                orderedDTO.setUnitPrice(Integer.parseInt(parser.getParameterValue("unitPrice")));
+                orderedDTO.setTotalFee(Integer.parseInt(parser.getParameterValue("totalFee")));
+                orderedDTO.setItemId(Long.parseLong(parser.getParameterValue("item")));
+                orderedDTO.setCustomerUserId(event.getSource().getUserId());
+                orderedService.save(orderedDTO);
+
+                lineMessagingClient.replyMessage(
+                    new ReplyMessage(event.getReplyToken(), new ReceiptMessageSupplier(orderedDTO.getId()).get())
+                );
                 break;
             default:
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました")));
