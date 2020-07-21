@@ -16,11 +16,9 @@ import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
     private final Long id;
-    private final Long orderId;
 
     public ReceiptMessageSupplier(QueryStringParser parser, Long id) {
         this.id = id;
-        this.orderId = Long.valueOf(parser.getParameterValue("orderId"));
     }
 
     @Override

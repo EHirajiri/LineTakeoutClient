@@ -70,6 +70,15 @@ public class BotHandler {
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) {
         log.debug("handlePostbackEvent: {}", event);
+        try {
+            postbackEvent(event);
+        } catch (Exception e) {
+            log.error("Error occurred.", e);
+            lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました。")));
+        }
+    }
+
+    private void postbackEvent(PostbackEvent event) {
         QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
         log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
         switch (parser.getParameterValue("type")) {
