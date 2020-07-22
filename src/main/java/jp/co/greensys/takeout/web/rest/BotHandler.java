@@ -12,6 +12,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import java.util.Optional;
 import java.util.UUID;
 import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
@@ -122,6 +123,7 @@ public class BotHandler {
                 );
                 break;
             case "readiness":
+                Optional<OrderedDTO> ordered = orderedService.findOne(Long.parseLong(parser.getParameterValue("order")));
                 break;
             default:
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました")));

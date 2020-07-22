@@ -4,11 +4,13 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
+import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
@@ -42,7 +44,7 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
             null,
             FlexFontSize.Md
         );
-        final Text orderBlock = FlexComponentUtil.createText(Long.toString(id), null, FlexFontSize.XXXXXL);
+        final Text orderBlock = FlexComponentUtil.createTextDecoration(Long.toString(id), null, FlexFontSize.XXXXXL);
 
         return Box
             .builder()
@@ -53,11 +55,17 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createFooterBlock() {
+        final Separator separator = Separator.builder().margin(FlexMarginSize.SM).color("#c0c0c0").build();
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
             .action(new PostbackAction("準備状況を確認する", String.format("type=readiness&order=%s", id), null))
             .build();
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
+        return Box
+            .builder()
+            .layout(FlexLayout.VERTICAL)
+            .spacing(FlexMarginSize.SM)
+            .contents(Arrays.asList(separator, addToCartEnableButton))
+            .build();
     }
 }
