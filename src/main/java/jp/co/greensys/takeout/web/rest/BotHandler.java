@@ -117,7 +117,7 @@ public class BotHandler {
                 orderedDTO.setUnitPrice(Integer.parseInt(parser.getParameterValue("unitPrice")));
                 orderedDTO.setTotalFee(Integer.parseInt(parser.getParameterValue("totalFee")));
                 orderedDTO.setDeliveryState(DeliveryState.CONFIRMING);
-                orderedDTO.setDeliveryDate(Instant.parse(parser.getParameterValue("deliveryDate")));
+                orderedDTO.setDeliveryDate(Instant.ofEpochMilli(Long.parseLong(parser.getParameterValue("deliveryDate"))));
                 orderedDTO.setItemId(Long.parseLong(parser.getParameterValue("item")));
                 orderedDTO.setCustomerUserId(event.getSource().getUserId());
                 OrderedDTO result = orderedService.save(orderedDTO);

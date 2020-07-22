@@ -1,5 +1,6 @@
 package jp.co.greensys.takeout.util;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -13,7 +14,7 @@ public class DateTimeUtil {
 
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("Asia/Tokyo");
 
-    public static LocalDateTime getDateOfToday(int hour, int minute) {
+    public static long getDateOfToday(int hour, int minute) {
         Calendar calendar = Calendar.getInstance(TIME_ZONE);
         ZonedDateTime dateTime = ZonedDateTime.of(
             calendar.get(Calendar.YEAR),
@@ -26,15 +27,23 @@ public class DateTimeUtil {
             ZoneId.of("Asia/Tokyo")
         );
         dateTime.format(DateTimeFormatter.ISO_ZONED_DATE_TIME);
-        return dateTime.toLocalDateTime();
+        return dateTime.toInstant().toEpochMilli();
     }
 
-    public static String parseString(LocalDateTime dateTime) {
-        return DATE_TIME_FORMATTER.format(dateTime);
+    public static String toString(long dateTime) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        format.setTimeZone(TIME_ZONE);
+        return format.format(dateTime);
     }
 
     public static LocalDateTime parseLocalDateTime(String date) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.JAPAN);
         return LocalDateTime.parse(date, dtf);
+    }
+
+    public static void main(String[] args) {
+        long date = getDateOfToday(12, 30);
+        System.out.println(date);
+        System.out.println(toString(date));
     }
 }

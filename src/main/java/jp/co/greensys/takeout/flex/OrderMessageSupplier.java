@@ -11,8 +11,6 @@ import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
@@ -23,14 +21,14 @@ import jp.co.greensys.takeout.util.QueryStringParser;
 public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final ItemDTO itemDTO;
     private final int quantity;
-    private final LocalDateTime deliveryDate;
+    private final long deliveryDate;
     private final int totalFee;
     private final String orderId;
 
     public OrderMessageSupplier(ItemDTO itemDTO, QueryStringParser parser) {
         this.itemDTO = itemDTO;
         this.quantity = Integer.parseInt(parser.getParameterValue("quantity"));
-        this.deliveryDate = DateTimeUtil.parseLocalDateTime(parser.getParameterValue("deliveryDate"));
+        this.deliveryDate = Long.parseLong(parser.getParameterValue("deliveryDate"));
         this.totalFee = itemDTO.getPrice() * this.quantity;
         this.orderId = parser.getParameterValue("orderId");
     }
@@ -69,7 +67,7 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
 
         // 受け取り日時
         final Text deliveryDateBlock = FlexComponentUtil.createText(
-            String.format("受取日時： %s", DateTimeUtil.parseString(deliveryDate)),
+            String.format("受取日時： %s", DateTimeUtil.toString(deliveryDate)),
             null,
             FlexFontSize.LG
         );
