@@ -29,7 +29,7 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
     public OrderMessageSupplier(ItemDTO itemDTO, QueryStringParser parser) {
         this.itemDTO = itemDTO;
         this.quantity = Integer.parseInt(parser.getParameterValue("quantity"));
-        this.deliveryDate = ZonedDateTime.parse(parser.getParameterValue("deliveryDate"));
+        this.deliveryDate = DateTimeUtil.parseZonedDateTime(parser.getParameterValue("deliveryDate"));
         this.totalFee = itemDTO.getPrice() * this.quantity;
         this.orderId = parser.getParameterValue("orderId");
     }
