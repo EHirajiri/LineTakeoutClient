@@ -26,7 +26,11 @@ public class DateTimeUtil {
         return dateTime;
     }
 
-    public static String getStringDateOfToday(int hour, int minute) {
-        return DATE_TIME_FORMATTER.format(getDateOfToday(hour, minute));
+    public static String parseString(ZonedDateTime dateTime) {
+        return DATE_TIME_FORMATTER.format(dateTime);
+    }
+
+    public static ZonedDateTime parseZonedDateTime(String date) {
+        return ZonedDateTime.parse(date, DATE_TIME_FORMATTER);
     }
 }

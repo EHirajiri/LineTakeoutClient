@@ -11,23 +11,25 @@ import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.net.URI;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
+import jp.co.greensys.takeout.util.DateTimeUtil;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
 import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class OrderMessageSupplier implements Supplier<FlexMessage> {
     private final ItemDTO itemDTO;
     private final int quantity;
-    private final String deliveryDate;
+    private final ZonedDateTime deliveryDate;
     private final int totalFee;
     private final String orderId;
 
     public OrderMessageSupplier(ItemDTO itemDTO, QueryStringParser parser) {
         this.itemDTO = itemDTO;
         this.quantity = Integer.parseInt(parser.getParameterValue("quantity"));
-        this.deliveryDate = parser.getParameterValue("deliveryDate");
+        this.deliveryDate = ZonedDateTime.parse(parser.getParameterValue("deliveryDate"));
         this.totalFee = itemDTO.getPrice() * this.quantity;
         this.orderId = parser.getParameterValue("orderId");
     }
@@ -65,7 +67,11 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
         final Text totalFeeBlock = FlexComponentUtil.createText(String.format("合計: %s円", totalFee), null, FlexFontSize.LG);
 
         // 受け取り日時
-        final Text deliveryDateBlock = FlexComponentUtil.createText(String.format("受取日時： %s", deliveryDate), null, FlexFontSize.LG);
+        final Text deliveryDateBlock = FlexComponentUtil.createText(
+            String.format("受取日時： %s", DateTimeUtil.parseString(deliveryDate)),
+            null,
+            FlexFontSize.LG
+        );
 
         return Box
             .builder()

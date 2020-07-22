@@ -10,13 +10,10 @@ import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
-import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.util.DateTimeUtil;
 import jp.co.greensys.takeout.util.QueryStringParser;
@@ -58,13 +55,13 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
         List list = new ArrayList();
         for (String date : deliveryDate) {
             String[] split = date.split(":");
-            String deliveryDate = DateTimeUtil.getStringDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+            ZonedDateTime deliveryDate = DateTimeUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
                 .action(
                     new PostbackAction(
-                        deliveryDate,
+                        DateTimeUtil.parseString(deliveryDate),
                         String.format("type=order&item=%s&quantity=%s&deliveryDate=%s&orderId=%s", itemId, quantity, deliveryDate, orderId),
                         null
                     )

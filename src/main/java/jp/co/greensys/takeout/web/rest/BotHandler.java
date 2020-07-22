@@ -122,9 +122,8 @@ public class BotHandler {
                 orderedDTO.setCustomerUserId(event.getSource().getUserId());
                 OrderedDTO result = orderedService.save(orderedDTO);
 
-                lineMessagingClient.replyMessage(
-                    new ReplyMessage(event.getReplyToken(), new ReceiptMessageSupplier(parser, result.getId()).get())
-                );
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("受領しました")));
+
                 break;
             case "readiness":
                 Optional<OrderedDTO> ordered = orderedService.findOne(Long.parseLong(parser.getParameterValue("order")));
