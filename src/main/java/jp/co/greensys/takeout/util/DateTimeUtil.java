@@ -23,6 +23,7 @@ public class DateTimeUtil {
             0,
             ZoneId.of("Asia/Tokyo")
         );
+        dateTime.format(DateTimeFormatter.ISO_ZONED_DATE_TIME);
         return dateTime;
     }
 
@@ -31,6 +32,6 @@ public class DateTimeUtil {
     }
 
     public static ZonedDateTime parseZonedDateTime(String date) {
-        return ZonedDateTime.parse(date, DATE_TIME_FORMATTER);
+        return ZonedDateTime.parse(date, DateTimeFormatter.ISO_ZONED_DATE_TIME);
     }
 }
