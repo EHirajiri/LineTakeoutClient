@@ -10,6 +10,7 @@ import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +56,7 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
         List list = new ArrayList();
         for (String date : deliveryDate) {
             String[] split = date.split(":");
-            ZonedDateTime deliveryDate = DateTimeUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+            LocalDateTime deliveryDate = DateTimeUtil.getDateOfToday(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
