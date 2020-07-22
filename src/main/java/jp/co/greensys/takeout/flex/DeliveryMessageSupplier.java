@@ -62,7 +62,13 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
                 .action(
                     new PostbackAction(
                         DateTimeUtil.parseString(deliveryDate),
-                        String.format("type=order&item=%s&quantity=%s&deliveryDate=%s&orderId=%s", itemId, quantity, deliveryDate, orderId),
+                        String.format(
+                            "type=order&item=%s&quantity=%s&deliveryDate=%s&orderId=%s",
+                            itemId,
+                            quantity,
+                            deliveryDate.toString(),
+                            orderId
+                        ),
                         null
                     )
                 )
