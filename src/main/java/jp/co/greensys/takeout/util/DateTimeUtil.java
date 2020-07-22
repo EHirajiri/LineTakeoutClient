@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class DateTimeUtil {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MM/dd(E) HH:mm");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
     private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("Asia/Tokyo");
 
