@@ -1,8 +1,7 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

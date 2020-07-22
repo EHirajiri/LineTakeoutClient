@@ -1,11 +1,11 @@
-id;order_id;quantity;unit_price;total_fee;created_by;created_date;last_modified_by;last_modified_date
-1;function compressing deliverables;44540;44413;64230;Sleek;2020-07-07T01:13:03;systems auxiliary;2020-07-06T12:23:55
-2;Throughway;41188;82834;21033;Industrial Ergonomic Rubber Bacon;2020-07-06T09:19:21;Officer orange mint green;2020-07-07T04:48:44
-3;Refined;48938;50824;37937;strategy;2020-07-06T14:09:48;vertical Pizza Borders;2020-07-06T06:05:53
-4;Proactive mindshare;53430;57843;91190;cross-platform Books;2020-07-06T15:34:07;e-business Pants;2020-07-06T15:23:37
-5;optimal deploy Administrator;84850;38343;36209;Personal Loan Account Developer;2020-07-07T03:51:14;Steel digital Namibia;2020-07-07T05:01:33
-6;orchestrate;90934;78420;95789;hacking Personal Loan Account;2020-07-06T16:54:33;copying efficient;2020-07-07T02:06:09
-7;haptic Checking Account Principal;54763;65730;43360;Regional hacking Cambridgeshire;2020-07-07T01:05:42;Vermont primary secondary;2020-07-06T07:07:47
-8;transmit metrics hard drive;34797;87543;18145;Assistant maroon;2020-07-06T14:16:41;supply-chains Soft;2020-07-06T07:16:34
-9;Multi-lateral programming;4640;54400;59333;Alaska Rustic Cotton Bike;2020-07-06T11:43:39;Guadeloupe Cheese;2020-07-06T16:51:22
-10;Health digital Causeway;67041;19309;16481;hard drive Persevering Centralized;2020-07-06T07:09:34;visualize;2020-07-07T05:41:50
+id;order_id;quantity;unit_price;total_fee;delivery_state;delivery_date;created_by;created_date;last_modified_by;last_modified_date
+1;function compressing deliverables;44540;44413;64230;CONFIRMING;2020-07-06T20:53:22;invoice Handmade Concrete Shoes;2020-07-06T09:05:29;overriding Algeria;2020-07-06T06:38:06
+2;Generic;79564;84927;77677;CONFIRMING;2020-07-07T03:14:21;Borders streamline strategy;2020-07-06T14:09:48;vertical Pizza Borders;2020-07-06T06:05:53
+3;Proactive mindshare;53430;57843;91190;DELIVERED;2020-07-06T16:02:54;Corporate distributed;2020-07-06T11:46:22;array;2020-07-06T18:55:26
+4;applications facilitate distributed;99303;97179;69559;CONFIRMING;2020-07-06T10:39:08;Namibia;2020-07-07T05:01:33;orchestrate;2020-07-06T07:52:51
+5;Applications hacking Personal Loan Account;53315;49137;83486;CANCEL;2020-07-06T16:25:52;Frozen Designer;2020-07-06T13:55:47;Chief revolutionize;2020-07-07T01:24:38
+6;CSS quantify;89437;80894;7960;CANCEL;2020-07-06T11:18:27;metrics hard drive user-centric;2020-07-07T01:21:00;Assistant maroon;2020-07-06T14:16:41
+7;supply-chains Soft;93454;55857;25061;DELIVERED;2020-07-07T04:47:34;Table;2020-07-07T00:10:44;relationships e-business generate;2020-07-06T09:57:31
+8;Station;18101;47646;5428;DELIVERED;2020-07-06T23:30:39;Integration;2020-07-06T20:20:29;Shoes Fully-configurable invoice;2020-07-07T00:11:53
+9;gold;55325;57;15593;CANCEL;2020-07-06T14:50:32;Aruba;2020-07-06T16:47:06;Steel Corporate;2020-07-06T15:54:26
+10;Robust modular;92930;66958;62545;DELIVERED;2020-07-06T22:11:49;digital;2020-07-06T22:03:54;Ford invoice compelling;2020-07-06T07:53:54

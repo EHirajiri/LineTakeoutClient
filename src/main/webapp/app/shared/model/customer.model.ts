@@ -1,6 +1,5 @@
 import { Moment } from 'moment';
 import { IOrdered } from 'app/shared/model/ordered.model';
-import { IPay } from 'app/shared/model/pay.model';
 
 export interface ICustomer {
   id?: number;
@@ -12,7 +11,6 @@ export interface ICustomer {
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
   ordereds?: IOrdered[];
-  pays?: IPay[];
 }
 
 export class Customer implements ICustomer {
@@ -25,7 +23,6 @@ export class Customer implements ICustomer {
     public createdDate?: Moment,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
-    public ordereds?: IOrdered[],
-    public pays?: IPay[]
+    public ordereds?: IOrdered[]
   ) {}
 }

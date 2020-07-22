@@ -1,8 +1,9 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.time.Instant;
 import javax.validation.constraints.*;
+import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -21,6 +22,12 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     private Integer totalFee;
 
+    @NotNull
+    private DeliveryState deliveryState;
+
+    @NotNull
+    private Instant deliveryDate;
+
     private Long customerId;
 
     private String customerUserId;
@@ -28,8 +35,6 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
     private Long itemId;
 
     private String itemName;
-
-    private Set<PayDTO> pays;
 
     public Long getId() {
         return id;
@@ -71,6 +76,22 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
         this.totalFee = totalFee;
     }
 
+    public DeliveryState getDeliveryState() {
+        return deliveryState;
+    }
+
+    public void setDeliveryState(DeliveryState deliveryState) {
+        this.deliveryState = deliveryState;
+    }
+
+    public Instant getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Instant deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
     public Long getCustomerId() {
         return customerId;
     }
@@ -101,14 +122,6 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
-    }
-
-    public Set<PayDTO> getPays() {
-        return pays;
-    }
-
-    public void setPays(Set<PayDTO> pays) {
-        this.pays = pays;
     }
 
     @Override

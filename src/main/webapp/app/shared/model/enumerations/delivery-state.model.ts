@@ -1,7 +1,9 @@
 export const enum DeliveryState {
-  PREPARING = 'PREPARING',
+  CONFIRMING = 'CONFIRMING',
 
-  READY = 'READY',
+  ACCEPT = 'ACCEPT',
 
   DELIVERED = 'DELIVERED',
+
+  CANCEL = 'CANCEL',
 }

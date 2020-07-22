@@ -39,10 +39,6 @@ public class Customer extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Ordered> ordereds = new HashSet<>();
 
-    @OneToMany(mappedBy = "customer")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Pay> pays = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -134,31 +130,6 @@ public class Customer extends AbstractAuditingEntity implements Serializable {
 
     public void setOrdereds(Set<Ordered> ordereds) {
         this.ordereds = ordereds;
-    }
-
-    public Set<Pay> getPays() {
-        return pays;
-    }
-
-    public Customer pays(Set<Pay> pays) {
-        this.pays = pays;
-        return this;
-    }
-
-    public Customer addPay(Pay pay) {
-        this.pays.add(pay);
-        pay.setCustomer(this);
-        return this;
-    }
-
-    public Customer removePay(Pay pay) {
-        this.pays.remove(pay);
-        pay.setCustomer(null);
-        return this;
-    }
-
-    public void setPays(Set<Pay> pays) {
-        this.pays = pays;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

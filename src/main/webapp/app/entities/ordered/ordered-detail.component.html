@@ -24,6 +24,14 @@
                 <dd>
                     <span>{{ ordered.totalFee }}</span>
                 </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryState">Delivery State</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'lineTakeoutClientApp.DeliveryState.' + ordered.deliveryState }}">{{ ordered.deliveryState }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryDate">Delivery Date</span></dt>
+                <dd>
+                    <span>{{ ordered.deliveryDate }}</span>
+                </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.createdBy">Created By</span></dt>
                 <dd>
                     <span>{{ ordered.createdBy }}</span>
@@ -52,12 +60,6 @@
                         <a [routerLink]="['/item', ordered.itemId, 'view']">{{ ordered.itemId }}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.pay">Pay</span></dt>
-                <div *ngIf="ordered.pays">
-                    <dd *ngFor="let pay of ordered.pays">
-                        <a [routerLink]="['/pay', pay.id, 'view']">{{ pay.transactionId }}</a>
-                    </dd>
-                </div>
             </dl>
 
             <button type="submit"

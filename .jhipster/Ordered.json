@@ -19,6 +19,17 @@
       "fieldType": "Integer"
     },
     {
+      "fieldName": "deliveryState",
+      "fieldType": "DeliveryState",
+      "fieldValues": "CONFIRMING,ACCEPT,DELIVERED,CANCEL",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "deliveryDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "createdBy",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
@@ -40,12 +51,6 @@
     }
   ],
   "relationships": [
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "pay",
-      "otherEntityRelationshipName": "ordered",
-      "relationshipName": "pay"
-    },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "customer",
@@ -71,5 +76,7 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*"
+  "applications": "*",
+  "searchEngine": false,
+  "databaseType": "sql"
 }

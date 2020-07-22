@@ -27,6 +27,12 @@
             <column name="total_fee" type="integer">
                 <constraints nullable="true" />
             </column>
+            <column name="delivery_state" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="delivery_date" type="datetime">
+                <constraints nullable="false" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="true" />
             </column>
@@ -47,6 +53,7 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="ordered" columnName="delivery_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="ordered" columnName="created_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="ordered" columnName="last_modified_date" columnDataType="datetime"/>
     </changeSet>
@@ -74,6 +81,8 @@
             <column name="quantity" type="numeric"/>
             <column name="unit_price" type="numeric"/>
             <column name="total_fee" type="numeric"/>
+            <column name="delivery_state" type="string"/>
+            <column name="delivery_date" type="datetime"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="datetime"/>
             <column name="last_modified_by" type="string"/>

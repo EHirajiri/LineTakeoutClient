@@ -50,6 +50,7 @@ export class OrderedService {
 
   protected convertDateFromClient(ordered: IOrdered): IOrdered {
     const copy: IOrdered = Object.assign({}, ordered, {
+      deliveryDate: ordered.deliveryDate && ordered.deliveryDate.isValid() ? ordered.deliveryDate.toJSON() : undefined,
       createdDate: ordered.createdDate && ordered.createdDate.isValid() ? ordered.createdDate.toJSON() : undefined,
       lastModifiedDate: ordered.lastModifiedDate && ordered.lastModifiedDate.isValid() ? ordered.lastModifiedDate.toJSON() : undefined,
     });
@@ -58,6 +59,7 @@ export class OrderedService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
+      res.body.deliveryDate = res.body.deliveryDate ? moment(res.body.deliveryDate) : undefined;
       res.body.createdDate = res.body.createdDate ? moment(res.body.createdDate) : undefined;
       res.body.lastModifiedDate = res.body.lastModifiedDate ? moment(res.body.lastModifiedDate) : undefined;
     }
@@ -67,6 +69,7 @@ export class OrderedService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((ordered: IOrdered) => {
+        ordered.deliveryDate = ordered.deliveryDate ? moment(ordered.deliveryDate) : undefined;
         ordered.createdDate = ordered.createdDate ? moment(ordered.createdDate) : undefined;
         ordered.lastModifiedDate = ordered.lastModifiedDate ? moment(ordered.lastModifiedDate) : undefined;
       });

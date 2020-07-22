@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
@@ -39,9 +40,14 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     @Column(name = "total_fee")
     private Integer totalFee;
 
-    @OneToMany(mappedBy = "ordered")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Pay> pays = new HashSet<>();
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "delivery_state", nullable = false)
+    private DeliveryState deliveryState;
+
+    @NotNull
+    @Column(name = "delivery_date", nullable = false)
+    private Instant deliveryDate;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
@@ -112,6 +118,32 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
         this.totalFee = totalFee;
     }
 
+    public DeliveryState getDeliveryState() {
+        return deliveryState;
+    }
+
+    public Ordered deliveryState(DeliveryState deliveryState) {
+        this.deliveryState = deliveryState;
+        return this;
+    }
+
+    public void setDeliveryState(DeliveryState deliveryState) {
+        this.deliveryState = deliveryState;
+    }
+
+    public Instant getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public Ordered deliveryDate(Instant deliveryDate) {
+        this.deliveryDate = deliveryDate;
+        return this;
+    }
+
+    public void setDeliveryDate(Instant deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
     public Ordered createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
         return this;
@@ -130,31 +162,6 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     public Ordered lastModifiedDate(Instant lastModifiedDate) {
         this.setLastModifiedDate(lastModifiedDate);
         return this;
-    }
-
-    public Set<Pay> getPays() {
-        return pays;
-    }
-
-    public Ordered pays(Set<Pay> pays) {
-        this.pays = pays;
-        return this;
-    }
-
-    public Ordered addPay(Pay pay) {
-        this.pays.add(pay);
-        pay.setOrdered(this);
-        return this;
-    }
-
-    public Ordered removePay(Pay pay) {
-        this.pays.remove(pay);
-        pay.setOrdered(null);
-        return this;
-    }
-
-    public void setPays(Set<Pay> pays) {
-        this.pays = pays;
     }
 
     public Customer getCustomer() {

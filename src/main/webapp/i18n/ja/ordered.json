@@ -20,11 +20,12 @@
       "quantity": "Quantity",
       "unitPrice": "Unit Price",
       "totalFee": "Total Fee",
+      "deliveryState": "Delivery State",
+      "deliveryDate": "Delivery Date",
       "createdBy": "Created By",
       "createdDate": "Created Date",
       "lastModifiedBy": "Last Modified By",
       "lastModifiedDate": "Last Modified Date",
-      "pay": "Pay",
       "customer": "Customer",
       "item": "Item"
     }

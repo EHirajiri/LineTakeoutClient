@@ -7,12 +7,6 @@
       "otherEntityName": "ordered",
       "otherEntityRelationshipName": "customer",
       "relationshipName": "ordered"
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "pay",
-      "otherEntityRelationshipName": "customer",
-      "relationshipName": "pay"
     }
   ],
   "fields": [

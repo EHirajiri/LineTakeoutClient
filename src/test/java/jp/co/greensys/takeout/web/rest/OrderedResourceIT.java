@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import jp.co.greensys.takeout.LineTakeoutClientApp;
 import jp.co.greensys.takeout.domain.Ordered;
+import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.service.OrderedService;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
@@ -43,6 +44,12 @@ public class OrderedResourceIT {
 
     private static final Integer DEFAULT_TOTAL_FEE = 1;
     private static final Integer UPDATED_TOTAL_FEE = 2;
+
+    private static final DeliveryState DEFAULT_DELIVERY_STATE = DeliveryState.CONFIRMING;
+    private static final DeliveryState UPDATED_DELIVERY_STATE = DeliveryState.ACCEPT;
+
+    private static final Instant DEFAULT_DELIVERY_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DELIVERY_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
@@ -85,6 +92,8 @@ public class OrderedResourceIT {
             .quantity(DEFAULT_QUANTITY)
             .unitPrice(DEFAULT_UNIT_PRICE)
             .totalFee(DEFAULT_TOTAL_FEE)
+            .deliveryState(DEFAULT_DELIVERY_STATE)
+            .deliveryDate(DEFAULT_DELIVERY_DATE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdDate(DEFAULT_CREATED_DATE)
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
@@ -104,6 +113,8 @@ public class OrderedResourceIT {
             .quantity(UPDATED_QUANTITY)
             .unitPrice(UPDATED_UNIT_PRICE)
             .totalFee(UPDATED_TOTAL_FEE)
+            .deliveryState(UPDATED_DELIVERY_STATE)
+            .deliveryDate(UPDATED_DELIVERY_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -134,6 +145,8 @@ public class OrderedResourceIT {
         assertThat(testOrdered.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testOrdered.getUnitPrice()).isEqualTo(DEFAULT_UNIT_PRICE);
         assertThat(testOrdered.getTotalFee()).isEqualTo(DEFAULT_TOTAL_FEE);
+        assertThat(testOrdered.getDeliveryState()).isEqualTo(DEFAULT_DELIVERY_STATE);
+        assertThat(testOrdered.getDeliveryDate()).isEqualTo(DEFAULT_DELIVERY_DATE);
         assertThat(testOrdered.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testOrdered.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testOrdered.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
@@ -179,6 +192,42 @@ public class OrderedResourceIT {
 
     @Test
     @Transactional
+    public void checkDeliveryStateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = orderedRepository.findAll().size();
+        // set the field null
+        ordered.setDeliveryState(null);
+
+        // Create the Ordered, which fails.
+        OrderedDTO orderedDTO = orderedMapper.toDto(ordered);
+
+        restOrderedMockMvc
+            .perform(post("/api/ordereds").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(orderedDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Ordered> orderedList = orderedRepository.findAll();
+        assertThat(orderedList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkDeliveryDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = orderedRepository.findAll().size();
+        // set the field null
+        ordered.setDeliveryDate(null);
+
+        // Create the Ordered, which fails.
+        OrderedDTO orderedDTO = orderedMapper.toDto(ordered);
+
+        restOrderedMockMvc
+            .perform(post("/api/ordereds").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(orderedDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Ordered> orderedList = orderedRepository.findAll();
+        assertThat(orderedList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllOrdereds() throws Exception {
         // Initialize the database
         orderedRepository.saveAndFlush(ordered);
@@ -193,6 +242,8 @@ public class OrderedResourceIT {
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE)))
             .andExpect(jsonPath("$.[*].totalFee").value(hasItem(DEFAULT_TOTAL_FEE)))
+            .andExpect(jsonPath("$.[*].deliveryState").value(hasItem(DEFAULT_DELIVERY_STATE.toString())))
+            .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
@@ -215,6 +266,8 @@ public class OrderedResourceIT {
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
             .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE))
             .andExpect(jsonPath("$.totalFee").value(DEFAULT_TOTAL_FEE))
+            .andExpect(jsonPath("$.deliveryState").value(DEFAULT_DELIVERY_STATE.toString()))
+            .andExpect(jsonPath("$.deliveryDate").value(DEFAULT_DELIVERY_DATE.toString()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
@@ -245,6 +298,8 @@ public class OrderedResourceIT {
             .quantity(UPDATED_QUANTITY)
             .unitPrice(UPDATED_UNIT_PRICE)
             .totalFee(UPDATED_TOTAL_FEE)
+            .deliveryState(UPDATED_DELIVERY_STATE)
+            .deliveryDate(UPDATED_DELIVERY_DATE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -263,6 +318,8 @@ public class OrderedResourceIT {
         assertThat(testOrdered.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testOrdered.getUnitPrice()).isEqualTo(UPDATED_UNIT_PRICE);
         assertThat(testOrdered.getTotalFee()).isEqualTo(UPDATED_TOTAL_FEE);
+        assertThat(testOrdered.getDeliveryState()).isEqualTo(UPDATED_DELIVERY_STATE);
+        assertThat(testOrdered.getDeliveryDate()).isEqualTo(UPDATED_DELIVERY_DATE);
         assertThat(testOrdered.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testOrdered.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testOrdered.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);

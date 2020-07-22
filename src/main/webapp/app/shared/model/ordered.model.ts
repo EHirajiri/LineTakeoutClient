@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { IPay } from 'app/shared/model/pay.model';
+import { DeliveryState } from 'app/shared/model/enumerations/delivery-state.model';
 
 export interface IOrdered {
   id?: number;
@@ -7,11 +7,12 @@ export interface IOrdered {
   quantity?: number;
   unitPrice?: number;
   totalFee?: number;
+  deliveryState?: DeliveryState;
+  deliveryDate?: Moment;
   createdBy?: string;
   createdDate?: Moment;
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
-  pays?: IPay[];
   customerId?: number;
   itemId?: number;
 }
@@ -23,11 +24,12 @@ export class Ordered implements IOrdered {
     public quantity?: number,
     public unitPrice?: number,
     public totalFee?: number,
+    public deliveryState?: DeliveryState,
+    public deliveryDate?: Moment,
     public createdBy?: string,
     public createdDate?: Moment,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
-    public pays?: IPay[],
     public customerId?: number,
     public itemId?: number
   ) {}

@@ -13,10 +13,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./customer/customer.module').then(m => m.LineTakeoutClientCustomerModule),
       },
       {
-        path: 'pay',
-        loadChildren: () => import('./pay/pay.module').then(m => m.LineTakeoutClientPayModule),
-      },
-      {
         path: 'ordered',
         loadChildren: () => import('./ordered/ordered.module').then(m => m.LineTakeoutClientOrderedModule),
       },

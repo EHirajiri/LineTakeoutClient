@@ -2,9 +2,10 @@
   "lineTakeoutClientApp": {
     "DeliveryState": {
       "null": "",
-      "PREPARING": "PREPARING",
-      "READY": "READY",
-      "DELIVERED": "DELIVERED"
+      "CONFIRMING": "CONFIRMING",
+      "ACCEPT": "ACCEPT",
+      "DELIVERED": "DELIVERED",
+      "CANCEL": "CANCEL"
     }
   }
 }

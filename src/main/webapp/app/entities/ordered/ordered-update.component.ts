@@ -31,6 +31,8 @@ export class OrderedUpdateComponent implements OnInit {
     quantity: [],
     unitPrice: [],
     totalFee: [],
+    deliveryState: [null, [Validators.required]],
+    deliveryDate: [null, [Validators.required]],
     createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
@@ -51,6 +53,7 @@ export class OrderedUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ ordered }) => {
       if (!ordered.id) {
         const today = moment().startOf('day');
+        ordered.deliveryDate = today;
         ordered.createdDate = today;
         ordered.lastModifiedDate = today;
       }
@@ -70,6 +73,8 @@ export class OrderedUpdateComponent implements OnInit {
       quantity: ordered.quantity,
       unitPrice: ordered.unitPrice,
       totalFee: ordered.totalFee,
+      deliveryState: ordered.deliveryState,
+      deliveryDate: ordered.deliveryDate ? ordered.deliveryDate.format(DATE_TIME_FORMAT) : null,
       createdBy: ordered.createdBy,
       createdDate: ordered.createdDate ? ordered.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: ordered.lastModifiedBy,
@@ -101,6 +106,10 @@ export class OrderedUpdateComponent implements OnInit {
       quantity: this.editForm.get(['quantity'])!.value,
       unitPrice: this.editForm.get(['unitPrice'])!.value,
       totalFee: this.editForm.get(['totalFee'])!.value,
+      deliveryState: this.editForm.get(['deliveryState'])!.value,
+      deliveryDate: this.editForm.get(['deliveryDate'])!.value
+        ? moment(this.editForm.get(['deliveryDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       createdBy: this.editForm.get(['createdBy'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)

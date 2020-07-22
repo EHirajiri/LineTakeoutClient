@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { OrderedService } from 'app/entities/ordered/ordered.service';
 import { IOrdered, Ordered } from 'app/shared/model/ordered.model';
+import { DeliveryState } from 'app/shared/model/enumerations/delivery-state.model';
 
 describe('Service Tests', () => {
   describe('Ordered Service', () => {
@@ -24,13 +25,26 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Ordered(0, 'AAAAAAA', 0, 0, 0, 'AAAAAAA', currentDate, 'AAAAAAA', currentDate);
+      elemDefault = new Ordered(
+        0,
+        'AAAAAAA',
+        0,
+        0,
+        0,
+        DeliveryState.CONFIRMING,
+        currentDate,
+        'AAAAAAA',
+        currentDate,
+        'AAAAAAA',
+        currentDate
+      );
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
@@ -48,6 +62,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedDate: currentDate.format(DATE_TIME_FORMAT),
           },
@@ -56,6 +71,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            deliveryDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },
@@ -76,6 +92,8 @@ describe('Service Tests', () => {
             quantity: 1,
             unitPrice: 1,
             totalFee: 1,
+            deliveryState: 'BBBBBB',
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedBy: 'BBBBBB',
@@ -86,6 +104,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            deliveryDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },
@@ -106,6 +125,8 @@ describe('Service Tests', () => {
             quantity: 1,
             unitPrice: 1,
             totalFee: 1,
+            deliveryState: 'BBBBBB',
+            deliveryDate: currentDate.format(DATE_TIME_FORMAT),
             createdBy: 'BBBBBB',
             createdDate: currentDate.format(DATE_TIME_FORMAT),
             lastModifiedBy: 'BBBBBB',
@@ -116,6 +137,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            deliveryDate: currentDate,
             createdDate: currentDate,
             lastModifiedDate: currentDate,
           },

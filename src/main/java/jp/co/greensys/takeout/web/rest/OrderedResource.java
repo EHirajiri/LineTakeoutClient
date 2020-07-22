@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import jp.co.greensys.takeout.service.OrderedService;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
@@ -88,15 +87,10 @@ public class OrderedResource {
      * {@code GET  /ordereds} : get all the ordereds.
      *
      * @param pageable the pagination information.
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of ordereds in body.
      */
     @GetMapping("/ordereds")
-    public ResponseEntity<List<OrderedDTO>> getAllOrdereds(Pageable pageable, @RequestParam(required = false) String filter) {
-        if ("pay-is-null".equals(filter)) {
-            log.debug("REST request to get all Ordereds where pay is null");
-            return new ResponseEntity<>(orderedService.findAllWherePayIsNull(), HttpStatus.OK);
-        }
+    public ResponseEntity<List<OrderedDTO>> getAllOrdereds(Pageable pageable) {
         log.debug("REST request to get a page of Ordereds");
         Page<OrderedDTO> page = orderedService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
