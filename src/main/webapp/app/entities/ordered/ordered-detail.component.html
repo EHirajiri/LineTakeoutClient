@@ -8,6 +8,14 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+                <dd>
+                    <button type="submit"
+                            (click)="accept(ordered)"
+                            class="btn btn-success">
+                        <fa-icon icon="heart"></fa-icon>&nbsp;<span
+                        jhiTranslate="lineTakeoutClientApp.ordered.action.accept">Accept</span>
+                    </button>
+                </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.orderId">Order Id</span></dt>
                 <dd>
                     <span>{{ ordered.orderId }}</span>

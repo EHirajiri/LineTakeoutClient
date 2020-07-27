@@ -1,10 +1,15 @@
 package jp.co.greensys.takeout.service;
 
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.model.PushMessage;
+import com.linecorp.bot.model.message.Message;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
+import jp.co.greensys.takeout.flex.ReceiptMessageSupplier;
 import jp.co.greensys.takeout.service.dto.NotifyOrderDeliveryDTO;
+import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +26,28 @@ import org.springframework.web.client.RestTemplate;
 public class BotService {
     private final Logger log = LoggerFactory.getLogger(BotService.class);
 
+    private final LineMessagingClient lineMessagingClient;
+
     @Value("${bot.server.host}")
     private String botServer;
 
-    public BotService() {}
+    public BotService(LineMessagingClient lineMessagingClient) {
+        this.lineMessagingClient = lineMessagingClient;
+    }
+
+    public void pushMessage(OrderedDTO orderedDTO) {
+        log.debug("pushMessage : {}", orderedDTO);
+        Message message;
+        switch (orderedDTO.getDeliveryState()) {
+            case ACCEPT:
+                message = new ReceiptMessageSupplier(orderedDTO).get();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + orderedDTO.getDeliveryState());
+        }
+
+        lineMessagingClient.pushMessage(new PushMessage(orderedDTO.getCustomerUserId(), message));
+    }
 
     public void notifyOrderDeliveryState(String orderId, DeliveryState deliveryState) {
         log.debug("Request to notifyOrderDeliveryState. orderId:{}, deliveryState:{}", orderId, deliveryState);

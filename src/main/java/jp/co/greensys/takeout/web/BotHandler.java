@@ -1,4 +1,4 @@
-package jp.co.greensys.takeout.web.rest;
+package jp.co.greensys.takeout.web;
 
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
@@ -10,19 +10,21 @@ import com.linecorp.bot.model.event.UnfollowEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import java.time.Instant;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.flex.OrderMessageSupplier;
 import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
-import jp.co.greensys.takeout.flex.ReceiptMessageSupplier;
+import jp.co.greensys.takeout.service.CustomerService;
 import jp.co.greensys.takeout.service.ItemService;
 import jp.co.greensys.takeout.service.OrderedService;
+import jp.co.greensys.takeout.service.dto.CustomerDTO;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.util.QueryStringParser;
@@ -37,12 +39,20 @@ public class BotHandler {
 
     private final LineMessagingClient lineMessagingClient;
 
+    private final CustomerService customerService;
+
     private final ItemService itemService;
 
     private final OrderedService orderedService;
 
-    public BotHandler(LineMessagingClient lineMessagingClient, ItemService itemService, OrderedService orderedService) {
+    public BotHandler(
+        LineMessagingClient lineMessagingClient,
+        CustomerService customerService,
+        ItemService itemService,
+        OrderedService orderedService
+    ) {
         this.lineMessagingClient = lineMessagingClient;
+        this.customerService = customerService;
         this.itemService = itemService;
         this.orderedService = orderedService;
     }
@@ -50,7 +60,22 @@ public class BotHandler {
     @EventMapping
     public Message handleFollowEvent(FollowEvent event) {
         log.debug("handleFollowEvent: {}", event);
-        return new TextMessage("友達登録ありがとうございます");
+
+        try {
+            // ユーザープロフィール取得
+            CompletableFuture<UserProfileResponse> profile = lineMessagingClient.getProfile(event.getSource().getUserId());
+
+            // 顧客情報登録
+            CustomerDTO customerDTO = new CustomerDTO();
+            customerDTO.setUserId(event.getSource().getUserId());
+            customerDTO.setNickname(profile.get().getDisplayName());
+            customerDTO.setLanguage(profile.get().getLanguage());
+            customerService.save(customerDTO);
+
+            return new TextMessage("友達登録ありがとうございます");
+        } catch (Exception e) {
+            return new TextMessage("エラーが発生しました");
+        }
     }
 
     @EventMapping

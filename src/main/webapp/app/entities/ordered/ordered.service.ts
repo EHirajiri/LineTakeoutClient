@@ -76,4 +76,11 @@ export class OrderedService {
     }
     return res;
   }
+
+  accept(ordered: IOrdered): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(ordered);
+    return this.http
+      .put<IOrdered>(`${this.resourceUrl}/accept`, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
 }

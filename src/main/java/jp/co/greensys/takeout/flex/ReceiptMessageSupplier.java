@@ -10,17 +10,16 @@ import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.function.Supplier;
+import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
-import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
     private final Long id;
 
-    public ReceiptMessageSupplier(QueryStringParser parser, Long id) {
-        this.id = id;
+    public ReceiptMessageSupplier(OrderedDTO orderedDTO) {
+        this.id = orderedDTO.getId();
     }
 
     @Override

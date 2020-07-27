@@ -32,16 +32,20 @@ public class OrderedService {
 
     private final ItemRepository itemRepository;
 
+    private final BotService botService;
+
     public OrderedService(
         OrderedRepository orderedRepository,
         OrderedMapper orderedMapper,
         CustomerRepository customerRepository,
-        ItemRepository itemRepository
+        ItemRepository itemRepository,
+        BotService botService
     ) {
         this.orderedRepository = orderedRepository;
         this.orderedMapper = orderedMapper;
         this.customerRepository = customerRepository;
         this.itemRepository = itemRepository;
+        this.botService = botService;
     }
 
     /**
@@ -113,5 +117,12 @@ public class OrderedService {
     public void delete(Long id) {
         log.debug("Request to delete Ordered : {}", id);
         orderedRepository.deleteById(id);
+    }
+
+    public OrderedDTO accept(OrderedDTO orderedDTO) {
+        log.debug("Request to accept Ordered : {}", orderedDTO);
+        OrderedDTO result = save(orderedDTO);
+        botService.pushMessage(orderedDTO);
+        return result;
     }
 }
