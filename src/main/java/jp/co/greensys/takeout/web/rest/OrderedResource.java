@@ -126,22 +126,13 @@ public class OrderedResource {
             .build();
     }
 
-    /**
-     * {@code PUT  /ordereds/accept} : Updates an existing ordered.
-     *
-     * @param orderedDTO the orderedDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated orderedDTO,
-     * or with status {@code 400 (Bad Request)} if the orderedDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the orderedDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/ordereds/accept")
-    public ResponseEntity<OrderedDTO> acceptOrdered(@Valid @RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
+    @PutMapping("/ordereds/deliveryState")
+    public ResponseEntity<OrderedDTO> updateDeliveryState(@Valid @RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
         log.debug("REST request to accept Ordered : {}", orderedDTO);
         if (orderedDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        OrderedDTO result = orderedService.accept(orderedDTO);
+        OrderedDTO result = orderedService.updateDeliveryState(orderedDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderedDTO.getId().toString()))

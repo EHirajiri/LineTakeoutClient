@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
+import jp.co.greensys.takeout.flex.ReceiptCancelMessageSupplier;
 import jp.co.greensys.takeout.flex.ReceiptMessageSupplier;
 import jp.co.greensys.takeout.service.dto.NotifyOrderDeliveryDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
@@ -41,6 +42,9 @@ public class BotService {
         switch (orderedDTO.getDeliveryState()) {
             case ACCEPT:
                 message = new ReceiptMessageSupplier(orderedDTO).get();
+                break;
+            case CANCEL:
+                message = new ReceiptCancelMessageSupplier(orderedDTO).get();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + orderedDTO.getDeliveryState());

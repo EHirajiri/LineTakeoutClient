@@ -26,10 +26,26 @@ export class OrderedDetailComponent implements OnInit {
 
   accept(ordered: IOrdered): void {
     ordered.deliveryState = DeliveryState.ACCEPT;
-    this.subscribeToSaveResponse(this.orderedService.accept(ordered));
+    this.subscribeToSaveResponse(this.orderedService.updateDeliveryState(ordered));
+  }
+
+  cancel(ordered: IOrdered): void {
+    ordered.deliveryState = DeliveryState.CANCEL;
+    this.subscribeToSaveResponse(this.orderedService.updateDeliveryState(ordered));
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IOrdered>>): void {
-    result.subscribe();
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
+  }
+
+  protected onSaveSuccess(): void {
+    alert('Success');
+  }
+
+  protected onSaveError(): void {
+    alert('Error');
   }
 }

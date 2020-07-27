@@ -21,6 +21,7 @@ import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.flex.OrderMessageSupplier;
 import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
+import jp.co.greensys.takeout.flex.ReceiptConfirmMessageSupplier;
 import jp.co.greensys.takeout.service.CustomerService;
 import jp.co.greensys.takeout.service.ItemService;
 import jp.co.greensys.takeout.service.OrderedService;
@@ -147,7 +148,7 @@ public class BotHandler {
                 orderedDTO.setCustomerUserId(event.getSource().getUserId());
                 OrderedDTO result = orderedService.save(orderedDTO);
 
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("受領しました")));
+                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new ReceiptConfirmMessageSupplier(result).get()));
 
                 break;
             case "readiness":

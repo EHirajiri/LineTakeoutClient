@@ -119,8 +119,8 @@ public class OrderedService {
         orderedRepository.deleteById(id);
     }
 
-    public OrderedDTO accept(OrderedDTO orderedDTO) {
-        log.debug("Request to accept Ordered : {}", orderedDTO);
+    public OrderedDTO updateDeliveryState(OrderedDTO orderedDTO) {
+        log.debug("Request to update Ordered : {}", orderedDTO);
         OrderedDTO result = save(orderedDTO);
         botService.pushMessage(orderedDTO);
         return result;
