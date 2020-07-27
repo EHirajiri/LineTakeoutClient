@@ -29,6 +29,11 @@ export class OrderedDetailComponent implements OnInit {
     this.subscribeToSaveResponse(this.orderedService.updateDeliveryState(ordered));
   }
 
+  delivered(ordered: IOrdered): void {
+    ordered.deliveryState = DeliveryState.DELIVERED;
+    this.subscribeToSaveResponse(this.orderedService.updateDeliveryState(ordered));
+  }
+
   cancel(ordered: IOrdered): void {
     ordered.deliveryState = DeliveryState.CANCEL;
     this.subscribeToSaveResponse(this.orderedService.updateDeliveryState(ordered));

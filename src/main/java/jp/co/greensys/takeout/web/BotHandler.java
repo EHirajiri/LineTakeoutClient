@@ -151,9 +151,6 @@ public class BotHandler {
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new ReceiptConfirmMessageSupplier(result).get()));
 
                 break;
-            case "readiness":
-                Optional<OrderedDTO> ordered = orderedService.findOne(Long.parseLong(parser.getParameterValue("order")));
-                break;
             default:
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました")));
         }

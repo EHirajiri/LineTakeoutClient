@@ -29,7 +29,9 @@
       "customer": "Customer",
       "item": "Item",
       "action": {
-        "accept": "Accept"
+        "accept": "Accept",
+        "cancel": "Cancel",
+        "delivered": "Delivered"
       }
     }
   }

@@ -7,8 +7,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
+import jp.co.greensys.takeout.flex.ReceiptAcceptMessageSupplier;
 import jp.co.greensys.takeout.flex.ReceiptCancelMessageSupplier;
-import jp.co.greensys.takeout.flex.ReceiptMessageSupplier;
+import jp.co.greensys.takeout.flex.ReceiptDeliveredMessageSupplier;
 import jp.co.greensys.takeout.service.dto.NotifyOrderDeliveryDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import org.slf4j.Logger;
@@ -41,7 +42,10 @@ public class BotService {
         Message message;
         switch (orderedDTO.getDeliveryState()) {
             case ACCEPT:
-                message = new ReceiptMessageSupplier(orderedDTO).get();
+                message = new ReceiptAcceptMessageSupplier(orderedDTO).get();
+                break;
+            case DELIVERED:
+                message = new ReceiptDeliveredMessageSupplier(orderedDTO).get();
                 break;
             case CANCEL:
                 message = new ReceiptCancelMessageSupplier(orderedDTO).get();

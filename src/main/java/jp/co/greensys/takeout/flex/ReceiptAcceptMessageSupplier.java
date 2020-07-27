@@ -1,9 +1,7 @@
 package jp.co.greensys.takeout.flex;
 
-import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
-import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
@@ -13,19 +11,20 @@ import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
+import jp.co.greensys.takeout.util.DateTimeUtil;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
 
-public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
-    private final Long id;
+public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
+    private final OrderedDTO orderedDTO;
 
-    public ReceiptMessageSupplier(OrderedDTO orderedDTO) {
-        this.id = orderedDTO.getId();
+    public ReceiptAcceptMessageSupplier(OrderedDTO orderedDTO) {
+        this.orderedDTO = orderedDTO;
     }
 
     @Override
     public FlexMessage get() {
         final Bubble bubble1 = createBubble();
-        return new FlexMessage("Receipt", bubble1);
+        return new FlexMessage("ReceiptAccept", bubble1);
     }
 
     private Bubble createBubble() {
@@ -43,7 +42,7 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
             null,
             FlexFontSize.Md
         );
-        final Text orderBlock = FlexComponentUtil.createTextDecoration(Long.toString(id), null, FlexFontSize.XXXXXL);
+        final Text orderBlock = FlexComponentUtil.createTextDecoration(Long.toString(orderedDTO.getId()), null, FlexFontSize.XXXXXL);
 
         return Box
             .builder()
@@ -55,16 +54,33 @@ public class ReceiptMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createFooterBlock() {
         final Separator separator = Separator.builder().margin(FlexMarginSize.SM).color("#c0c0c0").build();
-        final Button addToCartEnableButton = Button
-            .builder()
-            .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("準備状況を確認する", String.format("type=readiness&order=%s", id), null))
-            .build();
+        // 商品情報
+        final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", orderedDTO.getItemName()), null, FlexFontSize.LG);
+        final Text calcBlock = FlexComponentUtil.createText(
+            String.format("[%s円 × %s個]", orderedDTO.getUnitPrice(), orderedDTO.getQuantity()),
+            "#555555",
+            FlexFontSize.SM
+        );
+        final Box itemBox = Box.builder().layout(FlexLayout.VERTICAL).contents(Arrays.asList(itemBlock, calcBlock)).build();
+
+        // 合計金額
+        final Text totalFeeBlock = FlexComponentUtil.createText(
+            String.format("合計: %s円", orderedDTO.getTotalFee()),
+            null,
+            FlexFontSize.LG
+        );
+
+        // 受け取り日時
+        final Text deliveryDateBlock = FlexComponentUtil.createText(
+            String.format("受取日時： %s", DateTimeUtil.toString(orderedDTO.getDeliveryDate().getEpochSecond())),
+            null,
+            FlexFontSize.LG
+        );
         return Box
             .builder()
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
-            .contents(Arrays.asList(separator, addToCartEnableButton))
+            .contents(Arrays.asList(separator, itemBox, totalFeeBlock, deliveryDateBlock))
             .build();
     }
 }
