@@ -31,7 +31,7 @@ public class ReceiptDeliveredMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Bubble createBubble() {
-        return Bubble.builder().body(createBodyBlock()).footer(createFooterBlock()).build();
+        return Bubble.builder().body(createBodyBlock()).build();
     }
 
     private Box createBodyBlock() {
@@ -59,21 +59,6 @@ public class ReceiptDeliveredMessageSupplier implements Supplier<FlexMessage> {
             .aspectRatio(Image.ImageAspectRatio.R1TO1)
             .aspectMode(Image.ImageAspectMode.Cover)
             .url(URI.create(imageURL))
-            .build();
-    }
-
-    private Box createFooterBlock() {
-        final Separator separator = Separator.builder().margin(FlexMarginSize.SM).color("#c0c0c0").build();
-        final Button addToCartEnableButton = Button
-            .builder()
-            .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("準備状況を確認する", String.format("type=readiness&order=%s", id), null))
-            .build();
-        return Box
-            .builder()
-            .layout(FlexLayout.VERTICAL)
-            .spacing(FlexMarginSize.SM)
-            .contents(Arrays.asList(separator, addToCartEnableButton))
             .build();
     }
 }
