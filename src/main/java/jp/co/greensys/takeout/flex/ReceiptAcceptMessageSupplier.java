@@ -72,7 +72,7 @@ public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
 
         // 受け取り日時
         final Text deliveryDateBlock = FlexComponentUtil.createText(
-            String.format("受取日時： %s", DateTimeUtil.toString(orderedDTO.getDeliveryDate().getEpochSecond())),
+            String.format("受取日時： %s", DateTimeUtil.toString(orderedDTO.getDeliveryDate().toEpochMilli())),
             null,
             FlexFontSize.LG
         );

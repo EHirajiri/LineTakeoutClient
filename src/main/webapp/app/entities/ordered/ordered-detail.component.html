@@ -53,7 +53,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryDate">Delivery Date</span></dt>
                 <dd>
-                    <span>{{ ordered.deliveryDate }}</span>
+                    <span>{{ ordered.deliveryDate | date:'medium' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.createdBy">Created By</span></dt>
                 <dd>
@@ -61,7 +61,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.createdDate">Created Date</span></dt>
                 <dd>
-                    <span>{{ ordered.createdDate }}</span>
+                    <span>{{ ordered.createdDate | date:'medium' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedBy">Last Modified By</span></dt>
                 <dd>

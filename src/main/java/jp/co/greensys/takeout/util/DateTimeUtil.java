@@ -1,12 +1,10 @@
 package jp.co.greensys.takeout.util;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateTimeUtil {
@@ -34,16 +32,5 @@ public class DateTimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         format.setTimeZone(TIME_ZONE);
         return format.format(dateTime);
-    }
-
-    public static LocalDateTime parseLocalDateTime(String date) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm", Locale.JAPAN);
-        return LocalDateTime.parse(date, dtf);
-    }
-
-    public static void main(String[] args) {
-        long date = getDateOfToday(12, 30);
-        System.out.println(date);
-        System.out.println(toString(date));
     }
 }
