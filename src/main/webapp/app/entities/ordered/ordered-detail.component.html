@@ -26,7 +26,7 @@
                     <button type="submit"
                             (click)="cancel(ordered)"
                             class="btn btn-danger"
-                            [disabled]="ordered.deliveryState !== 'DELIVERED'">
+                            [disabled]="ordered.deliveryState === 'DELIVERED'">
                         <fa-icon icon="heart"></fa-icon>&nbsp;<span
                         jhiTranslate="lineTakeoutClientApp.ordered.action.cancel">Cancel</span>
                     </button>
