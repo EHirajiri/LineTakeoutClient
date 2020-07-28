@@ -21,7 +21,7 @@ public class DeliveryMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
     private final String quantity;
     private final String orderId;
-    private final List<String> deliveryDate = Arrays.asList("12:00", "12:30", "13:00", "13:00");
+    private final List<String> deliveryDate = Arrays.asList("12:00", "12:30", "13:00", "13:30");
 
     public DeliveryMessageSupplier(QueryStringParser parser) {
         this.itemId = parser.getParameterValue("item");

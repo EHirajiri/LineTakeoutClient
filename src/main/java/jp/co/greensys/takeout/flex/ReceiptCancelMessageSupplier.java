@@ -40,7 +40,7 @@ public class ReceiptCancelMessageSupplier implements Supplier<FlexMessage> {
             null,
             FlexFontSize.Md
         );
-        final Image imageBlock = createImageBlock(
+        final Image imageBlock = FlexComponentUtil.createImageBlock(
             "https://1.bp.blogspot.com/-BB1YlBhjCvQ/WUdZI7dUY5I/AAAAAAABFDE/QXMI5AsMw8oxihIkMS5S4tlg6d-6cHGFACLcBGAs/s450/ojigi_tenin_woman.png"
         );
 
@@ -49,16 +49,6 @@ public class ReceiptCancelMessageSupplier implements Supplier<FlexMessage> {
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
             .contents(Arrays.asList(messageBlock, imageBlock))
-            .build();
-    }
-
-    private Image createImageBlock(String imageURL) {
-        return Image
-            .builder()
-            .size(Image.ImageSize.FULL_WIDTH)
-            .aspectRatio(Image.ImageAspectRatio.R1TO1)
-            .aspectMode(Image.ImageAspectMode.Cover)
-            .url(URI.create(imageURL))
             .build();
     }
 

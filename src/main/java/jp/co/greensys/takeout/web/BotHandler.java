@@ -8,24 +8,29 @@ import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.UnfollowEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import java.time.Instant;
-import java.util.Optional;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
+import jp.co.greensys.takeout.domain.enumeration.InfomationKey;
+import jp.co.greensys.takeout.flex.BusinessHourMessageSupplier;
 import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.flex.OrderMessageSupplier;
 import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
 import jp.co.greensys.takeout.flex.ReceiptConfirmMessageSupplier;
 import jp.co.greensys.takeout.service.CustomerService;
+import jp.co.greensys.takeout.service.InformationService;
 import jp.co.greensys.takeout.service.ItemService;
 import jp.co.greensys.takeout.service.OrderedService;
 import jp.co.greensys.takeout.service.dto.CustomerDTO;
+import jp.co.greensys.takeout.service.dto.InformationDTO;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.util.QueryStringParser;
@@ -46,16 +51,20 @@ public class BotHandler {
 
     private final OrderedService orderedService;
 
+    private final InformationService informationService;
+
     public BotHandler(
         LineMessagingClient lineMessagingClient,
         CustomerService customerService,
         ItemService itemService,
-        OrderedService orderedService
+        OrderedService orderedService,
+        InformationService informationService
     ) {
         this.lineMessagingClient = lineMessagingClient;
         this.customerService = customerService;
         this.itemService = itemService;
         this.orderedService = orderedService;
+        this.informationService = informationService;
     }
 
     @EventMapping
@@ -111,6 +120,31 @@ public class BotHandler {
         QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
         log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
         switch (parser.getParameterValue("type")) {
+            // 営業時間
+            case "business-hour":
+                List<InformationDTO> informationList = informationService.findByKeyLike(
+                    InfomationKey.BUSINESS_HOUR + "%",
+                    Pageable.unpaged()
+                );
+                lineMessagingClient.replyMessage(
+                    new ReplyMessage(event.getReplyToken(), new BusinessHourMessageSupplier(informationList).get())
+                );
+                break;
+            // アクセス
+            case "access":
+                lineMessagingClient.replyMessage(
+                    new ReplyMessage(
+                        event.getReplyToken(),
+                        new LocationMessage(
+                            "Brown's Burger Shop",
+                            "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
+                            35.65910807942215,
+                            139.70372892916203
+                        )
+                    )
+                );
+                break;
+            // 注文
             case "menu":
                 // 商品情報取得
                 Page<ItemDTO> itemPage = itemService.findAll(Pageable.unpaged());

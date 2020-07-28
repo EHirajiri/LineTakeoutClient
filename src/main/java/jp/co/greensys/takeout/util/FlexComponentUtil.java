@@ -1,7 +1,9 @@
 package jp.co.greensys.takeout.util;
 
+import com.linecorp.bot.model.message.flex.component.Image;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
+import java.net.URI;
 
 public class FlexComponentUtil {
 
@@ -26,5 +28,15 @@ public class FlexComponentUtil {
             .decoration(Text.TextDecoration.UNDERLINE)
             .build();
         return textBlock;
+    }
+
+    public static Image createImageBlock(String imageURL) {
+        return Image
+            .builder()
+            .size(Image.ImageSize.FULL_WIDTH)
+            .aspectRatio(Image.ImageAspectRatio.R1TO1)
+            .aspectMode(Image.ImageAspectMode.Cover)
+            .url(URI.create(imageURL))
+            .build();
     }
 }

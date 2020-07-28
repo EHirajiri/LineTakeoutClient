@@ -1,0 +1,34 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="information">
+            <h2><span jhiTranslate="lineTakeoutClientApp.information.detail.title">Information</span> {{ information.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lineTakeoutClientApp.information.key">Key</span></dt>
+                <dd>
+                    <span>{{ information.key }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.information.value">Value</span></dt>
+                <dd>
+                    <span>{{ information.value }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/information', information.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

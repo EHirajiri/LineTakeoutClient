@@ -10,7 +10,6 @@ import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
@@ -45,7 +44,7 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createHeroBox() {
         final Text titleBlock = FlexComponentUtil.createText("レジ", "#1DB446", FlexFontSize.XL);
-        final Image imageBlock = createImageBlock(
+        final Image imageBlock = FlexComponentUtil.createImageBlock(
             "https://2.bp.blogspot.com/-IcQD1H8lx5c/VnKNfpw47BI/AAAAAAAA2EY/iVffCXI9_ug/s400/food_zei3_takeout.png"
         );
 
@@ -77,16 +76,6 @@ public class OrderMessageSupplier implements Supplier<FlexMessage> {
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
             .contents(Arrays.asList(itemBox, totalFeeBlock, deliveryDateBlock))
-            .build();
-    }
-
-    private Image createImageBlock(String imageURL) {
-        return Image
-            .builder()
-            .size(Image.ImageSize.FULL_WIDTH)
-            .aspectRatio(Image.ImageAspectRatio.R1TO1)
-            .aspectMode(Image.ImageAspectMode.Cover)
-            .url(URI.create(imageURL))
             .build();
     }
 

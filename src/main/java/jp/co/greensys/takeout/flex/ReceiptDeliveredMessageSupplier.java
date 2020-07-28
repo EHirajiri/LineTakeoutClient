@@ -40,7 +40,7 @@ public class ReceiptDeliveredMessageSupplier implements Supplier<FlexMessage> {
             null,
             FlexFontSize.Md
         );
-        final Image imageBlock = createImageBlock(
+        final Image imageBlock = FlexComponentUtil.createImageBlock(
             "https://3.bp.blogspot.com/-nrwPWwcAaOA/VRE4WqEKBSI/AAAAAAAAsV0/8D61LcHzjAk/s400/aisatsu_arigatou.png"
         );
 
@@ -49,16 +49,6 @@ public class ReceiptDeliveredMessageSupplier implements Supplier<FlexMessage> {
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
             .contents(Arrays.asList(messageBlock, imageBlock))
-            .build();
-    }
-
-    private Image createImageBlock(String imageURL) {
-        return Image
-            .builder()
-            .size(Image.ImageSize.FULL_WIDTH)
-            .aspectRatio(Image.ImageAspectRatio.R1TO1)
-            .aspectMode(Image.ImageAspectMode.Cover)
-            .url(URI.create(imageURL))
             .build();
     }
 }

@@ -1,0 +1,23 @@
+{
+  "lineTakeoutClientApp": {
+    "information": {
+      "home": {
+        "title": "Information",
+        "createLabel": "Information を追加",
+        "createOrEditLabel": "Informationを追加または編集",
+        "notFound": "No Information found"
+      },
+      "created": "A new Information is created with identifier {{ param }}",
+      "updated": "A Information is updated with identifier {{ param }}",
+      "deleted": "A Information is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Information {{ id }}を削除してもよろしいですか？"
+      },
+      "detail": {
+        "title": "Information"
+      },
+      "key": "Key",
+      "value": "Value"
+    }
+  }
+}

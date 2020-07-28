@@ -10,6 +10,7 @@
         "item": "商品管理",
         "customer": "顧客管理",
         "ordered": "注文管理",
+        "information": "Information",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
