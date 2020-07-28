@@ -21,7 +21,6 @@ import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
 import jp.co.greensys.takeout.util.QueryStringParser;
-import org.springframework.util.CollectionUtils;
 
 public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     private final List<ItemDTO> itemDTOS;
@@ -29,7 +28,11 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
 
     public MenuFlexMessageSupplier(List<ItemDTO> itemDTOS, QueryStringParser parser) {
         this.itemDTOS = itemDTOS;
-        this.carts = parser.getUrlQuery("cart");
+        if (parser != null) {
+            this.carts = parser.getUrlQuery("cart");
+        } else {
+            this.carts = new String();
+        }
     }
 
     @Override
