@@ -2,12 +2,9 @@ package jp.co.greensys.takeout.web;
 
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.FollowEvent;
-import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.UnfollowEvent;
-import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
@@ -53,6 +50,8 @@ public class BotHandler {
     private final OrderedService orderedService;
 
     private final InformationService informationService;
+
+    private static final String BUSINESS_HOUR_SEARCH_KEY = InfomationKey.BUSINESS_HOUR + "%";
 
     public BotHandler(
         LineMessagingClient lineMessagingClient,
@@ -104,18 +103,6 @@ public class BotHandler {
     }
 
     @EventMapping
-    public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-        log.debug("handleTextMessageEvent: {}", event);
-        final String originalMessageText = event.getMessage().getText();
-        return new TextMessage(originalMessageText);
-    }
-
-    @EventMapping
-    public void handleDefaultMessageEvent(Event event) {
-        log.debug("handleDefaultMessageEvent: {}", event);
-    }
-
-    @EventMapping
     public void handlePostbackEvent(PostbackEvent event) {
         log.debug("handlePostbackEvent: {}", event);
         try {
@@ -132,10 +119,7 @@ public class BotHandler {
         switch (parser.getParameterValue("type")) {
             // 営業時間
             case "business-hour":
-                List<InformationDTO> informationList = informationService.findByKeyLike(
-                    InfomationKey.BUSINESS_HOUR + "%",
-                    Pageable.unpaged()
-                );
+                List<InformationDTO> informationList = informationService.findByKeyLike(BUSINESS_HOUR_SEARCH_KEY, Pageable.unpaged());
                 lineMessagingClient.replyMessage(
                     new ReplyMessage(event.getReplyToken(), new BusinessHourMessageSupplier(informationList).get())
                 );
