@@ -8,8 +8,6 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -19,7 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "ordered")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Ordered extends AbstractAuditingEntity implements Serializable {
+public class Ordered implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -49,6 +47,20 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     @Column(name = "delivery_date", nullable = false)
     private Instant deliveryDate;
 
+    @Size(max = 50)
+    @Column(name = "created_by", length = 50)
+    private String createdBy;
+
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @Size(max = 50)
+    @Column(name = "last_modified_by", length = 50)
+    private String lastModifiedBy;
+
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
     private Customer customer;
@@ -56,6 +68,15 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
     private Item item;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(
+        name = "ordered_order_item",
+        joinColumns = @JoinColumn(name = "ordered_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "order_item_id", referencedColumnName = "id")
+    )
+    private Set<OrderItem> orderItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -144,24 +165,56 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
     public Ordered createdBy(String createdBy) {
-        this.setCreatedBy(createdBy);
+        this.createdBy = createdBy;
         return this;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
     }
 
     public Ordered createdDate(Instant createdDate) {
-        this.setCreatedDate(createdDate);
+        this.createdDate = createdDate;
         return this;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
     }
 
     public Ordered lastModifiedBy(String lastModifiedBy) {
-        this.setLastModifiedBy(lastModifiedBy);
+        this.lastModifiedBy = lastModifiedBy;
         return this;
     }
 
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
     public Ordered lastModifiedDate(Instant lastModifiedDate) {
-        this.setLastModifiedDate(lastModifiedDate);
+        this.lastModifiedDate = lastModifiedDate;
         return this;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Customer getCustomer() {
@@ -190,6 +243,31 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
         this.item = item;
     }
 
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public Ordered orderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+        return this;
+    }
+
+    public Ordered addOrderItem(OrderItem orderItem) {
+        this.orderItems.add(orderItem);
+        orderItem.getOrdereds().add(this);
+        return this;
+    }
+
+    public Ordered removeOrderItem(OrderItem orderItem) {
+        this.orderItems.remove(orderItem);
+        orderItem.getOrdereds().remove(this);
+        return this;
+    }
+
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -211,6 +289,18 @@ public class Ordered extends AbstractAuditingEntity implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
+        return "Ordered{" +
+            "id=" + getId() +
+            ", orderId='" + getOrderId() + "'" +
+            ", quantity=" + getQuantity() +
+            ", unitPrice=" + getUnitPrice() +
+            ", totalFee=" + getTotalFee() +
+            ", deliveryState='" + getDeliveryState() + "'" +
+            ", deliveryDate='" + getDeliveryDate() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
+            "}";
     }
 }

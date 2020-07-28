@@ -2,37 +2,33 @@
   "lineTakeoutClientApp": {
     "ordered": {
       "home": {
-        "title": "注文一覧",
-        "createLabel": "注文情報 を追加",
-        "createOrEditLabel": "注文情報を追加または編集",
-        "notFound": "注文情報が見つかりません。"
+        "title": "Ordereds",
+        "createLabel": "Ordered を追加",
+        "createOrEditLabel": "Orderedを追加または編集",
+        "notFound": "No Ordereds found"
       },
-      "created": "注文情報 {{ param }}を追加しました。",
-      "updated": "注文情報 {{ param }}を更新しました。",
-      "deleted": "注文情報 {{ param }}を削除しました。",
+      "created": "A new Ordered is created with identifier {{ param }}",
+      "updated": "A Ordered is updated with identifier {{ param }}",
+      "deleted": "A Ordered is deleted with identifier {{ param }}",
       "delete": {
-        "question": "注文情報 {{ id }}を削除してもよろしいですか？"
+        "question": "Ordered {{ id }}を削除してもよろしいですか？"
       },
       "detail": {
-        "title": "注文情報"
+        "title": "Ordered"
       },
-      "orderId": "注文ID",
-      "quantity": "個数",
-      "unitPrice": "単価",
-      "totalFee": "合計金額",
-      "deliveryState": "ステータス",
-      "deliveryDate": "受取日時",
-      "createdBy": "作成者",
-      "createdDate": "作成日時",
-      "lastModifiedBy": "更新者",
-      "lastModifiedDate": "更新日時",
+      "orderId": "Order Id",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "totalFee": "Total Fee",
+      "deliveryState": "Delivery State",
+      "deliveryDate": "Delivery Date",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
       "customer": "Customer",
       "item": "Item",
-      "action": {
-        "accept": "受注",
-        "cancel": "キャンセル",
-        "delivered": "受取済"
-      }
+      "orderItem": "Order Item"
     }
   }
 }

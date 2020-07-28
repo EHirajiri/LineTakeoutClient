@@ -17,18 +17,19 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
+import jp.co.greensys.takeout.util.QueryStringParser;
+import org.springframework.util.CollectionUtils;
 
 public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
-    private String orderId = UUID.randomUUID().toString();
-
     private final List<ItemDTO> itemDTOS;
+    private final String carts;
 
-    public MenuFlexMessageSupplier(List<ItemDTO> itemDTOS) {
+    public MenuFlexMessageSupplier(List<ItemDTO> itemDTOS, QueryStringParser parser) {
         this.itemDTOS = itemDTOS;
+        this.carts = parser.getUrlQuery("cart");
     }
 
     @Override
@@ -72,10 +73,11 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createFooterBlock(Long itemId) {
+        final String postData = String.format("type=quantity&item=%s%s", itemId, carts);
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("注文する", String.format("type=select&item=%s&orderId=%s", itemId, orderId), null))
+            .action(new PostbackAction("カートに追加する", postData, null))
             .build();
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(asList(addToCartEnableButton)).build();
     }

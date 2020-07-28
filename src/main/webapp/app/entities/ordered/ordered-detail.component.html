@@ -8,29 +8,6 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
-                <dd>
-                    <button type="submit"
-                            (click)="accept(ordered)"
-                            class="btn btn-success"
-                            [disabled]="ordered.deliveryState !== 'CONFIRMING'">
-                        <fa-icon icon="heart"></fa-icon>&nbsp;<span
-                        jhiTranslate="lineTakeoutClientApp.ordered.action.accept">Accept</span>
-                    </button>
-                    <button type="submit"
-                            (click)="delivered(ordered)"
-                            class="btn btn-warning"
-                            [disabled]="ordered.deliveryState !== 'ACCEPT'">
-                        <fa-icon icon="heart"></fa-icon>&nbsp;<span
-                        jhiTranslate="lineTakeoutClientApp.ordered.action.delivered">Delivered</span>
-                    </button>
-                    <button type="submit"
-                            (click)="cancel(ordered)"
-                            class="btn btn-danger"
-                            [disabled]="ordered.deliveryState === 'DELIVERED'">
-                        <fa-icon icon="heart"></fa-icon>&nbsp;<span
-                        jhiTranslate="lineTakeoutClientApp.ordered.action.cancel">Cancel</span>
-                    </button>
-                </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.orderId">Order Id</span></dt>
                 <dd>
                     <span>{{ ordered.orderId }}</span>
@@ -53,7 +30,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryDate">Delivery Date</span></dt>
                 <dd>
-                    <span>{{ ordered.deliveryDate | date:'medium' }}</span>
+                    <span>{{ ordered.deliveryDate }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.createdBy">Created By</span></dt>
                 <dd>
@@ -61,7 +38,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.createdDate">Created Date</span></dt>
                 <dd>
-                    <span>{{ ordered.createdDate | date:'medium' }}</span>
+                    <span>{{ ordered.createdDate }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
@@ -82,6 +59,12 @@
                     <div *ngIf="ordered.itemId">
                         <a [routerLink]="['/item', ordered.itemId, 'view']">{{ ordered.itemId }}</a>
                     </div>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.ordered.orderItem">Order Item</span></dt>
+                <dd>
+                    <span *ngFor="let orderItem of ordered.orderItems; let last = last">
+                        <a [routerLink]="['/order-item', orderItem?.id, 'view']">{{ orderItem.id }}</a>{{ last ? '' : ', ' }}
+                    </span>
                 </dd>
             </dl>
 

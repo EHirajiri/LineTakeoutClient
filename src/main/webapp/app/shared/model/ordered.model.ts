@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IOrderItem } from 'app/shared/model/order-item.model';
 import { DeliveryState } from 'app/shared/model/enumerations/delivery-state.model';
 
 export interface IOrdered {
@@ -15,6 +16,7 @@ export interface IOrdered {
   lastModifiedDate?: Moment;
   customerId?: number;
   itemId?: number;
+  orderItems?: IOrderItem[];
 }
 
 export class Ordered implements IOrdered {
@@ -31,6 +33,7 @@ export class Ordered implements IOrdered {
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
     public customerId?: number,
-    public itemId?: number
+    public itemId?: number,
+    public orderItems?: IOrderItem[]
   ) {}
 }

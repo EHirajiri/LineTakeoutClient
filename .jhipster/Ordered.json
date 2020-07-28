@@ -64,6 +64,14 @@
       "otherEntityRelationshipName": "ordered",
       "relationshipName": "item",
       "otherEntityField": "id"
+    },
+    {
+      "relationshipName": "orderItem",
+      "otherEntityName": "orderItem",
+      "relationshipType": "many-to-many",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "otherEntityRelationshipName": "ordered"
     }
   ],
   "changelogDate": "20200707054219",

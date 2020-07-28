@@ -2,6 +2,8 @@ package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.*;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -35,6 +37,8 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
     private Long itemId;
 
     private String itemName;
+
+    private Set<OrderItemDTO> orderItems = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -122,6 +126,14 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public Set<OrderItemDTO> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(Set<OrderItemDTO> orderItems) {
+        this.orderItems = orderItems;
     }
 
     @Override

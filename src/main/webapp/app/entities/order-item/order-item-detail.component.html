@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="orderItem">
+            <h2><span jhiTranslate="lineTakeoutClientApp.orderItem.detail.title">Order Item</span> {{ orderItem.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.name">Name</span></dt>
+                <dd>
+                    <span>{{ orderItem.name }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.price">Price</span></dt>
+                <dd>
+                    <span>{{ orderItem.price }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.quantity">Quantity</span></dt>
+                <dd>
+                    <span>{{ orderItem.quantity }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.item">Item</span></dt>
+                <dd>
+                    <div *ngIf="orderItem.itemId">
+                        <a [routerLink]="['/item', orderItem.itemId, 'view']">{{ orderItem.itemId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/order-item', orderItem.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -20,6 +20,10 @@ import { RouterModule } from '@angular/router';
         path: 'information',
         loadChildren: () => import('./information/information.module').then(m => m.LineTakeoutClientInformationModule),
       },
+      {
+        path: 'order-item',
+        loadChildren: () => import('./order-item/order-item.module').then(m => m.LineTakeoutClientOrderItemModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

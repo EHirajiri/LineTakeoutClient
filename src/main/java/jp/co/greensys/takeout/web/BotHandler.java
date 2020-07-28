@@ -12,12 +12,16 @@ import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.domain.enumeration.InfomationKey;
 import jp.co.greensys.takeout.flex.BusinessHourMessageSupplier;
+import jp.co.greensys.takeout.flex.CartMessageSupplier;
 import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
 import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
 import jp.co.greensys.takeout.flex.OrderMessageSupplier;
@@ -105,7 +109,38 @@ public class BotHandler {
     @EventMapping
     public void handlePostbackEvent(PostbackEvent event) {
         log.debug("handlePostbackEvent: {}", event);
+
+        QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
+        log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
         try {
+            switch (parser.getParameterValue("type")) {
+                // 営業時間
+                case "business-hour":
+                    replyBusinessHour(event.getReplyToken());
+                    break;
+                // アクセス
+                case "access":
+                    replyAccess(event.getReplyToken());
+                    break;
+                // メニュー
+                case "menu":
+                    replyMenu(event.getReplyToken(), null);
+                    break;
+                // 個数選択
+                case "quantity":
+                    replyQuantity(event.getReplyToken(), parser);
+                    break;
+                // カート
+                case "cart":
+                    replyCart(event.getReplyToken(), parser);
+                    break;
+                // 問い合わせ
+                case "customer-support":
+                    lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("未対応の機能です")));
+                    break;
+                default:
+                    lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("不正な操作です")));
+            }
             postbackEvent(event);
         } catch (Exception e) {
             log.error("Error occurred.", e);
@@ -113,48 +148,60 @@ public class BotHandler {
         }
     }
 
+    private void replyBusinessHour(String replyToken) {
+        List<InformationDTO> informationList = informationService.findByKeyLike(BUSINESS_HOUR_SEARCH_KEY, Pageable.unpaged());
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new BusinessHourMessageSupplier(informationList).get()));
+    }
+
+    private void replyAccess(String replyToken) {
+        lineMessagingClient.replyMessage(
+            new ReplyMessage(
+                replyToken,
+                new LocationMessage(
+                    "Brown's Burger Shop",
+                    "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
+                    35.65910807942215,
+                    139.70372892916203
+                )
+            )
+        );
+    }
+
+    private void replyMenu(String replyToken, QueryStringParser parser) {
+        Message message;
+        Page<ItemDTO> itemPage = itemService.findAll(Pageable.unpaged());
+        if (itemPage.getTotalPages() > 0) {
+            message = new MenuFlexMessageSupplier(itemPage.getContent(), parser).get();
+        } else {
+            message = new TextMessage("現在提供できる商品がありません");
+        }
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, message));
+    }
+
+    private void replyQuantity(String replyToken, QueryStringParser parser) {
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new QuantityMessageSupplier(parser).get()));
+    }
+
+    private void replyCart(String replyToken, QueryStringParser parser) {
+        // カート内の商品情報取得
+        List<String> carts = parser.getParameterValues("cart");
+        List<ItemDTO> itemDTOList = new ArrayList<>();
+        for (String cart : carts) {
+            String[] split = cart.split(":");
+            Optional<ItemDTO> itemDTO = itemService.findOne(Long.parseLong(split[0]));
+            if (itemDTO.isPresent()) {
+                itemDTO.get().setQuantity(Integer.parseInt(split[1]));
+                itemDTOList.add(itemDTO.get());
+            }
+        }
+
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new CartMessageSupplier(parser, itemDTOList).get()));
+    }
+
     private void postbackEvent(PostbackEvent event) {
         QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
         log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
         switch (parser.getParameterValue("type")) {
-            // 営業時間
-            case "business-hour":
-                List<InformationDTO> informationList = informationService.findByKeyLike(BUSINESS_HOUR_SEARCH_KEY, Pageable.unpaged());
-                lineMessagingClient.replyMessage(
-                    new ReplyMessage(event.getReplyToken(), new BusinessHourMessageSupplier(informationList).get())
-                );
-                break;
-            // アクセス
-            case "access":
-                lineMessagingClient.replyMessage(
-                    new ReplyMessage(
-                        event.getReplyToken(),
-                        new LocationMessage(
-                            "Brown's Burger Shop",
-                            "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
-                            35.65910807942215,
-                            139.70372892916203
-                        )
-                    )
-                );
-                break;
-            // 注文
-            case "menu":
-                // 商品情報取得
-                Page<ItemDTO> itemPage = itemService.findAll(Pageable.unpaged());
-                if (itemPage.getTotalPages() > 0) {
-                    lineMessagingClient.replyMessage(
-                        new ReplyMessage(event.getReplyToken(), new MenuFlexMessageSupplier(itemPage.getContent()).get())
-                    );
-                } else {
-                    lineMessagingClient.replyMessage(
-                        new ReplyMessage(event.getReplyToken(), new TextMessage("現在提供できる商品がありません。"))
-                    );
-                }
-                break;
-            case "select":
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new QuantityMessageSupplier(parser).get()));
-                break;
             case "delivery":
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new DeliveryMessageSupplier(parser).get()));
                 break;
@@ -179,8 +226,6 @@ public class BotHandler {
                 lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new ReceiptConfirmMessageSupplier(result).get()));
 
                 break;
-            default:
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました")));
         }
     }
 }

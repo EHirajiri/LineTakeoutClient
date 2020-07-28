@@ -6,6 +6,7 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 public class QueryStringParser {
 
@@ -20,6 +21,7 @@ public class QueryStringParser {
     }
 
     public static final String DEFAUL_CHARSET = "UTF-8";
+    private static final String URL_QUERY_FORMAT = "&%s=%s";
 
     private Charset charset;
     private List<NameValuePair> query = new ArrayList<NameValuePair>();
@@ -124,5 +126,27 @@ public class QueryStringParser {
         }
 
         return list;
+    }
+
+    public String getUrlQuery(String key) {
+        StringBuilder sb = new StringBuilder();
+        for (NameValuePair pair : query) {
+            if (pair.key.equals(key)) {
+                sb.append(String.format(URL_QUERY_FORMAT, key, pair.value));
+            }
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (NameValuePair pair : query) {
+            if (StringUtils.isNotEmpty(sb)) {
+                sb.append(",");
+            }
+            sb.append(String.format("%s=%s", pair.key, pair.value));
+        }
+        return "QueryStringParser{" + sb.toString() + "}";
     }
 }

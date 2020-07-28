@@ -18,17 +18,17 @@ import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class QuantityMessageSupplier implements Supplier<FlexMessage> {
     private final String itemId;
-    private final String orderId;
+    private final String carts;
 
     public QuantityMessageSupplier(QueryStringParser parser) {
         this.itemId = parser.getParameterValue("item");
-        this.orderId = parser.getParameterValue("orderId");
+        this.carts = parser.getUrlQuery("cart");
     }
 
     @Override
     public FlexMessage get() {
         final Bubble bubble1 = createBubble();
-        return new FlexMessage("Quantity", bubble1);
+        return new FlexMessage("個数選択", bubble1);
     }
 
     private Bubble createBubble() {
@@ -54,17 +54,15 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createFooterBlock(String itemId) {
         List list = new ArrayList();
-        for (int i = 1; i < 6; i++) {
-            final Button addToCartEnableButton = Button
+        for (int i = 1; i <= 5; i++) {
+            String postData = String.format("type=cart&item=%s&quantity=%s&cart=%s:%s%s", itemId, i, itemId, i, carts);
+            final Button selectQuantityButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
-                .action(
-                    new PostbackAction(i + "個", String.format("type=delivery&item=%s&quantity=%s&orderId=%s", itemId, i, orderId), null)
-                )
+                .action(new PostbackAction(i + "個", postData, null))
                 .build();
-            list.add(addToCartEnableButton);
+            list.add(selectQuantityButton);
         }
-
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(list).build();
     }
 }

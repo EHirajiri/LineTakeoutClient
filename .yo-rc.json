@@ -37,7 +37,7 @@
     "otherModules": [],
     "blueprints": [],
     "prettierJava": true,
-    "lastLiquibaseTimestamp": 1595902686000
+    "lastLiquibaseTimestamp": 1595925839000
   },
   "git-provider": "GitHub",
   "git-company": "EHirajiri",

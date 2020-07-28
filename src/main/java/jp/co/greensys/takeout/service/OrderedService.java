@@ -1,11 +1,7 @@
 package jp.co.greensys.takeout.service;
 
 import java.util.Optional;
-import jp.co.greensys.takeout.domain.Customer;
-import jp.co.greensys.takeout.domain.Item;
 import jp.co.greensys.takeout.domain.Ordered;
-import jp.co.greensys.takeout.repository.CustomerRepository;
-import jp.co.greensys.takeout.repository.ItemRepository;
 import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.service.mapper.OrderedMapper;
@@ -28,24 +24,9 @@ public class OrderedService {
 
     private final OrderedMapper orderedMapper;
 
-    private final CustomerRepository customerRepository;
-
-    private final ItemRepository itemRepository;
-
-    private final BotService botService;
-
-    public OrderedService(
-        OrderedRepository orderedRepository,
-        OrderedMapper orderedMapper,
-        CustomerRepository customerRepository,
-        ItemRepository itemRepository,
-        BotService botService
-    ) {
+    public OrderedService(OrderedRepository orderedRepository, OrderedMapper orderedMapper) {
         this.orderedRepository = orderedRepository;
         this.orderedMapper = orderedMapper;
-        this.customerRepository = customerRepository;
-        this.itemRepository = itemRepository;
-        this.botService = botService;
     }
 
     /**
@@ -57,30 +38,6 @@ public class OrderedService {
     public OrderedDTO save(OrderedDTO orderedDTO) {
         log.debug("Request to save Ordered : {}", orderedDTO);
         Ordered ordered = orderedMapper.toEntity(orderedDTO);
-
-        // 顧客情報取得
-        if (orderedDTO.getCustomerUserId() != null) {
-            Optional<Customer> customer = customerRepository.findByUserId(orderedDTO.getCustomerUserId());
-            if (customer.isPresent()) {
-                ordered.setCustomer(customer.get());
-            } else {
-                throw new IllegalArgumentException("Invalid userId. userId=" + orderedDTO.getCustomerUserId());
-            }
-        }
-
-        // 合計金額計算
-        if (orderedDTO.getUnitPrice() != null && orderedDTO.getQuantity() != null) {
-            ordered.setTotalFee(orderedDTO.getUnitPrice() * orderedDTO.getQuantity());
-        }
-
-        // 商品情報
-        Optional<Item> item = itemRepository.findById(orderedDTO.getItemId());
-        if (item.isPresent()) {
-            ordered.setItem(item.get());
-        } else {
-            throw new IllegalArgumentException("Invalid itemId. itemId=" + orderedDTO.getItemId());
-        }
-
         ordered = orderedRepository.save(ordered);
         return orderedMapper.toDto(ordered);
     }
@@ -98,6 +55,15 @@ public class OrderedService {
     }
 
     /**
+     * Get all the ordereds with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<OrderedDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return orderedRepository.findAllWithEagerRelationships(pageable).map(orderedMapper::toDto);
+    }
+
+    /**
      * Get one ordered by id.
      *
      * @param id the id of the entity.
@@ -106,7 +72,7 @@ public class OrderedService {
     @Transactional(readOnly = true)
     public Optional<OrderedDTO> findOne(Long id) {
         log.debug("Request to get Ordered : {}", id);
-        return orderedRepository.findById(id).map(orderedMapper::toDto);
+        return orderedRepository.findOneWithEagerRelationships(id).map(orderedMapper::toDto);
     }
 
     /**
@@ -117,12 +83,5 @@ public class OrderedService {
     public void delete(Long id) {
         log.debug("Request to delete Ordered : {}", id);
         orderedRepository.deleteById(id);
-    }
-
-    public OrderedDTO updateDeliveryState(OrderedDTO orderedDTO) {
-        log.debug("Request to update Ordered : {}", orderedDTO);
-        OrderedDTO result = save(orderedDTO);
-        botService.pushMessage(orderedDTO);
-        return result;
     }
 }

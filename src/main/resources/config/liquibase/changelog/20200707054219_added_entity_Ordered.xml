@@ -60,6 +60,17 @@
 
     <changeSet id="20200707054219-1-relations" author="jhipster">
 
+        <createTable tableName="ordered_order_item">
+            <column name="order_item_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ordered_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="ordered_id, order_item_id" tableName="ordered_order_item"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 

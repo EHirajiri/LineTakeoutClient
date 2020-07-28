@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.InformationDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.util.CollectionUtils;
 
 public class BusinessHourMessageSupplier implements Supplier<FlexMessage> {
     private final List<InformationDTO> informationList;
@@ -28,7 +30,7 @@ public class BusinessHourMessageSupplier implements Supplier<FlexMessage> {
     @Override
     public FlexMessage get() {
         final Bubble bubble1 = createBubble();
-        return new FlexMessage("BusinessHour", bubble1);
+        return new FlexMessage("営業時間", bubble1);
     }
 
     private Bubble createBubble() {
@@ -46,13 +48,17 @@ public class BusinessHourMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createBodyBlock() {
         List businessHour = new ArrayList<>();
-        for (InformationDTO informationDTO : informationList) {
-            String[] split = informationDTO.getValue().split(",");
-            final Text label = FlexComponentUtil.createText(split[0], null, FlexFontSize.SM);
-            final Text date = FlexComponentUtil.createText(split[1], null, FlexFontSize.SM);
-            businessHour.add(
-                Box.builder().layout(FlexLayout.BASELINE).spacing(FlexMarginSize.SM).contents(Arrays.asList(label, date)).build()
-            );
+        if (CollectionUtils.isEmpty(informationList)) {
+            businessHour.add(FlexComponentUtil.createText("情報なし", null, FlexFontSize.LG));
+        } else {
+            for (InformationDTO informationDTO : informationList) {
+                String[] split = informationDTO.getValue().split(",");
+                final Text label = FlexComponentUtil.createText(split[0], null, FlexFontSize.SM);
+                final Text date = FlexComponentUtil.createText(split[1], null, FlexFontSize.SM);
+                businessHour.add(
+                    Box.builder().layout(FlexLayout.BASELINE).spacing(FlexMarginSize.SM).contents(Arrays.asList(label, date)).build()
+                );
+            }
         }
 
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(businessHour).build();

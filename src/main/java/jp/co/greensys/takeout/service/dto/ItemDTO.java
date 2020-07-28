@@ -28,6 +28,8 @@ public class ItemDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long orderedId;
 
+    private Integer quantity;
+
     public Long getId() {
         return id;
     }
@@ -74,6 +76,14 @@ public class ItemDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setOrderedId(Long orderedId) {
         this.orderedId = orderedId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     @Override

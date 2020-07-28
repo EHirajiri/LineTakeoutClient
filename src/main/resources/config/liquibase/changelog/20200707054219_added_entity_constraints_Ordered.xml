@@ -20,5 +20,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="item"/>
 
+        <addForeignKeyConstraint baseColumnNames="ordered_id"
+                                 baseTableName="ordered_order_item"
+                                 constraintName="fk_ordered_order_item_ordered_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ordered"/>
+
+        <addForeignKeyConstraint baseColumnNames="order_item_id"
+                                 baseTableName="ordered_order_item"
+                                 constraintName="fk_ordered_order_item_order_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="order_item"/>
+        
     </changeSet>
 </databaseChangeLog>

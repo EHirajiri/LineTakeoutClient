@@ -13,8 +13,10 @@ import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer/customer.service';
 import { IItem } from 'app/shared/model/item.model';
 import { ItemService } from 'app/entities/item/item.service';
+import { IOrderItem } from 'app/shared/model/order-item.model';
+import { OrderItemService } from 'app/entities/order-item/order-item.service';
 
-type SelectableEntity = ICustomer | IItem;
+type SelectableEntity = ICustomer | IItem | IOrderItem;
 
 @Component({
   selector: 'jhi-ordered-update',
@@ -24,6 +26,7 @@ export class OrderedUpdateComponent implements OnInit {
   isSaving = false;
   customers: ICustomer[] = [];
   items: IItem[] = [];
+  orderitems: IOrderItem[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -39,12 +42,14 @@ export class OrderedUpdateComponent implements OnInit {
     lastModifiedDate: [],
     customerId: [],
     itemId: [],
+    orderItems: [],
   });
 
   constructor(
     protected orderedService: OrderedService,
     protected customerService: CustomerService,
     protected itemService: ItemService,
+    protected orderItemService: OrderItemService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -63,6 +68,8 @@ export class OrderedUpdateComponent implements OnInit {
       this.customerService.query().subscribe((res: HttpResponse<ICustomer[]>) => (this.customers = res.body || []));
 
       this.itemService.query().subscribe((res: HttpResponse<IItem[]>) => (this.items = res.body || []));
+
+      this.orderItemService.query().subscribe((res: HttpResponse<IOrderItem[]>) => (this.orderitems = res.body || []));
     });
   }
 
@@ -81,6 +88,7 @@ export class OrderedUpdateComponent implements OnInit {
       lastModifiedDate: ordered.lastModifiedDate ? ordered.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       customerId: ordered.customerId,
       itemId: ordered.itemId,
+      orderItems: ordered.orderItems,
     });
   }
 
@@ -120,6 +128,7 @@ export class OrderedUpdateComponent implements OnInit {
         : undefined,
       customerId: this.editForm.get(['customerId'])!.value,
       itemId: this.editForm.get(['itemId'])!.value,
+      orderItems: this.editForm.get(['orderItems'])!.value,
     };
   }
 
@@ -141,5 +150,16 @@ export class OrderedUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IOrderItem[], option: IOrderItem): IOrderItem {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }
