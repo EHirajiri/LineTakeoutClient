@@ -4,8 +4,15 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
@@ -34,6 +41,10 @@ public class Customer extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "language")
     private String language;
+
+    @NotNull
+    @Column(name = "follow", nullable = false)
+    private Boolean follow;
 
     @OneToMany(mappedBy = "customer")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -85,6 +96,19 @@ public class Customer extends AbstractAuditingEntity implements Serializable {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Boolean isFollow() {
+        return follow;
+    }
+
+    public Customer follow(Boolean follow) {
+        this.follow = follow;
+        return this;
+    }
+
+    public void setFollow(Boolean follow) {
+        this.follow = follow;
     }
 
     public Customer createdBy(String createdBy) {

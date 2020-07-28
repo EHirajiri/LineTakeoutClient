@@ -2,27 +2,29 @@
   "lineTakeoutClientApp": {
     "customer": {
       "home": {
-        "title": "Customers",
-        "createLabel": "Customer を追加",
-        "createOrEditLabel": "Customerを追加または編集",
+        "title": "顧客一覧",
+        "createLabel": "顧客情報 を追加",
+        "createOrEditLabel": "顧客情報を追加または編集",
         "notFound": "No Customers found"
       },
       "created": "A new Customer is created with identifier {{ param }}",
       "updated": "A Customer is updated with identifier {{ param }}",
       "deleted": "A Customer is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Customer {{ id }}を削除してもよろしいですか？"
+        "question": "顧客情報 {{ id }}を削除してもよろしいですか？"
       },
       "detail": {
-        "title": "Customer"
+        "title": "顧客情報"
       },
-      "userId": "User Id",
-      "nickname": "Nickname",
-      "language": "Language",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date",
+      "userId": "ユーザID",
+      "nickname": "ニックネーム",
+      "language": "言語",
+      "follow": "フォロー",
+      "unfollow": "フォロー解除",
+      "createdBy": "作成者",
+      "createdDate": "作成日時",
+      "lastModifiedBy": "更新者",
+      "lastModifiedDate": "更新日時",
       "ordered": "Ordered"
     }
   }

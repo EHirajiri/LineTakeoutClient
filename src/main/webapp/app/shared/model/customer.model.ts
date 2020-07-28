@@ -6,6 +6,7 @@ export interface ICustomer {
   userId?: string;
   nickname?: string;
   language?: string;
+  follow?: boolean;
   createdBy?: string;
   createdDate?: Moment;
   lastModifiedBy?: string;
@@ -19,10 +20,13 @@ export class Customer implements ICustomer {
     public userId?: string,
     public nickname?: string,
     public language?: string,
+    public follow?: boolean,
     public createdBy?: string,
     public createdDate?: Moment,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
     public ordereds?: IOrdered[]
-  ) {}
+  ) {
+    this.follow = this.follow || false;
+  }
 }

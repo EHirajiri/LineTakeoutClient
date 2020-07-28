@@ -24,6 +24,9 @@
             <column name="language" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="follow" type="boolean">
+                <constraints nullable="false" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="true" />
             </column>
@@ -64,6 +67,7 @@
             <column name="user_id" type="string"/>
             <column name="nickname" type="string"/>
             <column name="language" type="string"/>
+            <column name="follow" type="boolean"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="datetime"/>
             <column name="last_modified_by" type="string"/>

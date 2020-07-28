@@ -24,6 +24,11 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "follow",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "createdBy",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],

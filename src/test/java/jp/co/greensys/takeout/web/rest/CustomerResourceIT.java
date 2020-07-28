@@ -41,6 +41,9 @@ public class CustomerResourceIT {
     private static final String DEFAULT_LANGUAGE = "AAAAAAAAAA";
     private static final String UPDATED_LANGUAGE = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_FOLLOW = false;
+    private static final Boolean UPDATED_FOLLOW = true;
+
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
@@ -81,6 +84,7 @@ public class CustomerResourceIT {
             .userId(DEFAULT_USER_ID)
             .nickname(DEFAULT_NICKNAME)
             .language(DEFAULT_LANGUAGE)
+            .follow(DEFAULT_FOLLOW)
             .createdBy(DEFAULT_CREATED_BY)
             .createdDate(DEFAULT_CREATED_DATE)
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
@@ -99,6 +103,7 @@ public class CustomerResourceIT {
             .userId(UPDATED_USER_ID)
             .nickname(UPDATED_NICKNAME)
             .language(UPDATED_LANGUAGE)
+            .follow(UPDATED_FOLLOW)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -128,6 +133,7 @@ public class CustomerResourceIT {
         assertThat(testCustomer.getUserId()).isEqualTo(DEFAULT_USER_ID);
         assertThat(testCustomer.getNickname()).isEqualTo(DEFAULT_NICKNAME);
         assertThat(testCustomer.getLanguage()).isEqualTo(DEFAULT_LANGUAGE);
+        assertThat(testCustomer.isFollow()).isEqualTo(DEFAULT_FOLLOW);
         assertThat(testCustomer.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testCustomer.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testCustomer.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
@@ -173,6 +179,24 @@ public class CustomerResourceIT {
 
     @Test
     @Transactional
+    public void checkFollowIsRequired() throws Exception {
+        int databaseSizeBeforeTest = customerRepository.findAll().size();
+        // set the field null
+        customer.setFollow(null);
+
+        // Create the Customer, which fails.
+        CustomerDTO customerDTO = customerMapper.toDto(customer);
+
+        restCustomerMockMvc
+            .perform(post("/api/customers").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(customerDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Customer> customerList = customerRepository.findAll();
+        assertThat(customerList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCustomers() throws Exception {
         // Initialize the database
         customerRepository.saveAndFlush(customer);
@@ -186,6 +210,7 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)))
             .andExpect(jsonPath("$.[*].nickname").value(hasItem(DEFAULT_NICKNAME)))
             .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE)))
+            .andExpect(jsonPath("$.[*].follow").value(hasItem(DEFAULT_FOLLOW.booleanValue())))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
@@ -207,6 +232,7 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID))
             .andExpect(jsonPath("$.nickname").value(DEFAULT_NICKNAME))
             .andExpect(jsonPath("$.language").value(DEFAULT_LANGUAGE))
+            .andExpect(jsonPath("$.follow").value(DEFAULT_FOLLOW.booleanValue()))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
@@ -236,6 +262,7 @@ public class CustomerResourceIT {
             .userId(UPDATED_USER_ID)
             .nickname(UPDATED_NICKNAME)
             .language(UPDATED_LANGUAGE)
+            .follow(UPDATED_FOLLOW)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -253,6 +280,7 @@ public class CustomerResourceIT {
         assertThat(testCustomer.getUserId()).isEqualTo(UPDATED_USER_ID);
         assertThat(testCustomer.getNickname()).isEqualTo(UPDATED_NICKNAME);
         assertThat(testCustomer.getLanguage()).isEqualTo(UPDATED_LANGUAGE);
+        assertThat(testCustomer.isFollow()).isEqualTo(UPDATED_FOLLOW);
         assertThat(testCustomer.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testCustomer.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testCustomer.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);

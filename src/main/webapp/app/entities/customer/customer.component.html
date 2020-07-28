@@ -24,6 +24,7 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="userId"><span jhiTranslate="lineTakeoutClientApp.customer.userId">User Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  ></th>
                     <th scope="col"  jhiSortBy="nickname"><span jhiTranslate="lineTakeoutClientApp.customer.nickname">Nickname</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="language"><span jhiTranslate="lineTakeoutClientApp.customer.language">Language</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
@@ -33,6 +34,13 @@
                 <tr *ngFor="let customer of customers ;trackBy: trackId">
                     <td><a [routerLink]="['/customer', customer.id, 'view']">{{ customer.id }}</a></td>
                     <td>{{ customer.userId }}</td>
+                    <td>
+                        <jhi-boolean
+                            [value]="customer.follow ? true : false"
+                            [textTrue]="'lineTakeoutClientApp.customer.follow' | translate"
+                            [textFalse]="'lineTakeoutClientApp.customer.unfollow' | translate">
+                        </jhi-boolean>
+                    </td>
                     <td>{{ customer.nickname }}</td>
                     <td>{{ customer.language }}</td>
                     <td class="text-right">

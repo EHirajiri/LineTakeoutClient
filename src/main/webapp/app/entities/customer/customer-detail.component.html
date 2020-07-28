@@ -11,6 +11,11 @@
                 <dt><span jhiTranslate="lineTakeoutClientApp.customer.userId">User Id</span></dt>
                 <dd>
                     <span>{{ customer.userId }}</span>
+                    <jhi-boolean
+                        [value]="customer.follow ? true : false"
+                        [textTrue]="'lineTakeoutClientApp.customer.follow' | translate"
+                        [textFalse]="'lineTakeoutClientApp.customer.unfollow' | translate">
+                    </jhi-boolean>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.customer.nickname">Nickname</span></dt>
                 <dd>
@@ -26,7 +31,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.customer.createdDate">Created Date</span></dt>
                 <dd>
-                    <span>{{ customer.createdDate }}</span>
+                    <span>{{ customer.createdDate | date:'medium' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
@@ -34,7 +39,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.customer.lastModifiedDate">Last Modified Date</span></dt>
                 <dd>
-                    <span>{{ customer.lastModifiedDate }}</span>
+                    <span>{{ customer.lastModifiedDate | date:'medium' }}</span>
                 </dd>
             </dl>
 

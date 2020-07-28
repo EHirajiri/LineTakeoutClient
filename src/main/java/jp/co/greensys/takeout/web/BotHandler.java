@@ -16,6 +16,7 @@ import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.domain.enumeration.InfomationKey;
@@ -80,7 +81,11 @@ public class BotHandler {
             customerDTO.setUserId(event.getSource().getUserId());
             customerDTO.setNickname(profile.get().getDisplayName());
             customerDTO.setLanguage(profile.get().getLanguage());
+            customerDTO.setFollow(true);
             customerService.save(customerDTO);
+
+            // リッチメニュー設定
+            lineMessagingClient.setDefaultRichMenu("richmenu-0264f2410e78f3e7a464ca982573fe39");
 
             return new TextMessage("友達登録ありがとうございます");
         } catch (Exception e) {
@@ -91,6 +96,11 @@ public class BotHandler {
     @EventMapping
     public void handleUnfollowEvent(UnfollowEvent event) {
         log.debug("handleUnfollowEvent: {}", event);
+        Optional<CustomerDTO> customer = customerService.findByUserId(event.getSource().getUserId());
+        if (customer.isPresent()) {
+            customer.get().setFollow(false);
+            customerService.save(customer.get());
+        }
     }
 
     @EventMapping

@@ -75,4 +75,16 @@ public class CustomerService {
         log.debug("Request to delete Customer : {}", id);
         customerRepository.deleteById(id);
     }
+
+    /**
+     * Get one customer by userId.
+     *
+     * @param userId the userId of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<CustomerDTO> findByUserId(String userId) {
+        log.debug("Request to get Customer : {}", userId);
+        return customerRepository.findByUserId(userId).map(customerMapper::toDto);
+    }
 }

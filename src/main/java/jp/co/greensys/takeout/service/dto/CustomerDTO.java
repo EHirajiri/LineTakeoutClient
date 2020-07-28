@@ -18,6 +18,9 @@ public class CustomerDTO extends AbstractAuditingDTO implements Serializable {
 
     private String language;
 
+    @NotNull
+    private Boolean follow;
+
     public Long getId() {
         return id;
     }
@@ -48,6 +51,14 @@ public class CustomerDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Boolean isFollow() {
+        return follow;
+    }
+
+    public void setFollow(Boolean follow) {
+        this.follow = follow;
     }
 
     @Override

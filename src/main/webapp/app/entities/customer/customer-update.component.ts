@@ -22,6 +22,7 @@ export class CustomerUpdateComponent implements OnInit {
     userId: [null, [Validators.required]],
     nickname: [],
     language: [],
+    follow: [null, [Validators.required]],
     createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
@@ -48,6 +49,7 @@ export class CustomerUpdateComponent implements OnInit {
       userId: customer.userId,
       nickname: customer.nickname,
       language: customer.language,
+      follow: customer.follow,
       createdBy: customer.createdBy,
       createdDate: customer.createdDate ? customer.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: customer.lastModifiedBy,
@@ -76,6 +78,7 @@ export class CustomerUpdateComponent implements OnInit {
       userId: this.editForm.get(['userId'])!.value,
       nickname: this.editForm.get(['nickname'])!.value,
       language: this.editForm.get(['language'])!.value,
+      follow: this.editForm.get(['follow'])!.value,
       createdBy: this.editForm.get(['createdBy'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value
         ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
