@@ -54,6 +54,10 @@
                                *ngIf="editForm.get('imageUrl')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('imageUrl')?.errors?.pattern" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Image Url' }">
+                            This field should follow pattern for "Image Url".
+                        </small>
                     </div>
                 </div>
             </div>

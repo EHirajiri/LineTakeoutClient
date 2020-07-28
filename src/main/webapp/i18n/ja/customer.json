@@ -5,11 +5,11 @@
         "title": "顧客一覧",
         "createLabel": "顧客情報 を追加",
         "createOrEditLabel": "顧客情報を追加または編集",
-        "notFound": "No Customers found"
+        "notFound": "顧客情報が見つかりません。"
       },
-      "created": "A new Customer is created with identifier {{ param }}",
-      "updated": "A Customer is updated with identifier {{ param }}",
-      "deleted": "A Customer is deleted with identifier {{ param }}",
+      "created": "顧客情報 {{ param }}を追加しました。",
+      "updated": "顧客情報 {{ param }}を更新しました。",
+      "deleted": "顧客情報 {{ param }}を削除しました。",
       "delete": {
         "question": "顧客情報 {{ id }}を削除してもよろしいですか？"
       },

@@ -30,7 +30,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.createdDate">Created Date</span></dt>
                 <dd>
-                    <span>{{ item.createdDate }}</span>
+                    <span>{{ item.createdDate | date:'medium' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
@@ -38,7 +38,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedDate">Last Modified Date</span></dt>
                 <dd>
-                    <span>{{ item.lastModifiedDate }}</span>
+                    <span>{{ item.lastModifiedDate | date:'medium' }}</span>
                 </dd>
             </dl>
 

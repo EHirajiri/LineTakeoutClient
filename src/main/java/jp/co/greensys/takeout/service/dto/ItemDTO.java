@@ -23,6 +23,7 @@ public class ItemDTO extends AbstractAuditingDTO implements Serializable {
     private Integer price;
 
     @NotNull
+    @Pattern(regexp = "^https?://[\\w/:%#\\$&\\?\\(\\)~\\.=\\+\\-]+")
     private String imageUrl;
 
     private Long orderedId;

@@ -24,7 +24,7 @@ export class ItemUpdateComponent implements OnInit {
     name: [null, [Validators.required]],
     description: [],
     price: [null, [Validators.required]],
-    imageUrl: [null, [Validators.required]],
+    imageUrl: [null, [Validators.required, Validators.pattern('^https?://[\\w/:%#\\$&amp;\\?\\(\\)~\\.=\\+\\-]+')]],
     createdBy: [null, [Validators.maxLength(50)]],
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],

@@ -6,7 +6,6 @@ import com.linecorp.bot.model.action.PostbackAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
-import com.linecorp.bot.model.message.flex.component.FlexComponent;
 import com.linecorp.bot.model.message.flex.component.Image;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
@@ -21,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
+import jp.co.greensys.takeout.util.FlexComponentUtil;
 
 public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     private String orderId = UUID.randomUUID().toString();
@@ -35,17 +35,17 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     public FlexMessage get() {
         List<Bubble> bubbles = new ArrayList();
         for (ItemDTO itemDTO : itemDTOS) {
-            Bubble bubble = createBubble(itemDTO.getName(), itemDTO.getPrice(), itemDTO.getImageUrl(), itemDTO.getId());
+            Bubble bubble = createBubble(itemDTO);
             bubbles.add(bubble);
         }
         final Carousel carousel = Carousel.builder().contents(bubbles).build();
         return new FlexMessage("Menu", carousel);
     }
 
-    private Bubble createBubble(String title, Integer price, String imageURL, Long itemId) {
-        final Image heroBlock = createHeroBlock(imageURL);
-        final Box bodyBlock = createBodyBlock(title, price);
-        final Box footerBlock = createFooterBlock(itemId);
+    private Bubble createBubble(ItemDTO itemDTO) {
+        final Image heroBlock = createHeroBlock(itemDTO.getImageUrl());
+        final Box bodyBlock = createBodyBlock(itemDTO);
+        final Box footerBlock = createFooterBlock(itemDTO.getId());
         return Bubble.builder().hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
     }
 
@@ -59,20 +59,16 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
             .build();
     }
 
-    private Box createBodyBlock(String title, Integer price) {
-        final Text titleBlock = Text.builder().text(title).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).build();
-        final Box priceBlock = Box
+    private Box createBodyBlock(ItemDTO itemDTO) {
+        final Text titleBlock = FlexComponentUtil.createText(itemDTO.getName(), null, FlexFontSize.XL);
+        final Text priceBlock = FlexComponentUtil.createText("￥" + itemDTO.getPrice(), null, FlexFontSize.XL);
+        final Text descriptionBlock = FlexComponentUtil.createText(itemDTO.getDescription(), null, FlexFontSize.XXS);
+        return Box
             .builder()
-            .layout(FlexLayout.BASELINE)
-            .contents(
-                asList(Text.builder().text("￥" + price).wrap(true).weight(Text.TextWeight.BOLD).size(FlexFontSize.XL).flex(0).build())
-            )
+            .layout(FlexLayout.VERTICAL)
+            .spacing(FlexMarginSize.SM)
+            .contents(Arrays.asList(titleBlock, priceBlock, descriptionBlock))
             .build();
-
-        FlexComponent[] flexComponents = { titleBlock, priceBlock };
-        List<FlexComponent> listComponent = new ArrayList<>(Arrays.asList(flexComponents));
-
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
     }
 
     private Box createFooterBlock(Long itemId) {

@@ -40,6 +40,7 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     private Integer price;
 
     @NotNull
+    @Pattern(regexp = "^https?://[\\w/:%#\\$&\\?\\(\\)~\\.=\\+\\-]+")
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 

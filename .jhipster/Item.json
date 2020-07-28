@@ -28,7 +28,8 @@
     {
       "fieldName": "imageUrl",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "pattern"],
+      "fieldValidateRulesPattern": "^https?://[\\w/:%#\\$&\\?\\(\\)~\\.=\\+\\-]+"
     },
     {
       "fieldName": "createdBy",

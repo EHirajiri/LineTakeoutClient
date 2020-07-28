@@ -42,8 +42,8 @@ public class ItemResourceIT {
     private static final Integer DEFAULT_PRICE = 1;
     private static final Integer UPDATED_PRICE = 2;
 
-    private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
-    private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
+    private static final String DEFAULT_IMAGE_URL = "http://UK5.y";
+    private static final String UPDATED_IMAGE_URL = "http://btc";
 
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
