@@ -5,13 +5,11 @@ import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
 import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.Image;
-import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
@@ -53,7 +51,6 @@ public class ReceiptCancelMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createFooterBlock() {
-        final Separator separator = Separator.builder().margin(FlexMarginSize.SM).color("#c0c0c0").build();
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
@@ -63,7 +60,7 @@ public class ReceiptCancelMessageSupplier implements Supplier<FlexMessage> {
             .builder()
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
-            .contents(Arrays.asList(separator, addToCartEnableButton))
+            .contents(Arrays.asList(FlexComponentUtil.getSeparator(), addToCartEnableButton))
             .build();
     }
 }

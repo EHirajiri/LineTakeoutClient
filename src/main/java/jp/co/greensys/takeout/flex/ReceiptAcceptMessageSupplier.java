@@ -2,7 +2,6 @@ package jp.co.greensys.takeout.flex;
 
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
-import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
@@ -53,7 +52,6 @@ public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createFooterBlock() {
-        final Separator separator = Separator.builder().margin(FlexMarginSize.SM).color("#c0c0c0").build();
         // 商品情報
         final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", orderedDTO.getItemName()), null, FlexFontSize.LG);
         final Text calcBlock = FlexComponentUtil.createText(
@@ -80,7 +78,7 @@ public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
             .builder()
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
-            .contents(Arrays.asList(separator, itemBox, totalFeeBlock, deliveryDateBlock))
+            .contents(Arrays.asList(FlexComponentUtil.getSeparator(), itemBox, totalFeeBlock, deliveryDateBlock))
             .build();
     }
 }

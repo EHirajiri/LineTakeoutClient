@@ -41,7 +41,7 @@ public class BusinessHourMessageSupplier implements Supplier<FlexMessage> {
             "https://3.bp.blogspot.com/-jHdA_6VWQFw/WYAxqtZz54I/AAAAAAABFuk/rDsnpKBPpsQ1gMDDrJYRjh5IVdUBkd30QCLcBGAs/s400/building_fastfood.png"
         );
 
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(Arrays.asList(titleBlock, imageBlock)).build();
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.LG).contents(Arrays.asList(titleBlock, imageBlock)).build();
     }
 
     private Box createBodyBlock() {
@@ -64,6 +64,6 @@ public class BusinessHourMessageSupplier implements Supplier<FlexMessage> {
             .style(Button.ButtonStyle.LINK)
             .action(new URIAction("WEBSITE", URI.create("https://linecorp.com"), null))
             .build();
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
+        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.LG).content(addToCartEnableButton).build();
     }
 }

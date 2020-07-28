@@ -1,8 +1,10 @@
 package jp.co.greensys.takeout.util;
 
 import com.linecorp.bot.model.message.flex.component.Image;
+import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
+import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.net.URI;
 
 public class FlexComponentUtil {
@@ -38,5 +40,9 @@ public class FlexComponentUtil {
             .aspectMode(Image.ImageAspectMode.Cover)
             .url(URI.create(imageURL))
             .build();
+    }
+
+    public static Separator getSeparator() {
+        return Separator.builder().margin(FlexMarginSize.SM).color("#c0c0c0").build();
     }
 }
