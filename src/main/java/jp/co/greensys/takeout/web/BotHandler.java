@@ -104,9 +104,13 @@ public class BotHandler {
                 case "cart":
                     botService.replyCart(event.getReplyToken(), parser);
                     break;
-                // 受取日時選択
+                // 受取日選択
                 case "delivery-date":
                     botService.replyDeliveryDate(event.getReplyToken(), parser);
+                    break;
+                // 受取時間選択
+                case "delivery-time":
+                    botService.replyDeliveryTime(event.getReplyToken(), parser);
                     break;
                 // 問い合わせ
                 case "customer-support":
