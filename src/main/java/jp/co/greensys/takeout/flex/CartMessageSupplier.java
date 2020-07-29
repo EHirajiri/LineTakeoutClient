@@ -42,7 +42,7 @@ public class CartMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createHeroBlock() {
         final Text titleBlock = FlexComponentUtil.createText("カート", "#1DB446", FlexFontSize.XL);
-        return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.LG).content(titleBlock).build();
+        return Box.builder().layout(FlexLayout.VERTICAL).margin(FlexMarginSize.XXL).content(titleBlock).build();
     }
 
     private Box createBodyBlock() {
@@ -50,15 +50,12 @@ public class CartMessageSupplier implements Supplier<FlexMessage> {
 
         if (!CollectionUtils.isEmpty(itemDTOList)) {
             // カート内の商品情報
+            int total = 0;
             for (ItemDTO itemDTO : itemDTOList) {
+                int totalFee = itemDTO.getPrice() * itemDTO.getQuantity();
                 final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", itemDTO.getName()), null, FlexFontSize.LG);
                 final Text totalFeeBlock = FlexComponentUtil.createText(
-                    String.format(
-                        "金額: %s円 × %s個 = %s",
-                        itemDTO.getPrice(),
-                        itemDTO.getQuantity(),
-                        itemDTO.getPrice() * itemDTO.getQuantity()
-                    ),
+                    String.format("金額: %s円 × %s個 = %s", itemDTO.getPrice(), itemDTO.getQuantity(), totalFee),
                     null,
                     FlexFontSize.LG
                 );
@@ -67,10 +64,13 @@ public class CartMessageSupplier implements Supplier<FlexMessage> {
                         .builder()
                         .layout(FlexLayout.VERTICAL)
                         .spacing(FlexMarginSize.SM)
-                        .contents(FlexComponentUtil.createSeparator(), itemBlock, totalFeeBlock)
+                        .contents(itemBlock, totalFeeBlock, FlexComponentUtil.createSeparator())
                         .build()
                 );
+                total += totalFee;
             }
+            final Text totalBlock = FlexComponentUtil.createText(String.format("合計金額: %s円", total), null, FlexFontSize.LG);
+            listComponent.add(totalBlock);
         }
 
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
@@ -85,7 +85,7 @@ public class CartMessageSupplier implements Supplier<FlexMessage> {
         final Button proceedButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("買い物を続ける", String.format("type=delivery%s", carts), null))
+            .action(new PostbackAction("注文する", String.format("type=delivery-date%s", carts), null))
             .build();
 
         return Box

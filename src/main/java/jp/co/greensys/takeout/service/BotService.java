@@ -114,6 +114,10 @@ public class BotService {
 
         lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new CartMessageSupplier(parser, itemDTOList).get()));
     }
+
+    public void replyDeliveryDate(String replyToken, QueryStringParser parser) {
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new DeliveryDateMessageSupplier(parser).get()));
+    }
     //    public void postbackEvent(PostbackEvent event) {
     //        QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
     //        log.debug("PostbackDataType: {}", parser.getParameterValue("type"));

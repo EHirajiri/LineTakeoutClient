@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 public class DateTimeUtil {
@@ -32,5 +34,21 @@ public class DateTimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         format.setTimeZone(TIME_ZONE);
         return format.format(dateTime);
+    }
+
+    public static String toString(String format, long dateTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TIME_ZONE);
+        return sdf.format(dateTime);
+    }
+
+    public static List<String> getDeliveryDate() {
+        List<String> deliveryDate = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < 3; i++) {
+            calendar.add(Calendar.DATE, i);
+            deliveryDate.add(toString("yyyy/MM/dd", calendar.getTimeInMillis()));
+        }
+        return deliveryDate;
     }
 }

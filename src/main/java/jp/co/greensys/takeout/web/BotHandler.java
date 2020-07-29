@@ -104,6 +104,10 @@ public class BotHandler {
                 case "cart":
                     botService.replyCart(event.getReplyToken(), parser);
                     break;
+                // 受取日時選択
+                case "delivery-date":
+                    botService.replyDeliveryDate(event.getReplyToken(), parser);
+                    break;
                 // 問い合わせ
                 case "customer-support":
                     lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("未対応の機能です")));
