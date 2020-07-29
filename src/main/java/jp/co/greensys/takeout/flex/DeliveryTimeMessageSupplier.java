@@ -48,7 +48,7 @@ public class DeliveryTimeMessageSupplier implements Supplier<FlexMessage> {
             final Button addToCartEnableButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
-                .action(new PostbackAction(date, String.format("type=order%s&delivery-time=%s%s", deliveryDate, date, carts), null))
+                .action(new PostbackAction(date, String.format("type=register%s&delivery-time=%s%s", deliveryDate, date, carts), null))
                 .build();
             list.add(addToCartEnableButton);
         }

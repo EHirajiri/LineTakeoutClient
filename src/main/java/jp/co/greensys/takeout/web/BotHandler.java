@@ -112,6 +112,14 @@ public class BotHandler {
                 case "delivery-time":
                     botService.replyDeliveryTime(event.getReplyToken(), parser);
                     break;
+                // レジ
+                case "register":
+                    botService.replyRegister(event.getReplyToken(), parser);
+                    break;
+                // 注文
+                case "order":
+                    botService.replyOrder(event.getReplyToken(), parser);
+                    break;
                 // 問い合わせ
                 case "customer-support":
                     lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("未対応の機能です")));

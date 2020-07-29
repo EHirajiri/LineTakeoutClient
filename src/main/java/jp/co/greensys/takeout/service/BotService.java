@@ -3,15 +3,12 @@ package jp.co.greensys.takeout.service;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.domain.enumeration.InfomationKey;
 import jp.co.greensys.takeout.flex.*;
 import jp.co.greensys.takeout.flex.dto.CartDTO;
@@ -104,7 +101,6 @@ public class BotService {
         List<ItemDTO> itemDTOList = new ArrayList<>();
         for (String cart : carts) {
             CartDTO cartDTO = JsonUtil.parse(CartDTO.class, cart);
-            log.debug("cart:{}, cartDTO:{}", cart, cartDTO);
             Optional<ItemDTO> itemDTO = itemService.findOne(cartDTO.getId());
             if (itemDTO.isPresent()) {
                 itemDTO.get().setQuantity(cartDTO.getQuantity());
@@ -122,13 +118,31 @@ public class BotService {
     public void replyDeliveryTime(String replyToken, QueryStringParser parser) {
         lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new DeliveryTimeMessageSupplier(parser).get()));
     }
+
+    public void replyRegister(String replyToken, QueryStringParser parser) {
+        // カート内の商品情報取得
+        List<String> carts = parser.getParameterValues("cart");
+        List<ItemDTO> itemDTOList = new ArrayList<>();
+        for (String cart : carts) {
+            CartDTO cartDTO = JsonUtil.parse(CartDTO.class, cart);
+            Optional<ItemDTO> itemDTO = itemService.findOne(cartDTO.getId());
+            if (itemDTO.isPresent()) {
+                itemDTO.get().setQuantity(cartDTO.getQuantity());
+                itemDTOList.add(itemDTO.get());
+            }
+        }
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new RegisterMessageSupplier(parser, itemDTOList).get()));
+    }
+
+    public void replyOrder(String replyToken, QueryStringParser parser) {
+        // 注文情報登録
+        // TODO
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new ReceiptConfirmMessageSupplier(null).get()));
+    }
     //    public void postbackEvent(PostbackEvent event) {
     //        QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
     //        log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
     //        switch (parser.getParameterValue("type")) {
-    //            case "delivery":
-    //                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new DeliveryMessageSupplier(parser).get()));
-    //                break;
     //            case "order":
     //                // 商品情報取得
     //                ItemDTO itemDTO = itemService.findOne(Long.valueOf(parser.getParameterValue("item"))).get();
