@@ -8,6 +8,7 @@ public class JsonUtil {
 
     /**
      * JSON文字列をDTOクラスへ変換する
+     *
      * @param dto
      * @param json
      * @return DTOobject
@@ -24,6 +25,7 @@ public class JsonUtil {
 
     /**
      * DTOクラスのインスタンスをJSON文字列に変換する
+     *
      * @param dto
      * @return String
      * @throws JsonProcessingException

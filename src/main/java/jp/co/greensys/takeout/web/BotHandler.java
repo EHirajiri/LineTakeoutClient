@@ -5,41 +5,21 @@ import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.FollowEvent;
 import com.linecorp.bot.model.event.PostbackEvent;
 import com.linecorp.bot.model.event.UnfollowEvent;
-import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.profile.UserProfileResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
-import jp.co.greensys.takeout.domain.enumeration.InfomationKey;
-import jp.co.greensys.takeout.flex.BusinessHourMessageSupplier;
-import jp.co.greensys.takeout.flex.CartMessageSupplier;
-import jp.co.greensys.takeout.flex.DeliveryMessageSupplier;
-import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
-import jp.co.greensys.takeout.flex.OrderMessageSupplier;
-import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
-import jp.co.greensys.takeout.flex.ReceiptConfirmMessageSupplier;
+import jp.co.greensys.takeout.service.BotService;
 import jp.co.greensys.takeout.service.CustomerService;
-import jp.co.greensys.takeout.service.InformationService;
 import jp.co.greensys.takeout.service.ItemService;
 import jp.co.greensys.takeout.service.OrderedService;
 import jp.co.greensys.takeout.service.dto.CustomerDTO;
-import jp.co.greensys.takeout.service.dto.InformationDTO;
-import jp.co.greensys.takeout.service.dto.ItemDTO;
-import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.util.QueryStringParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 @LineMessageHandler
 public class BotHandler {
@@ -49,26 +29,12 @@ public class BotHandler {
 
     private final CustomerService customerService;
 
-    private final ItemService itemService;
+    private final BotService botService;
 
-    private final OrderedService orderedService;
-
-    private final InformationService informationService;
-
-    private static final String BUSINESS_HOUR_SEARCH_KEY = InfomationKey.BUSINESS_HOUR + "%";
-
-    public BotHandler(
-        LineMessagingClient lineMessagingClient,
-        CustomerService customerService,
-        ItemService itemService,
-        OrderedService orderedService,
-        InformationService informationService
-    ) {
+    public BotHandler(LineMessagingClient lineMessagingClient, CustomerService customerService, BotService botService) {
         this.lineMessagingClient = lineMessagingClient;
         this.customerService = customerService;
-        this.itemService = itemService;
-        this.orderedService = orderedService;
-        this.informationService = informationService;
+        this.botService = botService;
     }
 
     @EventMapping
@@ -92,6 +58,7 @@ public class BotHandler {
 
             return new TextMessage("友達登録ありがとうございます");
         } catch (Exception e) {
+            log.error("Error occurred.", e);
             return new TextMessage("エラーが発生しました");
         }
     }
@@ -116,26 +83,26 @@ public class BotHandler {
             switch (parser.getParameterValue("type")) {
                 // 営業時間
                 case "business-hour":
-                    replyBusinessHour(event.getReplyToken());
+                    botService.replyBusinessHour(event.getReplyToken());
                     break;
                 // アクセス
                 case "access":
-                    replyAccess(event.getReplyToken());
+                    botService.replyAccess(event.getReplyToken());
                     break;
                 // メニュー
                 case "menu":
-                    replyMenu(event.getReplyToken(), null);
+                    botService.replyMenu(event.getReplyToken(), null);
                     break;
                 case "re-menu":
-                    replyMenu(event.getReplyToken(), parser);
+                    botService.replyMenu(event.getReplyToken(), parser);
                     break;
                 // 個数選択
                 case "quantity":
-                    replyQuantity(event.getReplyToken(), parser);
+                    botService.replyQuantity(event.getReplyToken(), parser);
                     break;
                 // カート
                 case "cart":
-                    replyCart(event.getReplyToken(), parser);
+                    botService.replyCart(event.getReplyToken(), parser);
                     break;
                 // 問い合わせ
                 case "customer-support":
@@ -144,91 +111,9 @@ public class BotHandler {
                 default:
                     lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("不正な操作です")));
             }
-            postbackEvent(event);
         } catch (Exception e) {
             log.error("Error occurred.", e);
             lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new TextMessage("エラーが発生しました。")));
-        }
-    }
-
-    private void replyBusinessHour(String replyToken) {
-        List<InformationDTO> informationList = informationService.findByKeyLike(BUSINESS_HOUR_SEARCH_KEY, Pageable.unpaged());
-        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new BusinessHourMessageSupplier(informationList).get()));
-    }
-
-    private void replyAccess(String replyToken) {
-        lineMessagingClient.replyMessage(
-            new ReplyMessage(
-                replyToken,
-                new LocationMessage(
-                    "Brown's Burger Shop",
-                    "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
-                    35.65910807942215,
-                    139.70372892916203
-                )
-            )
-        );
-    }
-
-    private void replyMenu(String replyToken, QueryStringParser parser) {
-        Message message;
-        Page<ItemDTO> itemPage = itemService.findAll(Pageable.unpaged());
-        if (itemPage.getTotalPages() > 0) {
-            message = new MenuFlexMessageSupplier(itemPage.getContent(), parser).get();
-        } else {
-            message = new TextMessage("現在提供できる商品がありません");
-        }
-        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, message));
-    }
-
-    private void replyQuantity(String replyToken, QueryStringParser parser) {
-        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new QuantityMessageSupplier(parser).get()));
-    }
-
-    private void replyCart(String replyToken, QueryStringParser parser) {
-        // カート内の商品情報取得
-        List<String> carts = parser.getParameterValues("cart");
-        List<ItemDTO> itemDTOList = new ArrayList<>();
-        for (String cart : carts) {
-            String[] split = cart.split(":");
-            Optional<ItemDTO> itemDTO = itemService.findOne(Long.parseLong(split[0]));
-            if (itemDTO.isPresent()) {
-                itemDTO.get().setQuantity(Integer.parseInt(split[1]));
-                itemDTOList.add(itemDTO.get());
-            }
-        }
-
-        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new CartMessageSupplier(parser, itemDTOList).get()));
-    }
-
-    private void postbackEvent(PostbackEvent event) {
-        QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
-        log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
-        switch (parser.getParameterValue("type")) {
-            case "delivery":
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new DeliveryMessageSupplier(parser).get()));
-                break;
-            case "order":
-                // 商品情報取得
-                ItemDTO itemDTO = itemService.findOne(Long.valueOf(parser.getParameterValue("item"))).get();
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new OrderMessageSupplier(itemDTO, parser).get()));
-                break;
-            case "ordered":
-                // 注文情報登録
-                OrderedDTO orderedDTO = new OrderedDTO();
-                orderedDTO.setOrderId(parser.getParameterValue("orderId"));
-                orderedDTO.setQuantity(Integer.parseInt(parser.getParameterValue("quantity")));
-                orderedDTO.setUnitPrice(Integer.parseInt(parser.getParameterValue("unitPrice")));
-                orderedDTO.setTotalFee(Integer.parseInt(parser.getParameterValue("totalFee")));
-                orderedDTO.setDeliveryState(DeliveryState.CONFIRMING);
-                orderedDTO.setDeliveryDate(Instant.ofEpochMilli(Long.parseLong(parser.getParameterValue("deliveryDate"))));
-                orderedDTO.setItemId(Long.parseLong(parser.getParameterValue("item")));
-                orderedDTO.setCustomerUserId(event.getSource().getUserId());
-                OrderedDTO result = orderedService.save(orderedDTO);
-
-                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new ReceiptConfirmMessageSupplier(result).get()));
-
-                break;
         }
     }
 }

@@ -67,7 +67,7 @@ public class CartMessageSupplier implements Supplier<FlexMessage> {
                         .builder()
                         .layout(FlexLayout.VERTICAL)
                         .spacing(FlexMarginSize.SM)
-                        .contents(FlexComponentUtil.getSeparator(), itemBlock, totalFeeBlock)
+                        .contents(FlexComponentUtil.createSeparator(), itemBlock, totalFeeBlock)
                         .build()
                 );
             }

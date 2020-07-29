@@ -78,7 +78,7 @@ public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
             .builder()
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
-            .contents(Arrays.asList(FlexComponentUtil.getSeparator(), itemBox, totalFeeBlock, deliveryDateBlock))
+            .contents(Arrays.asList(FlexComponentUtil.createSeparator(), itemBox, totalFeeBlock, deliveryDateBlock))
             .build();
     }
 }

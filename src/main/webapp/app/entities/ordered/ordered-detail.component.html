@@ -8,6 +8,29 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+                <dd>
+                    <button type="submit"
+                            (click)="accept(ordered)"
+                            class="btn btn-success"
+                            [disabled]="ordered.deliveryState !== 'CONFIRMING'">
+                        <fa-icon icon="heart"></fa-icon>&nbsp;<span
+                        jhiTranslate="lineTakeoutClientApp.ordered.action.accept">Accept</span>
+                    </button>
+                    <button type="submit"
+                            (click)="delivered(ordered)"
+                            class="btn btn-warning"
+                            [disabled]="ordered.deliveryState !== 'ACCEPT'">
+                        <fa-icon icon="heart"></fa-icon>&nbsp;<span
+                        jhiTranslate="lineTakeoutClientApp.ordered.action.delivered">Delivered</span>
+                    </button>
+                    <button type="submit"
+                            (click)="cancel(ordered)"
+                            class="btn btn-danger"
+                            [disabled]="ordered.deliveryState === 'DELIVERED'">
+                        <fa-icon icon="heart"></fa-icon>&nbsp;<span
+                        jhiTranslate="lineTakeoutClientApp.ordered.action.cancel">Cancel</span>
+                    </button>
+                </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.orderId">Order Id</span></dt>
                 <dd>
                     <span>{{ ordered.orderId }}</span>

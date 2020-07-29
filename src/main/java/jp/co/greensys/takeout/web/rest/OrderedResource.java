@@ -134,4 +134,17 @@ public class OrderedResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @PutMapping("/ordereds/deliveryState")
+    public ResponseEntity<OrderedDTO> updateDeliveryState(@Valid @RequestBody OrderedDTO orderedDTO) throws URISyntaxException {
+        log.debug("REST request to accept Ordered : {}", orderedDTO);
+        if (orderedDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        OrderedDTO result = orderedService.updateDeliveryState(orderedDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, orderedDTO.getId().toString()))
+            .body(result);
+    }
 }

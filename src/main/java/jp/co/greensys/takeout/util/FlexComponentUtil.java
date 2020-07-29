@@ -1,5 +1,7 @@
 package jp.co.greensys.takeout.util;
 
+import com.linecorp.bot.model.action.Action;
+import com.linecorp.bot.model.message.flex.component.Button;
 import com.linecorp.bot.model.message.flex.component.Image;
 import com.linecorp.bot.model.message.flex.component.Separator;
 import com.linecorp.bot.model.message.flex.component.Text;
@@ -42,7 +44,11 @@ public class FlexComponentUtil {
             .build();
     }
 
-    public static Separator getSeparator() {
+    public static Separator createSeparator() {
         return Separator.builder().margin(FlexMarginSize.SM).color("#c0c0c0").build();
+    }
+
+    public static Button createButton(Button.ButtonStyle style, Action action) {
+        return Button.builder().style(style).action(action).build();
     }
 }

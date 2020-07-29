@@ -60,7 +60,7 @@ public class ReceiptCancelMessageSupplier implements Supplier<FlexMessage> {
             .builder()
             .layout(FlexLayout.VERTICAL)
             .spacing(FlexMarginSize.SM)
-            .contents(Arrays.asList(FlexComponentUtil.getSeparator(), addToCartEnableButton))
+            .contents(Arrays.asList(FlexComponentUtil.createSeparator(), addToCartEnableButton))
             .build();
     }
 }
