@@ -126,6 +126,9 @@ public class BotHandler {
                 case "menu":
                     replyMenu(event.getReplyToken(), null);
                     break;
+                case "re-menu":
+                    replyMenu(event.getReplyToken(), parser);
+                    break;
                 // 個数選択
                 case "quantity":
                     replyQuantity(event.getReplyToken(), parser);

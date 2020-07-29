@@ -79,12 +79,12 @@ public class CartMessageSupplier implements Supplier<FlexMessage> {
     private Box createFooterBlock() {
         final Button continueButton = Button
             .builder()
-            .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("さらに商品を追加する", String.format("type=menu%s", carts), null))
+            .style(Button.ButtonStyle.SECONDARY)
+            .action(new PostbackAction("さらに商品を追加する", String.format("type=re-menu%s", carts), null))
             .build();
         final Button proceedButton = Button
             .builder()
-            .style(Button.ButtonStyle.SECONDARY)
+            .style(Button.ButtonStyle.PRIMARY)
             .action(new PostbackAction("買い物を続ける", String.format("type=delivery%s", carts), null))
             .build();
 

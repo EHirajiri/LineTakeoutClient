@@ -14,14 +14,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import jp.co.greensys.takeout.service.dto.ItemDTO;
+import jp.co.greensys.takeout.service.dto.OrderItemDTO;
+import jp.co.greensys.takeout.util.JsonUtil;
 import jp.co.greensys.takeout.util.QueryStringParser;
 
 public class QuantityMessageSupplier implements Supplier<FlexMessage> {
-    private final String itemId;
+    private final ItemDTO itemDTO;
     private final String carts;
 
     public QuantityMessageSupplier(QueryStringParser parser) {
-        this.itemId = parser.getParameterValue("item");
+        this.itemDTO = JsonUtil.parse(ItemDTO.class, parser.getParameterValue("item"));
         this.carts = parser.getUrlQuery("cart");
     }
 
@@ -33,7 +36,7 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
 
     private Bubble createBubble() {
         final Box bodyBlock = createBodyBlock();
-        final Box footerBlock = createFooterBlock(itemId);
+        final Box footerBlock = createFooterBlock(itemDTO);
         return Bubble.builder().body(bodyBlock).footer(footerBlock).build();
     }
 
@@ -52,10 +55,10 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();
     }
 
-    private Box createFooterBlock(String itemId) {
+    private Box createFooterBlock(ItemDTO itemDTO) {
         List list = new ArrayList();
         for (int i = 1; i <= 5; i++) {
-            String postData = String.format("type=cart&item=%s&quantity=%s&cart=%s:%s%s", itemId, i, itemId, i, carts);
+            String postData = String.format("type=cart&item=%s&quantity=%s&cart=%s%s", itemDTO.getId(), i, getOrderItem(itemDTO, i), carts);
             final Button selectQuantityButton = Button
                 .builder()
                 .style(Button.ButtonStyle.PRIMARY)
@@ -64,5 +67,14 @@ public class QuantityMessageSupplier implements Supplier<FlexMessage> {
             list.add(selectQuantityButton);
         }
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(list).build();
+    }
+
+    private String getOrderItem(ItemDTO itemDTO, Integer quantity) {
+        OrderItemDTO orderItemDTO = new OrderItemDTO();
+        orderItemDTO.setName(itemDTO.getName());
+        orderItemDTO.setPrice(itemDTO.getPrice());
+        orderItemDTO.setQuantity(quantity);
+        orderItemDTO.setItemId(itemDTO.getId());
+        return JsonUtil.convert(orderItemDTO);
     }
 }

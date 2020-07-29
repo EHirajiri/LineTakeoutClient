@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
+import jp.co.greensys.takeout.util.JsonUtil;
 import jp.co.greensys.takeout.util.QueryStringParser;
+import org.apache.commons.lang3.StringUtils;
 
 public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     private final List<ItemDTO> itemDTOS;
@@ -43,13 +45,13 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
             bubbles.add(bubble);
         }
         final Carousel carousel = Carousel.builder().contents(bubbles).build();
-        return new FlexMessage("Menu", carousel);
+        return new FlexMessage("メニュー", carousel);
     }
 
     private Bubble createBubble(ItemDTO itemDTO) {
         final Image heroBlock = createHeroBlock(itemDTO.getImageUrl());
         final Box bodyBlock = createBodyBlock(itemDTO);
-        final Box footerBlock = createFooterBlock(itemDTO.getId());
+        final Box footerBlock = createFooterBlock(itemDTO);
         return Bubble.builder().hero(heroBlock).body(bodyBlock).footer(footerBlock).build();
     }
 
@@ -75,8 +77,8 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
             .build();
     }
 
-    private Box createFooterBlock(Long itemId) {
-        final String postData = String.format("type=quantity&item=%s%s", itemId, carts);
+    private Box createFooterBlock(ItemDTO itemDTO) {
+        final String postData = String.format("type=quantity&item=%s%s", JsonUtil.convert(itemDTO), carts);
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
