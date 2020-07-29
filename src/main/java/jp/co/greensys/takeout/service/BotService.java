@@ -104,6 +104,7 @@ public class BotService {
         List<ItemDTO> itemDTOList = new ArrayList<>();
         for (String cart : carts) {
             CartDTO cartDTO = JsonUtil.parse(CartDTO.class, cart);
+            log.debug("cart:{}, cartDTO:{}", cart, cartDTO);
             Optional<ItemDTO> itemDTO = itemService.findOne(cartDTO.getId());
             if (itemDTO.isPresent()) {
                 itemDTO.get().setQuantity(cartDTO.getQuantity());
