@@ -22,7 +22,6 @@ import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
 import jp.co.greensys.takeout.util.JsonUtil;
 import jp.co.greensys.takeout.util.QueryStringParser;
-import org.apache.commons.lang3.StringUtils;
 
 public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     private final List<ItemDTO> itemDTOS;
@@ -78,7 +77,7 @@ public class MenuFlexMessageSupplier implements Supplier<FlexMessage> {
     }
 
     private Box createFooterBlock(ItemDTO itemDTO) {
-        final String postData = String.format("type=quantity&item=%s%s", JsonUtil.convert(itemDTO), carts);
+        final String postData = String.format("type=quantity&item=%s%s", itemDTO.getId(), carts);
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
