@@ -53,13 +53,13 @@ public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
 
     private Box createFooterBlock() {
         // 商品情報
-        final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", orderedDTO.getItemName()), null, FlexFontSize.LG);
-        final Text calcBlock = FlexComponentUtil.createText(
-            String.format("[%s円 × %s個]", orderedDTO.getUnitPrice(), orderedDTO.getQuantity()),
-            "#555555",
-            FlexFontSize.SM
-        );
-        final Box itemBox = Box.builder().layout(FlexLayout.VERTICAL).contents(Arrays.asList(itemBlock, calcBlock)).build();
+        //        final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", orderedDTO.getItemName()), null, FlexFontSize.LG);
+        //        final Text calcBlock = FlexComponentUtil.createText(
+        //            String.format("[%s円 × %s個]", orderedDTO.getUnitPrice(), orderedDTO.getQuantity()),
+        //            "#555555",
+        //            FlexFontSize.SM
+        //        );
+        final Box itemBox = Box.builder().layout(FlexLayout.VERTICAL).contents(Arrays.asList()).build();
 
         // 合計金額
         final Text totalFeeBlock = FlexComponentUtil.createText(

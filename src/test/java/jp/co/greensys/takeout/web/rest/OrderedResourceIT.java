@@ -44,12 +44,6 @@ public class OrderedResourceIT {
     private static final String DEFAULT_ORDER_ID = "AAAAAAAAAA";
     private static final String UPDATED_ORDER_ID = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_QUANTITY = 1;
-    private static final Integer UPDATED_QUANTITY = 2;
-
-    private static final Integer DEFAULT_UNIT_PRICE = 1;
-    private static final Integer UPDATED_UNIT_PRICE = 2;
-
     private static final Integer DEFAULT_TOTAL_FEE = 1;
     private static final Integer UPDATED_TOTAL_FEE = 2;
 
@@ -103,8 +97,6 @@ public class OrderedResourceIT {
     public static Ordered createEntity(EntityManager em) {
         Ordered ordered = new Ordered()
             .orderId(DEFAULT_ORDER_ID)
-            .quantity(DEFAULT_QUANTITY)
-            .unitPrice(DEFAULT_UNIT_PRICE)
             .totalFee(DEFAULT_TOTAL_FEE)
             .deliveryState(DEFAULT_DELIVERY_STATE)
             .deliveryDate(DEFAULT_DELIVERY_DATE)
@@ -124,8 +116,6 @@ public class OrderedResourceIT {
     public static Ordered createUpdatedEntity(EntityManager em) {
         Ordered ordered = new Ordered()
             .orderId(UPDATED_ORDER_ID)
-            .quantity(UPDATED_QUANTITY)
-            .unitPrice(UPDATED_UNIT_PRICE)
             .totalFee(UPDATED_TOTAL_FEE)
             .deliveryState(UPDATED_DELIVERY_STATE)
             .deliveryDate(UPDATED_DELIVERY_DATE)
@@ -156,8 +146,6 @@ public class OrderedResourceIT {
         assertThat(orderedList).hasSize(databaseSizeBeforeCreate + 1);
         Ordered testOrdered = orderedList.get(orderedList.size() - 1);
         assertThat(testOrdered.getOrderId()).isEqualTo(DEFAULT_ORDER_ID);
-        assertThat(testOrdered.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
-        assertThat(testOrdered.getUnitPrice()).isEqualTo(DEFAULT_UNIT_PRICE);
         assertThat(testOrdered.getTotalFee()).isEqualTo(DEFAULT_TOTAL_FEE);
         assertThat(testOrdered.getDeliveryState()).isEqualTo(DEFAULT_DELIVERY_STATE);
         assertThat(testOrdered.getDeliveryDate()).isEqualTo(DEFAULT_DELIVERY_DATE);
@@ -253,8 +241,6 @@ public class OrderedResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(ordered.getId().intValue())))
             .andExpect(jsonPath("$.[*].orderId").value(hasItem(DEFAULT_ORDER_ID)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
-            .andExpect(jsonPath("$.[*].unitPrice").value(hasItem(DEFAULT_UNIT_PRICE)))
             .andExpect(jsonPath("$.[*].totalFee").value(hasItem(DEFAULT_TOTAL_FEE)))
             .andExpect(jsonPath("$.[*].deliveryState").value(hasItem(DEFAULT_DELIVERY_STATE.toString())))
             .andExpect(jsonPath("$.[*].deliveryDate").value(hasItem(DEFAULT_DELIVERY_DATE.toString())))
@@ -295,8 +281,6 @@ public class OrderedResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(ordered.getId().intValue()))
             .andExpect(jsonPath("$.orderId").value(DEFAULT_ORDER_ID))
-            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
-            .andExpect(jsonPath("$.unitPrice").value(DEFAULT_UNIT_PRICE))
             .andExpect(jsonPath("$.totalFee").value(DEFAULT_TOTAL_FEE))
             .andExpect(jsonPath("$.deliveryState").value(DEFAULT_DELIVERY_STATE.toString()))
             .andExpect(jsonPath("$.deliveryDate").value(DEFAULT_DELIVERY_DATE.toString()))
@@ -327,8 +311,6 @@ public class OrderedResourceIT {
         em.detach(updatedOrdered);
         updatedOrdered
             .orderId(UPDATED_ORDER_ID)
-            .quantity(UPDATED_QUANTITY)
-            .unitPrice(UPDATED_UNIT_PRICE)
             .totalFee(UPDATED_TOTAL_FEE)
             .deliveryState(UPDATED_DELIVERY_STATE)
             .deliveryDate(UPDATED_DELIVERY_DATE)
@@ -347,8 +329,6 @@ public class OrderedResourceIT {
         assertThat(orderedList).hasSize(databaseSizeBeforeUpdate);
         Ordered testOrdered = orderedList.get(orderedList.size() - 1);
         assertThat(testOrdered.getOrderId()).isEqualTo(UPDATED_ORDER_ID);
-        assertThat(testOrdered.getQuantity()).isEqualTo(UPDATED_QUANTITY);
-        assertThat(testOrdered.getUnitPrice()).isEqualTo(UPDATED_UNIT_PRICE);
         assertThat(testOrdered.getTotalFee()).isEqualTo(UPDATED_TOTAL_FEE);
         assertThat(testOrdered.getDeliveryState()).isEqualTo(UPDATED_DELIVERY_STATE);
         assertThat(testOrdered.getDeliveryDate()).isEqualTo(UPDATED_DELIVERY_DATE);

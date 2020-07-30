@@ -1,7 +1,13 @@
 package jp.co.greensys.takeout.service;
 
+import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.model.PushMessage;
+import com.linecorp.bot.model.message.Message;
 import java.util.Optional;
 import jp.co.greensys.takeout.domain.Ordered;
+import jp.co.greensys.takeout.flex.ReceiptAcceptMessageSupplier;
+import jp.co.greensys.takeout.flex.ReceiptCancelMessageSupplier;
+import jp.co.greensys.takeout.flex.ReceiptDeliveredMessageSupplier;
 import jp.co.greensys.takeout.repository.OrderedRepository;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.service.mapper.OrderedMapper;
@@ -24,12 +30,12 @@ public class OrderedService {
 
     private final OrderedMapper orderedMapper;
 
-    private final BotService botService;
+    private final LineMessagingClient lineMessagingClient;
 
-    public OrderedService(OrderedRepository orderedRepository, OrderedMapper orderedMapper, BotService botService) {
+    public OrderedService(OrderedRepository orderedRepository, OrderedMapper orderedMapper, LineMessagingClient lineMessagingClient) {
         this.orderedRepository = orderedRepository;
         this.orderedMapper = orderedMapper;
-        this.botService = botService;
+        this.lineMessagingClient = lineMessagingClient;
     }
 
     /**
@@ -91,7 +97,27 @@ public class OrderedService {
     public OrderedDTO updateDeliveryState(OrderedDTO orderedDTO) {
         log.debug("Request to update Ordered : {}", orderedDTO);
         OrderedDTO result = save(orderedDTO);
-        botService.pushMessage(orderedDTO);
+        pushMessage(orderedDTO);
         return result;
+    }
+
+    private void pushMessage(OrderedDTO orderedDTO) {
+        log.debug("pushMessage : {}", orderedDTO);
+        Message message;
+        switch (orderedDTO.getDeliveryState()) {
+            case ACCEPT:
+                message = new ReceiptAcceptMessageSupplier(orderedDTO).get();
+                break;
+            case DELIVERED:
+                message = new ReceiptDeliveredMessageSupplier(orderedDTO).get();
+                break;
+            case CANCEL:
+                message = new ReceiptCancelMessageSupplier(orderedDTO).get();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + orderedDTO.getDeliveryState());
+        }
+
+        lineMessagingClient.pushMessage(new PushMessage(orderedDTO.getCustomerUserId(), message));
     }
 }

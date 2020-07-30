@@ -18,10 +18,6 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
     @NotNull
     private String orderId;
 
-    private Integer quantity;
-
-    private Integer unitPrice;
-
     private Integer totalFee;
 
     @NotNull
@@ -34,9 +30,7 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     private String customerUserId;
 
-    private Long itemId;
-
-    private String itemName;
+    private String customerNickname;
 
     private Set<OrderItemDTO> orderItems = new HashSet<>();
 
@@ -54,22 +48,6 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Integer getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Integer unitPrice) {
-        this.unitPrice = unitPrice;
     }
 
     public Integer getTotalFee() {
@@ -112,20 +90,12 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
         this.customerUserId = customerUserId;
     }
 
-    public Long getItemId() {
-        return itemId;
+    public String getCustomerNickname() {
+        return customerNickname;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setCustomerNickname(String customerNickname) {
+        this.customerNickname = customerNickname;
     }
 
     public Set<OrderItemDTO> getOrderItems() {
@@ -134,6 +104,10 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setOrderItems(Set<OrderItemDTO> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public void addOrderItems(OrderItemDTO orderItem) {
+        this.orderItems.add(orderItem);
     }
 
     @Override

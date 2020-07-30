@@ -9,12 +9,6 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface ItemMapper extends EntityMapper<ItemDTO, Item> {
-    ItemDTO toDto(Item item);
-
-    @Mapping(target = "ordereds", ignore = true)
-    @Mapping(target = "removeOrdered", ignore = true)
-    Item toEntity(ItemDTO itemDTO);
-
     default Item fromId(Long id) {
         if (id == null) {
             return null;

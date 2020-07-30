@@ -24,17 +24,10 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="orderId"><span jhiTranslate="lineTakeoutClientApp.ordered.orderId">Order Id</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="quantity"><span jhiTranslate="lineTakeoutClientApp.ordered.quantity">Quantity</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="unitPrice"><span jhiTranslate="lineTakeoutClientApp.ordered.unitPrice">Unit Price</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalFee"><span jhiTranslate="lineTakeoutClientApp.ordered.totalFee">Total Fee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deliveryState"><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryState">Delivery State</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deliveryDate"><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryDate">Delivery Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.ordered.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.ordered.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="customerId"><span jhiTranslate="lineTakeoutClientApp.ordered.customer">Customer</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="itemId"><span jhiTranslate="lineTakeoutClientApp.ordered.item">Item</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -42,23 +35,12 @@
                 <tr *ngFor="let ordered of ordereds ;trackBy: trackId">
                     <td><a [routerLink]="['/ordered', ordered.id, 'view']">{{ ordered.id }}</a></td>
                     <td>{{ ordered.orderId }}</td>
-                    <td>{{ ordered.quantity }}</td>
-                    <td>{{ ordered.unitPrice }}</td>
                     <td>{{ ordered.totalFee }}</td>
                     <td jhiTranslate="{{ 'lineTakeoutClientApp.DeliveryState.' + ordered.deliveryState }}">{{ ordered.deliveryState }}</td>
                     <td>{{ ordered.deliveryDate | date:'medium' }}</td>
-                    <td>{{ ordered.createdBy }}</td>
-                    <td>{{ ordered.createdDate | date:'medium' }}</td>
-                    <td>{{ ordered.lastModifiedBy }}</td>
-                    <td>{{ ordered.lastModifiedDate | date:'medium' }}</td>
                     <td>
                         <div *ngIf="ordered.customerId">
-                            <a [routerLink]="['/customer', ordered.customerId , 'view']" >{{ ordered.customerId }}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="ordered.itemId">
-                            <a [routerLink]="['/item', ordered.itemId , 'view']" >{{ ordered.itemId }}</a>
+                            <a [routerLink]="['/customer', ordered.customerId , 'view']" >{{ ordered.customerNickname }}</a>
                         </div>
                     </td>
                     <td class="text-right">

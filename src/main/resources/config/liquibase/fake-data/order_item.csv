@@ -1,11 +1,11 @@
-id;name;price;quantity
-1;function;54520;72110
-2;generating;64013;33900
-3;Fork;84545;13171
-4;Cotton Awesome Wooden Soap;33243;12433
-5;AI application Central African Republic;27113;78920
-6;Re-contextualized Music fuchsia;68168;32027
-7;SCSI Customer Indiana;1455;42907
-8;Legacy Infrastructure;8432;80266
-9;turn-key;66694;51859
-10;killer Money Market Account;17350;33897
+id;name;price;quantity;created_by;created_date;last_modified_by;last_modified_date
+1;function;54520;72110;generating;2020-07-27T17:22:11;Practical Switchable;2020-07-28T05:34:18
+2;Cotton Awesome Wooden Soap;33243;12433;AI application Central African Republic;2020-07-28T02:13:32;Engineer driver Intelligent;2020-07-27T12:14:02
+3;system engine SCSI Customer;55647;26468;architectures;2020-07-27T10:50:47;Infrastructure Licensed Garden;2020-07-27T17:32:18
+4;Guinea-Bissau killer Money Market Account;17350;33897;red Personal Loan Account;2020-07-28T01:54:59;multi-byte Drive;2020-07-28T06:38:44
+5;CSS;63792;72098;Outdoors fuchsia;2020-07-27T08:45:33;District;2020-07-27T09:53:12
+6;empower reboot invoice;58954;90947;override Consultant relationships;2020-07-28T01:21:48;index turn-key next generation;2020-07-28T04:19:42
+7;Rubber;99558;6231;navigating;2020-07-27T18:49:44;action-items;2020-07-28T00:37:21
+8;schemas;71239;92686;Borders Sports orchestrate;2020-07-27T10:27:59;leading edge;2020-07-27T08:49:23
+9;Investor connecting Minnesota;45157;49814;Licensed Borders transmit;2020-07-27T21:53:45;ADP Program;2020-07-27T18:18:10
+10;Generic Concrete Towels Robust Checking Account;60078;99638;Automated lavender;2020-07-28T04:16:00;Station;2020-07-28T05:28:50

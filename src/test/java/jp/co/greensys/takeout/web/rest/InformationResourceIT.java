@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jp.co.greensys.takeout.LineTakeoutClientApp;
@@ -36,6 +38,18 @@ public class InformationResourceIT {
     private static final String DEFAULT_VALUE = "AAAAAAAAAA";
     private static final String UPDATED_VALUE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_LAST_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_LAST_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     @Autowired
     private InformationRepository informationRepository;
 
@@ -60,7 +74,13 @@ public class InformationResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Information createEntity(EntityManager em) {
-        Information information = new Information().key(DEFAULT_KEY).value(DEFAULT_VALUE);
+        Information information = new Information()
+            .key(DEFAULT_KEY)
+            .value(DEFAULT_VALUE)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
         return information;
     }
 
@@ -71,7 +91,13 @@ public class InformationResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Information createUpdatedEntity(EntityManager em) {
-        Information information = new Information().key(UPDATED_KEY).value(UPDATED_VALUE);
+        Information information = new Information()
+            .key(UPDATED_KEY)
+            .value(UPDATED_VALUE)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         return information;
     }
 
@@ -98,6 +124,10 @@ public class InformationResourceIT {
         Information testInformation = informationList.get(informationList.size() - 1);
         assertThat(testInformation.getKey()).isEqualTo(DEFAULT_KEY);
         assertThat(testInformation.getValue()).isEqualTo(DEFAULT_VALUE);
+        assertThat(testInformation.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testInformation.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testInformation.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testInformation.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -154,7 +184,11 @@ public class InformationResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(information.getId().intValue())))
             .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY)))
-            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE)));
+            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
     }
 
     @Test
@@ -170,7 +204,11 @@ public class InformationResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(information.getId().intValue()))
             .andExpect(jsonPath("$.key").value(DEFAULT_KEY))
-            .andExpect(jsonPath("$.value").value(DEFAULT_VALUE));
+            .andExpect(jsonPath("$.value").value(DEFAULT_VALUE))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
+            .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -192,7 +230,13 @@ public class InformationResourceIT {
         Information updatedInformation = informationRepository.findById(information.getId()).get();
         // Disconnect from session so that the updates on updatedInformation are not directly saved in db
         em.detach(updatedInformation);
-        updatedInformation.key(UPDATED_KEY).value(UPDATED_VALUE);
+        updatedInformation
+            .key(UPDATED_KEY)
+            .value(UPDATED_VALUE)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         InformationDTO informationDTO = informationMapper.toDto(updatedInformation);
 
         restInformationMockMvc
@@ -207,6 +251,10 @@ public class InformationResourceIT {
         Information testInformation = informationList.get(informationList.size() - 1);
         assertThat(testInformation.getKey()).isEqualTo(UPDATED_KEY);
         assertThat(testInformation.getValue()).isEqualTo(UPDATED_VALUE);
+        assertThat(testInformation.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testInformation.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testInformation.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testInformation.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test

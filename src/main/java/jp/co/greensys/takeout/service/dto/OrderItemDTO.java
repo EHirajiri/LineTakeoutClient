@@ -1,6 +1,7 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import javax.validation.constraints.*;
 
 /**
@@ -17,6 +18,16 @@ public class OrderItemDTO implements Serializable {
 
     @NotNull
     private Integer quantity;
+
+    @Size(max = 50)
+    private String createdBy;
+
+    private Instant createdDate;
+
+    @Size(max = 50)
+    private String lastModifiedBy;
+
+    private Instant lastModifiedDate;
 
     private Long itemId;
 
@@ -52,6 +63,38 @@ public class OrderItemDTO implements Serializable {
         this.quantity = quantity;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public Long getItemId() {
         return itemId;
     }
@@ -85,6 +128,10 @@ public class OrderItemDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", price=" + getPrice() +
             ", quantity=" + getQuantity() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             ", itemId=" + getItemId() +
             "}";
     }

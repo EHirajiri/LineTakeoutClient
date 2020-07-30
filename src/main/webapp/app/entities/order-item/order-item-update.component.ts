@@ -4,6 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IOrderItem, OrderItem } from 'app/shared/model/order-item.model';
 import { OrderItemService } from './order-item.service';
@@ -23,6 +25,10 @@ export class OrderItemUpdateComponent implements OnInit {
     name: [null, [Validators.required]],
     price: [null, [Validators.required]],
     quantity: [null, [Validators.required]],
+    createdBy: [null, [Validators.maxLength(50)]],
+    createdDate: [],
+    lastModifiedBy: [null, [Validators.maxLength(50)]],
+    lastModifiedDate: [],
     itemId: [],
   });
 
@@ -35,6 +41,12 @@ export class OrderItemUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ orderItem }) => {
+      if (!orderItem.id) {
+        const today = moment().startOf('day');
+        orderItem.createdDate = today;
+        orderItem.lastModifiedDate = today;
+      }
+
       this.updateForm(orderItem);
 
       this.itemService.query().subscribe((res: HttpResponse<IItem[]>) => (this.items = res.body || []));
@@ -47,6 +59,10 @@ export class OrderItemUpdateComponent implements OnInit {
       name: orderItem.name,
       price: orderItem.price,
       quantity: orderItem.quantity,
+      createdBy: orderItem.createdBy,
+      createdDate: orderItem.createdDate ? orderItem.createdDate.format(DATE_TIME_FORMAT) : null,
+      lastModifiedBy: orderItem.lastModifiedBy,
+      lastModifiedDate: orderItem.lastModifiedDate ? orderItem.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       itemId: orderItem.itemId,
     });
   }
@@ -72,6 +88,14 @@ export class OrderItemUpdateComponent implements OnInit {
       name: this.editForm.get(['name'])!.value,
       price: this.editForm.get(['price'])!.value,
       quantity: this.editForm.get(['quantity'])!.value,
+      createdBy: this.editForm.get(['createdBy'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value
+        ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
+        ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       itemId: this.editForm.get(['itemId'])!.value,
     };
   }

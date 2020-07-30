@@ -24,18 +24,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.quantity" for="field_quantity">Quantity</label>
-                    <input type="number" class="form-control" name="quantity" id="field_quantity"
-                           formControlName="quantity"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.unitPrice" for="field_unitPrice">Unit Price</label>
-                    <input type="number" class="form-control" name="unitPrice" id="field_unitPrice"
-                           formControlName="unitPrice"/>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.totalFee" for="field_totalFee">Total Fee</label>
                     <input type="number" class="form-control" name="totalFee" id="field_totalFee"
                            formControlName="totalFee"/>
@@ -75,56 +63,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.createdBy" for="field_createdBy">Created By</label>
-                    <input type="text" class="form-control" name="createdBy" id="field_createdBy"
-                           formControlName="createdBy"/>
-                    <div *ngIf="editForm.get('createdBy')!.invalid && (editForm.get('createdBy')!.dirty || editForm.get('createdBy')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('createdBy')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
-                        This field cannot be longer than 50 characters.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.createdDate" for="field_createdDate">Created Date</label>
-                    <div class="d-flex">
-                        <input id="field_createdDate" type="datetime-local" class="form-control" name="createdDate" formControlName="createdDate" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedBy" for="field_lastModifiedBy">Last Modified By</label>
-                    <input type="text" class="form-control" name="lastModifiedBy" id="field_lastModifiedBy"
-                           formControlName="lastModifiedBy"/>
-                    <div *ngIf="editForm.get('lastModifiedBy')!.invalid && (editForm.get('lastModifiedBy')!.dirty || editForm.get('lastModifiedBy')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('lastModifiedBy')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
-                        This field cannot be longer than 50 characters.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.lastModifiedDate" for="field_lastModifiedDate">Last Modified Date</label>
-                    <div class="d-flex">
-                        <input id="field_lastModifiedDate" type="datetime-local" class="form-control" name="lastModifiedDate" formControlName="lastModifiedDate" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.customer" for="field_customer">Customer</label>
                     <select class="form-control" id="field_customer" name="customer" formControlName="customerId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="customerOption.id" *ngFor="let customerOption of customers; trackBy: trackById">{{ customerOption.id }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.item" for="field_item">Item</label>
-                    <select class="form-control" id="field_item" name="item" formControlName="itemId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="itemOption.id" *ngFor="let itemOption of items; trackBy: trackById">{{ itemOption.id }}</option>
+                        <option [ngValue]="customerOption.id"
+                                *ngFor="let customerOption of customers; trackBy: trackById">{{ customerOption.nickname
+                            }}</option>
                     </select>
                 </div>
 

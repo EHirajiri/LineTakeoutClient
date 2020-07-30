@@ -162,6 +162,12 @@ entity detail page css
   }
 }
 
+.jh-entity-details > {
+  dd {
+    margin-left: 15px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .row.jh-entity-details > {
     dt {

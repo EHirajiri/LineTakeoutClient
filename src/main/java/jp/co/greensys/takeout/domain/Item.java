@@ -2,8 +2,6 @@ package jp.co.greensys.takeout.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -43,10 +41,6 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     @Pattern(regexp = "^https?://[\\w/:%#\\$&\\?\\(\\)~\\.=\\+\\-]+")
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
-
-    @OneToMany(mappedBy = "item")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Ordered> ordereds = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -127,31 +121,6 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     public Item lastModifiedDate(Instant lastModifiedDate) {
         this.setLastModifiedDate(lastModifiedDate);
         return this;
-    }
-
-    public Set<Ordered> getOrdereds() {
-        return ordereds;
-    }
-
-    public Item ordereds(Set<Ordered> ordereds) {
-        this.ordereds = ordereds;
-        return this;
-    }
-
-    public Item addOrdered(Ordered ordered) {
-        this.ordereds.add(ordered);
-        ordered.setItem(this);
-        return this;
-    }
-
-    public Item removeOrdered(Ordered ordered) {
-        this.ordereds.remove(ordered);
-        ordered.setItem(null);
-        return this;
-    }
-
-    public void setOrdereds(Set<Ordered> ordereds) {
-        this.ordereds = ordereds;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

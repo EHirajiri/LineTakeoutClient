@@ -11,12 +11,10 @@ import { IOrdered, Ordered } from 'app/shared/model/ordered.model';
 import { OrderedService } from './ordered.service';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer/customer.service';
-import { IItem } from 'app/shared/model/item.model';
-import { ItemService } from 'app/entities/item/item.service';
 import { IOrderItem } from 'app/shared/model/order-item.model';
 import { OrderItemService } from 'app/entities/order-item/order-item.service';
 
-type SelectableEntity = ICustomer | IItem | IOrderItem;
+type SelectableEntity = ICustomer | IOrderItem;
 
 @Component({
   selector: 'jhi-ordered-update',
@@ -25,14 +23,11 @@ type SelectableEntity = ICustomer | IItem | IOrderItem;
 export class OrderedUpdateComponent implements OnInit {
   isSaving = false;
   customers: ICustomer[] = [];
-  items: IItem[] = [];
   orderitems: IOrderItem[] = [];
 
   editForm = this.fb.group({
     id: [],
     orderId: [null, [Validators.required]],
-    quantity: [],
-    unitPrice: [],
     totalFee: [],
     deliveryState: [null, [Validators.required]],
     deliveryDate: [null, [Validators.required]],
@@ -41,14 +36,12 @@ export class OrderedUpdateComponent implements OnInit {
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
     customerId: [],
-    itemId: [],
     orderItems: [],
   });
 
   constructor(
     protected orderedService: OrderedService,
     protected customerService: CustomerService,
-    protected itemService: ItemService,
     protected orderItemService: OrderItemService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -67,8 +60,6 @@ export class OrderedUpdateComponent implements OnInit {
 
       this.customerService.query().subscribe((res: HttpResponse<ICustomer[]>) => (this.customers = res.body || []));
 
-      this.itemService.query().subscribe((res: HttpResponse<IItem[]>) => (this.items = res.body || []));
-
       this.orderItemService.query().subscribe((res: HttpResponse<IOrderItem[]>) => (this.orderitems = res.body || []));
     });
   }
@@ -77,8 +68,6 @@ export class OrderedUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: ordered.id,
       orderId: ordered.orderId,
-      quantity: ordered.quantity,
-      unitPrice: ordered.unitPrice,
       totalFee: ordered.totalFee,
       deliveryState: ordered.deliveryState,
       deliveryDate: ordered.deliveryDate ? ordered.deliveryDate.format(DATE_TIME_FORMAT) : null,
@@ -87,7 +76,6 @@ export class OrderedUpdateComponent implements OnInit {
       lastModifiedBy: ordered.lastModifiedBy,
       lastModifiedDate: ordered.lastModifiedDate ? ordered.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
       customerId: ordered.customerId,
-      itemId: ordered.itemId,
       orderItems: ordered.orderItems,
     });
   }
@@ -111,8 +99,6 @@ export class OrderedUpdateComponent implements OnInit {
       ...new Ordered(),
       id: this.editForm.get(['id'])!.value,
       orderId: this.editForm.get(['orderId'])!.value,
-      quantity: this.editForm.get(['quantity'])!.value,
-      unitPrice: this.editForm.get(['unitPrice'])!.value,
       totalFee: this.editForm.get(['totalFee'])!.value,
       deliveryState: this.editForm.get(['deliveryState'])!.value,
       deliveryDate: this.editForm.get(['deliveryDate'])!.value
@@ -127,7 +113,6 @@ export class OrderedUpdateComponent implements OnInit {
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
       customerId: this.editForm.get(['customerId'])!.value,
-      itemId: this.editForm.get(['itemId'])!.value,
       orderItems: this.editForm.get(['orderItems'])!.value,
     };
   }

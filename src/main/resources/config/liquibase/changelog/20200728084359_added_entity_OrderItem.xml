@@ -24,11 +24,25 @@
             <column name="quantity" type="integer">
                 <constraints nullable="false" />
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_by" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_modified_date" type="datetime">
+                <constraints nullable="true" />
+            </column>
             <column name="item_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="order_item" columnName="created_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="order_item" columnName="last_modified_date" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200728084359-1-relations" author="jhipster">
@@ -53,6 +67,10 @@
             <column name="name" type="string"/>
             <column name="price" type="numeric"/>
             <column name="quantity" type="numeric"/>
+            <column name="created_by" type="string"/>
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_by" type="string"/>
+            <column name="last_modified_date" type="datetime"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

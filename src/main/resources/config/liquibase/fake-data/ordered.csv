@@ -1,11 +1,11 @@
-id;order_id;quantity;unit_price;total_fee;delivery_state;delivery_date;created_by;created_date;last_modified_by;last_modified_date
-1;function compressing deliverables;44540;44413;64230;CONFIRMING;2020-07-06T20:53:22;invoice Handmade Concrete Shoes;2020-07-06T09:05:29;overriding Algeria;2020-07-06T06:38:06
-2;Generic;79564;84927;77677;CONFIRMING;2020-07-07T03:14:21;Borders streamline strategy;2020-07-06T14:09:48;vertical Pizza Borders;2020-07-06T06:05:53
-3;Proactive mindshare;53430;57843;91190;DELIVERED;2020-07-06T16:02:54;Corporate distributed;2020-07-06T11:46:22;array;2020-07-06T18:55:26
-4;applications facilitate distributed;99303;97179;69559;CONFIRMING;2020-07-06T10:39:08;Namibia;2020-07-07T05:01:33;orchestrate;2020-07-06T07:52:51
-5;Applications hacking Personal Loan Account;53315;49137;83486;CANCEL;2020-07-06T16:25:52;Frozen Designer;2020-07-06T13:55:47;Chief revolutionize;2020-07-07T01:24:38
-6;CSS quantify;89437;80894;7960;CANCEL;2020-07-06T11:18:27;metrics hard drive user-centric;2020-07-07T01:21:00;Assistant maroon;2020-07-06T14:16:41
-7;supply-chains Soft;93454;55857;25061;DELIVERED;2020-07-07T04:47:34;Table;2020-07-07T00:10:44;relationships e-business generate;2020-07-06T09:57:31
-8;Station;18101;47646;5428;DELIVERED;2020-07-06T23:30:39;Integration;2020-07-06T20:20:29;Shoes Fully-configurable invoice;2020-07-07T00:11:53
-9;gold;55325;57;15593;CANCEL;2020-07-06T14:50:32;Aruba;2020-07-06T16:47:06;Steel Corporate;2020-07-06T15:54:26
-10;Robust modular;92930;66958;62545;DELIVERED;2020-07-06T22:11:49;digital;2020-07-06T22:03:54;Ford invoice compelling;2020-07-06T07:53:54
+id;order_id;total_fee;delivery_state;delivery_date;created_by;created_date;last_modified_by;last_modified_date
+1;function compressing deliverables;44540;CONFIRMING;2020-07-06T20:53:22;invoice Handmade Concrete Shoes;2020-07-06T09:05:29;overriding Algeria;2020-07-06T06:38:06
+2;Generic;79564;CONFIRMING;2020-07-07T04:48:44;Refined;2020-07-06T17:57:35;streamline strategy;2020-07-06T14:09:48
+3;vertical Pizza Borders;98363;DELIVERED;2020-07-06T15:49:21;Buckinghamshire utilize Toys;2020-07-06T16:02:54;Corporate distributed;2020-07-06T11:46:22
+4;array;44920;CANCEL;2020-07-06T06:22:55;Handmade Steel digital;2020-07-06T17:14:19;Movies orchestrate;2020-07-06T07:52:51
+5;Applications hacking Personal Loan Account;53315;CONFIRMING;2020-07-06T10:04:49;Myanmar Frozen Designer;2020-07-06T13:55:47;Chief revolutionize;2020-07-07T01:24:38
+6;CSS quantify;89437;CANCEL;2020-07-06T19:32:10;hard drive user-centric Tuna;2020-07-06T06:33:02;maroon withdrawal supply-chains;2020-07-07T02:48:04
+7;Infrastructure Multi-lateral programming;4640;CONFIRMING;2020-07-07T01:38:58;Reduced relationships;2020-07-06T21:25:08;generate;2020-07-06T09:57:31
+8;Station;18101;DELIVERED;2020-07-07T00:20:34;Centralized Integration;2020-07-06T20:20:29;Shoes Fully-configurable invoice;2020-07-07T00:11:53
+9;gold;55325;ACCEPT;2020-07-06T14:30:30;invoice Money Market Account;2020-07-06T16:25:04;Micronesia;2020-07-07T02:16:20
+10;Corporate;57490;CANCEL;2020-07-06T13:38:06;withdrawal Gorgeous Rubber Soap;2020-07-06T22:11:49;digital;2020-07-06T22:03:54

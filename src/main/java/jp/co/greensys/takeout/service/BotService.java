@@ -1,7 +1,6 @@
 package jp.co.greensys.takeout.service;
 
 import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
@@ -9,12 +8,22 @@ import com.linecorp.bot.model.message.TextMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import jp.co.greensys.takeout.domain.enumeration.InfomationKey;
-import jp.co.greensys.takeout.flex.*;
+import jp.co.greensys.takeout.flex.BusinessHourMessageSupplier;
+import jp.co.greensys.takeout.flex.CartMessageSupplier;
+import jp.co.greensys.takeout.flex.DeliveryDateMessageSupplier;
+import jp.co.greensys.takeout.flex.DeliveryTimeMessageSupplier;
+import jp.co.greensys.takeout.flex.MenuFlexMessageSupplier;
+import jp.co.greensys.takeout.flex.QuantityMessageSupplier;
+import jp.co.greensys.takeout.flex.ReceiptConfirmMessageSupplier;
+import jp.co.greensys.takeout.flex.RegisterMessageSupplier;
 import jp.co.greensys.takeout.flex.dto.CartDTO;
 import jp.co.greensys.takeout.service.dto.InformationDTO;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
+import jp.co.greensys.takeout.service.dto.OrderItemDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
+import jp.co.greensys.takeout.util.DateTimeUtil;
 import jp.co.greensys.takeout.util.JsonUtil;
 import jp.co.greensys.takeout.util.QueryStringParser;
 import org.slf4j.Logger;
@@ -35,30 +44,18 @@ public class BotService {
 
     private final ItemService itemService;
 
-    public BotService(LineMessagingClient lineMessagingClient, InformationService informationService, ItemService itemService) {
+    private final OrderedService orderedService;
+
+    public BotService(
+        LineMessagingClient lineMessagingClient,
+        InformationService informationService,
+        ItemService itemService,
+        OrderedService orderedService
+    ) {
         this.lineMessagingClient = lineMessagingClient;
         this.informationService = informationService;
         this.itemService = itemService;
-    }
-
-    public void pushMessage(OrderedDTO orderedDTO) {
-        log.debug("pushMessage : {}", orderedDTO);
-        Message message;
-        switch (orderedDTO.getDeliveryState()) {
-            case ACCEPT:
-                message = new ReceiptAcceptMessageSupplier(orderedDTO).get();
-                break;
-            case DELIVERED:
-                message = new ReceiptDeliveredMessageSupplier(orderedDTO).get();
-                break;
-            case CANCEL:
-                message = new ReceiptCancelMessageSupplier(orderedDTO).get();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + orderedDTO.getDeliveryState());
-        }
-
-        lineMessagingClient.pushMessage(new PushMessage(orderedDTO.getCustomerUserId(), message));
+        this.orderedService = orderedService;
     }
 
     public void replyBusinessHour(String replyToken) {
@@ -134,20 +131,41 @@ public class BotService {
         lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new RegisterMessageSupplier(parser, itemDTOList).get()));
     }
 
-    public void replyOrder(String replyToken, QueryStringParser parser) {
+    public void replyOrder(String replyToken, QueryStringParser parser, String userId) {
         // 注文情報登録
+        OrderedDTO orderedDTO = new OrderedDTO();
+        orderedDTO.setOrderId(parser.getParameterValue("orderId"));
+        orderedDTO.setDeliveryState(DeliveryState.CONFIRMING);
+        orderedDTO.setDeliveryDate(DateTimeUtil.toInstant(parser.getParameterValue("delivery")));
+        orderedDTO.setCustomerUserId(userId);
+
+        // カート内の商品情報取得
+        int totalFee = 0;
+        for (String cart : parser.getParameterValues("cart")) {
+            CartDTO cartDTO = JsonUtil.parse(CartDTO.class, cart);
+            Optional<ItemDTO> itemDTO = itemService.findOne(cartDTO.getId());
+            if (itemDTO.isPresent()) {
+                OrderItemDTO orderItemDTO = new OrderItemDTO();
+                orderItemDTO.setName(itemDTO.get().getName());
+                orderItemDTO.setPrice(itemDTO.get().getPrice());
+                orderItemDTO.setQuantity(cartDTO.getQuantity());
+                orderItemDTO.setItemId(cartDTO.getId());
+                orderedDTO.addOrderItems(orderItemDTO);
+                totalFee += itemDTO.get().getPrice() * cartDTO.getQuantity();
+            } else {
+                throw new IllegalArgumentException("cart:" + cart);
+            }
+        }
+        orderedDTO.setTotalFee(totalFee);
+        OrderedDTO result = orderedService.save(orderedDTO);
+
         // TODO
-        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new ReceiptConfirmMessageSupplier(null).get()));
+        lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new ReceiptConfirmMessageSupplier(result).get()));
     }
     //    public void postbackEvent(PostbackEvent event) {
     //        QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
     //        log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
     //        switch (parser.getParameterValue("type")) {
-    //            case "order":
-    //                // 商品情報取得
-    //                ItemDTO itemDTO = itemService.findOne(Long.valueOf(parser.getParameterValue("item"))).get();
-    //                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new OrderMessageSupplier(itemDTO, parser).get()));
-    //                break;
     //            case "ordered":
     //                // 注文情報登録
     //                OrderedDTO orderedDTO = new OrderedDTO();

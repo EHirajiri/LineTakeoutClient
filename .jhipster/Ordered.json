@@ -7,14 +7,6 @@
       "fieldValidateRules": ["required", "unique"]
     },
     {
-      "fieldName": "quantity",
-      "fieldType": "Integer"
-    },
-    {
-      "fieldName": "unitPrice",
-      "fieldType": "Integer"
-    },
-    {
       "fieldName": "totalFee",
       "fieldType": "Integer"
     },
@@ -56,13 +48,6 @@
       "otherEntityName": "customer",
       "otherEntityRelationshipName": "ordered",
       "relationshipName": "customer",
-      "otherEntityField": "id"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "item",
-      "otherEntityRelationshipName": "ordered",
-      "relationshipName": "item",
       "otherEntityField": "id"
     },
     {

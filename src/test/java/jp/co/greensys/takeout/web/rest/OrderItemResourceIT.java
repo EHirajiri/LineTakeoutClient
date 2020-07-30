@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jp.co.greensys.takeout.LineTakeoutClientApp;
@@ -39,6 +41,18 @@ public class OrderItemResourceIT {
     private static final Integer DEFAULT_QUANTITY = 1;
     private static final Integer UPDATED_QUANTITY = 2;
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_LAST_MODIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_LAST_MODIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     @Autowired
     private OrderItemRepository orderItemRepository;
 
@@ -63,7 +77,14 @@ public class OrderItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrderItem createEntity(EntityManager em) {
-        OrderItem orderItem = new OrderItem().name(DEFAULT_NAME).price(DEFAULT_PRICE).quantity(DEFAULT_QUANTITY);
+        OrderItem orderItem = new OrderItem()
+            .name(DEFAULT_NAME)
+            .price(DEFAULT_PRICE)
+            .quantity(DEFAULT_QUANTITY)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdDate(DEFAULT_CREATED_DATE)
+            .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
+            .lastModifiedDate(DEFAULT_LAST_MODIFIED_DATE);
         return orderItem;
     }
 
@@ -74,7 +95,14 @@ public class OrderItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static OrderItem createUpdatedEntity(EntityManager em) {
-        OrderItem orderItem = new OrderItem().name(UPDATED_NAME).price(UPDATED_PRICE).quantity(UPDATED_QUANTITY);
+        OrderItem orderItem = new OrderItem()
+            .name(UPDATED_NAME)
+            .price(UPDATED_PRICE)
+            .quantity(UPDATED_QUANTITY)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         return orderItem;
     }
 
@@ -102,6 +130,10 @@ public class OrderItemResourceIT {
         assertThat(testOrderItem.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testOrderItem.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testOrderItem.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
+        assertThat(testOrderItem.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testOrderItem.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
+        assertThat(testOrderItem.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
+        assertThat(testOrderItem.getLastModifiedDate()).isEqualTo(DEFAULT_LAST_MODIFIED_DATE);
     }
 
     @Test
@@ -199,7 +231,11 @@ public class OrderItemResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(orderItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)));
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
+            .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
     }
 
     @Test
@@ -216,7 +252,11 @@ public class OrderItemResourceIT {
             .andExpect(jsonPath("$.id").value(orderItem.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
-            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY));
+            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
+            .andExpect(jsonPath("$.lastModifiedDate").value(DEFAULT_LAST_MODIFIED_DATE.toString()));
     }
 
     @Test
@@ -238,7 +278,14 @@ public class OrderItemResourceIT {
         OrderItem updatedOrderItem = orderItemRepository.findById(orderItem.getId()).get();
         // Disconnect from session so that the updates on updatedOrderItem are not directly saved in db
         em.detach(updatedOrderItem);
-        updatedOrderItem.name(UPDATED_NAME).price(UPDATED_PRICE).quantity(UPDATED_QUANTITY);
+        updatedOrderItem
+            .name(UPDATED_NAME)
+            .price(UPDATED_PRICE)
+            .quantity(UPDATED_QUANTITY)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE)
+            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
+            .lastModifiedDate(UPDATED_LAST_MODIFIED_DATE);
         OrderItemDTO orderItemDTO = orderItemMapper.toDto(updatedOrderItem);
 
         restOrderItemMockMvc
@@ -254,6 +301,10 @@ public class OrderItemResourceIT {
         assertThat(testOrderItem.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testOrderItem.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testOrderItem.getQuantity()).isEqualTo(UPDATED_QUANTITY);
+        assertThat(testOrderItem.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testOrderItem.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
+        assertThat(testOrderItem.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testOrderItem.getLastModifiedDate()).isEqualTo(UPDATED_LAST_MODIFIED_DATE);
     }
 
     @Test

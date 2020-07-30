@@ -2,10 +2,10 @@
   "lineTakeoutClientApp": {
     "DeliveryState": {
       "null": "",
-      "CONFIRMING": "CONFIRMING",
-      "ACCEPT": "ACCEPT",
-      "DELIVERED": "DELIVERED",
-      "CANCEL": "CANCEL"
+      "CONFIRMING": "確認中",
+      "ACCEPT": "受注",
+      "DELIVERED": "受取済",
+      "CANCEL": "キャンセル"
     }
   }
 }

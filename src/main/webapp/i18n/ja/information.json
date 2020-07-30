@@ -17,7 +17,11 @@
         "title": "Information"
       },
       "key": "Key",
-      "value": "Value"
+      "value": "Value",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
     }
   }
 }

@@ -25,6 +25,10 @@
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="key"><span jhiTranslate="lineTakeoutClientApp.information.key">Key</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="value"><span jhiTranslate="lineTakeoutClientApp.information.value">Value</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.information.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.information.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.information.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.information.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -33,6 +37,10 @@
                     <td><a [routerLink]="['/information', information.id, 'view']">{{ information.id }}</a></td>
                     <td>{{ information.key }}</td>
                     <td>{{ information.value }}</td>
+                    <td>{{ information.createdBy }}</td>
+                    <td>{{ information.createdDate | date:'medium' }}</td>
+                    <td>{{ information.lastModifiedBy }}</td>
+                    <td>{{ information.lastModifiedDate | date:'medium' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

@@ -118,7 +118,7 @@ public class BotHandler {
                     break;
                 // 注文
                 case "order":
-                    botService.replyOrder(event.getReplyToken(), parser);
+                    botService.replyOrder(event.getReplyToken(), parser, event.getSource().getUserId());
                     break;
                 // 問い合わせ
                 case "customer-support":

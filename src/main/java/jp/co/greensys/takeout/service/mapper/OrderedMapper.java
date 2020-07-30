@@ -7,14 +7,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Ordered} and its DTO {@link OrderedDTO}.
  */
-@Mapper(componentModel = "spring", uses = { CustomerMapper.class, ItemMapper.class, OrderItemMapper.class })
+@Mapper(componentModel = "spring", uses = { CustomerMapper.class, OrderItemMapper.class })
 public interface OrderedMapper extends EntityMapper<OrderedDTO, Ordered> {
     @Mapping(source = "customer.id", target = "customerId")
-    @Mapping(source = "item.id", target = "itemId")
+    @Mapping(source = "customer.userId", target = "customerUserId")
+    @Mapping(source = "customer.nickname", target = "customerNickname")
     OrderedDTO toDto(Ordered ordered);
 
     @Mapping(source = "customerId", target = "customer")
-    @Mapping(source = "itemId", target = "item")
     @Mapping(target = "removeOrderItem", ignore = true)
     Ordered toEntity(OrderedDTO orderedDTO);
 

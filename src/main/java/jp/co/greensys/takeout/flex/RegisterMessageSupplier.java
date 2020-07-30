@@ -14,6 +14,7 @@ import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.util.FlexComponentUtil;
@@ -91,7 +92,13 @@ public class RegisterMessageSupplier implements Supplier<FlexMessage> {
         final Button addToCartEnableButton = Button
             .builder()
             .style(Button.ButtonStyle.PRIMARY)
-            .action(new PostbackAction("注文を確定する", String.format("type=order&delivery=%s%s", deliveryDate, carts), null))
+            .action(
+                new PostbackAction(
+                    "注文を確定する",
+                    String.format("type=order&delivery=%s%s&orderId=%s", deliveryDate, carts, UUID.randomUUID()),
+                    null
+                )
+            )
             .build();
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).content(addToCartEnableButton).build();
     }

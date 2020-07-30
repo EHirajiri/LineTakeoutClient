@@ -26,6 +26,10 @@
                     <th scope="col"  jhiSortBy="name"><span jhiTranslate="lineTakeoutClientApp.orderItem.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="price"><span jhiTranslate="lineTakeoutClientApp.orderItem.price">Price</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="quantity"><span jhiTranslate="lineTakeoutClientApp.orderItem.quantity">Quantity</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdBy"><span jhiTranslate="lineTakeoutClientApp.orderItem.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdDate"><span jhiTranslate="lineTakeoutClientApp.orderItem.createdDate">Created Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedBy"><span jhiTranslate="lineTakeoutClientApp.orderItem.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="lastModifiedDate"><span jhiTranslate="lineTakeoutClientApp.orderItem.lastModifiedDate">Last Modified Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="itemId"><span jhiTranslate="lineTakeoutClientApp.orderItem.item">Item</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -36,6 +40,10 @@
                     <td>{{ orderItem.name }}</td>
                     <td>{{ orderItem.price }}</td>
                     <td>{{ orderItem.quantity }}</td>
+                    <td>{{ orderItem.createdBy }}</td>
+                    <td>{{ orderItem.createdDate | date:'medium' }}</td>
+                    <td>{{ orderItem.lastModifiedBy }}</td>
+                    <td>{{ orderItem.lastModifiedDate | date:'medium' }}</td>
                     <td>
                         <div *ngIf="orderItem.itemId">
                             <a [routerLink]="['/item', orderItem.itemId , 'view']" >{{ orderItem.itemId }}</a>

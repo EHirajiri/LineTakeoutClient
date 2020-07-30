@@ -12,6 +12,7 @@
         "ordered": "注文管理",
         "information": "情報管理",
         "orderItem": "Order Item",
+        "information": "Information",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

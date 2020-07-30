@@ -4,6 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IInformation, Information } from 'app/shared/model/information.model';
 import { InformationService } from './information.service';
@@ -19,12 +21,22 @@ export class InformationUpdateComponent implements OnInit {
     id: [],
     key: [null, [Validators.required]],
     value: [],
+    createdBy: [null, [Validators.maxLength(50)]],
+    createdDate: [],
+    lastModifiedBy: [null, [Validators.maxLength(50)]],
+    lastModifiedDate: [],
   });
 
   constructor(protected informationService: InformationService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ information }) => {
+      if (!information.id) {
+        const today = moment().startOf('day');
+        information.createdDate = today;
+        information.lastModifiedDate = today;
+      }
+
       this.updateForm(information);
     });
   }
@@ -34,6 +46,10 @@ export class InformationUpdateComponent implements OnInit {
       id: information.id,
       key: information.key,
       value: information.value,
+      createdBy: information.createdBy,
+      createdDate: information.createdDate ? information.createdDate.format(DATE_TIME_FORMAT) : null,
+      lastModifiedBy: information.lastModifiedBy,
+      lastModifiedDate: information.lastModifiedDate ? information.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
     });
   }
 
@@ -57,6 +73,14 @@ export class InformationUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       key: this.editForm.get(['key'])!.value,
       value: this.editForm.get(['value'])!.value,
+      createdBy: this.editForm.get(['createdBy'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value
+        ? moment(this.editForm.get(['createdDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
+      lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
+        ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
     };
   }
 

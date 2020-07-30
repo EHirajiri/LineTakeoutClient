@@ -1,14 +1,7 @@
 {
   "fluentMethods": true,
   "clientRootFolder": "",
-  "relationships": [
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "ordered",
-      "otherEntityRelationshipName": "item",
-      "relationshipName": "ordered"
-    }
-  ],
+  "relationships": [],
   "fields": [
     {
       "fieldName": "name",
