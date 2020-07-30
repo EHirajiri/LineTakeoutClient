@@ -20,13 +20,17 @@
                 <dd>
                     <span>{{ orderItem.quantity }}</span>
                 </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.totalFee">Total Fee</span></dt>
+                <dd>
+                    <span>{{ orderItem.totalFee }}</span>
+                </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.createdBy">Created By</span></dt>
                 <dd>
                     <span>{{ orderItem.createdBy }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.createdDate">Created Date</span></dt>
                 <dd>
-                    <span>{{ orderItem.createdDate }}</span>
+                    <span>{{ orderItem.createdDate | date:'medium' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
@@ -34,13 +38,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.lastModifiedDate">Last Modified Date</span></dt>
                 <dd>
-                    <span>{{ orderItem.lastModifiedDate }}</span>
-                </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.item">Item</span></dt>
-                <dd>
-                    <div *ngIf="orderItem.itemId">
-                        <a [routerLink]="['/item', orderItem.itemId, 'view']">{{ orderItem.itemId }}</a>
-                    </div>
+                    <span>{{ orderItem.lastModifiedDate | date:'medium' }}</span>
                 </dd>
             </dl>
 

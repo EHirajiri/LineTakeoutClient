@@ -11,8 +11,8 @@
         "customer": "顧客管理",
         "ordered": "注文管理",
         "information": "情報管理",
-        "orderItem": "Order Item",
-        "information": "Information",
+        "orderItem": "注文商品管理",
+        "information": "情報管理",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

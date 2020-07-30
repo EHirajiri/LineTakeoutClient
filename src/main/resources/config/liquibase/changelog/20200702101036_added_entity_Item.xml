@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
+
     <!--
         Added the entity Item.
     -->
@@ -65,7 +65,7 @@
                   tableName="item">
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
-            <column name="description" type="clob"/>
+            <column name="description" type="string"/>
             <column name="price" type="numeric"/>
             <column name="image_url" type="string"/>
             <column name="created_by" type="string"/>

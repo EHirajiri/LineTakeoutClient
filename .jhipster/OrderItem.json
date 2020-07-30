@@ -8,13 +8,6 @@
       "relationshipType": "many-to-many",
       "ownerSide": false,
       "otherEntityRelationshipName": "orderItem"
-    },
-    {
-      "relationshipName": "item",
-      "otherEntityName": "item",
-      "relationshipType": "many-to-one",
-      "otherEntityField": "id",
-      "otherEntityRelationshipName": "orderItem"
     }
   ],
   "fields": [
@@ -30,6 +23,11 @@
     },
     {
       "fieldName": "quantity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalFee",
       "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },

@@ -1,29 +1,20 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.Information} entity.
  */
-public class InformationDTO implements Serializable {
+public class InformationDTO extends AbstractAuditingDTO implements Serializable {
     private Long id;
 
     @NotNull
     private String key;
 
     private String value;
-
-    @Size(max = 50)
-    private String createdBy;
-
-    private Instant createdDate;
-
-    @Size(max = 50)
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
 
     public Long getId() {
         return id;
@@ -49,38 +40,6 @@ public class InformationDTO implements Serializable {
         this.value = value;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -101,14 +60,6 @@ public class InformationDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "InformationDTO{" +
-            "id=" + getId() +
-            ", key='" + getKey() + "'" +
-            ", value='" + getValue() + "'" +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }

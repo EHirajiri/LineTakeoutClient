@@ -24,6 +24,9 @@
             <column name="quantity" type="integer">
                 <constraints nullable="false" />
             </column>
+            <column name="total_fee" type="integer">
+                <constraints nullable="false" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="true" />
             </column>
@@ -34,9 +37,6 @@
                 <constraints nullable="true" />
             </column>
             <column name="last_modified_date" type="datetime">
-                <constraints nullable="true" />
-            </column>
-            <column name="item_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -67,6 +67,7 @@
             <column name="name" type="string"/>
             <column name="price" type="numeric"/>
             <column name="quantity" type="numeric"/>
+            <column name="total_fee" type="numeric"/>
             <column name="created_by" type="string"/>
             <column name="created_date" type="datetime"/>
             <column name="last_modified_by" type="string"/>

@@ -41,6 +41,9 @@ public class OrderItemResourceIT {
     private static final Integer DEFAULT_QUANTITY = 1;
     private static final Integer UPDATED_QUANTITY = 2;
 
+    private static final Integer DEFAULT_TOTAL_FEE = 1;
+    private static final Integer UPDATED_TOTAL_FEE = 2;
+
     private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
     private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
 
@@ -81,6 +84,7 @@ public class OrderItemResourceIT {
             .name(DEFAULT_NAME)
             .price(DEFAULT_PRICE)
             .quantity(DEFAULT_QUANTITY)
+            .totalFee(DEFAULT_TOTAL_FEE)
             .createdBy(DEFAULT_CREATED_BY)
             .createdDate(DEFAULT_CREATED_DATE)
             .lastModifiedBy(DEFAULT_LAST_MODIFIED_BY)
@@ -99,6 +103,7 @@ public class OrderItemResourceIT {
             .name(UPDATED_NAME)
             .price(UPDATED_PRICE)
             .quantity(UPDATED_QUANTITY)
+            .totalFee(UPDATED_TOTAL_FEE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -130,6 +135,7 @@ public class OrderItemResourceIT {
         assertThat(testOrderItem.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testOrderItem.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testOrderItem.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
+        assertThat(testOrderItem.getTotalFee()).isEqualTo(DEFAULT_TOTAL_FEE);
         assertThat(testOrderItem.getCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
         assertThat(testOrderItem.getCreatedDate()).isEqualTo(DEFAULT_CREATED_DATE);
         assertThat(testOrderItem.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
@@ -219,6 +225,26 @@ public class OrderItemResourceIT {
 
     @Test
     @Transactional
+    public void checkTotalFeeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = orderItemRepository.findAll().size();
+        // set the field null
+        orderItem.setTotalFee(null);
+
+        // Create the OrderItem, which fails.
+        OrderItemDTO orderItemDTO = orderItemMapper.toDto(orderItem);
+
+        restOrderItemMockMvc
+            .perform(
+                post("/api/order-items").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(orderItemDTO))
+            )
+            .andExpect(status().isBadRequest());
+
+        List<OrderItem> orderItemList = orderItemRepository.findAll();
+        assertThat(orderItemList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllOrderItems() throws Exception {
         // Initialize the database
         orderItemRepository.saveAndFlush(orderItem);
@@ -232,6 +258,7 @@ public class OrderItemResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
+            .andExpect(jsonPath("$.[*].totalFee").value(hasItem(DEFAULT_TOTAL_FEE)))
             .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
@@ -253,6 +280,7 @@ public class OrderItemResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
+            .andExpect(jsonPath("$.totalFee").value(DEFAULT_TOTAL_FEE))
             .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY))
@@ -282,6 +310,7 @@ public class OrderItemResourceIT {
             .name(UPDATED_NAME)
             .price(UPDATED_PRICE)
             .quantity(UPDATED_QUANTITY)
+            .totalFee(UPDATED_TOTAL_FEE)
             .createdBy(UPDATED_CREATED_BY)
             .createdDate(UPDATED_CREATED_DATE)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY)
@@ -301,6 +330,7 @@ public class OrderItemResourceIT {
         assertThat(testOrderItem.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testOrderItem.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testOrderItem.getQuantity()).isEqualTo(UPDATED_QUANTITY);
+        assertThat(testOrderItem.getTotalFee()).isEqualTo(UPDATED_TOTAL_FEE);
         assertThat(testOrderItem.getCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
         assertThat(testOrderItem.getCreatedDate()).isEqualTo(UPDATED_CREATED_DATE);
         assertThat(testOrderItem.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);

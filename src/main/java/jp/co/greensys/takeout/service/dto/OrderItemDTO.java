@@ -1,13 +1,14 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.OrderItem} entity.
  */
-public class OrderItemDTO implements Serializable {
+public class OrderItemDTO extends AbstractAuditingDTO implements Serializable {
     private Long id;
 
     @NotNull
@@ -19,17 +20,8 @@ public class OrderItemDTO implements Serializable {
     @NotNull
     private Integer quantity;
 
-    @Size(max = 50)
-    private String createdBy;
-
-    private Instant createdDate;
-
-    @Size(max = 50)
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
-
-    private Long itemId;
+    @NotNull
+    private Integer totalFee;
 
     public Long getId() {
         return id;
@@ -63,44 +55,12 @@ public class OrderItemDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public Integer getTotalFee() {
+        return totalFee;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public Long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setTotalFee(Integer totalFee) {
+        this.totalFee = totalFee;
     }
 
     @Override
@@ -123,16 +83,6 @@ public class OrderItemDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "OrderItemDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", price=" + getPrice() +
-            ", quantity=" + getQuantity() +
-            ", createdBy='" + getCreatedBy() + "'" +
-            ", createdDate='" + getCreatedDate() + "'" +
-            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
-            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
-            ", itemId=" + getItemId() +
-            "}";
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.DEFAULT_STYLE);
     }
 }

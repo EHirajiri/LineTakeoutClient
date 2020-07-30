@@ -71,9 +71,29 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.orderItem">Order Item</span></dt>
                 <dd>
-                    <span *ngFor="let orderItem of ordered.orderItems; let last = last">
-                        <a [routerLink]="['/order-item', orderItem?.id, 'view']">{{ orderItem.id }}</a>{{ last ? '' : ', ' }}
-                    </span>
+                    <div class="table-responsive" id="entities"
+                         *ngIf="ordered.orderItems && ordered.orderItems.length > 0">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th><span jhiTranslate="global.field.id">ID</span></th>
+                                <th><span jhiTranslate="lineTakeoutClientApp.ordered.name">Name</span></th>
+                                <th><span jhiTranslate="lineTakeoutClientApp.ordered.price">Price</span></th>
+                                <th><span jhiTranslate="lineTakeoutClientApp.ordered.quantity">Quantity</span></th>
+                                <th><span jhiTranslate="lineTakeoutClientApp.ordered.totalFee">TotalFee</span></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let orderItem of ordered.orderItems">
+                                <td><a [routerLink]="['/order-item', orderItem?.id, 'view']">{{ orderItem.id }}</a></td>
+                                <td>{{ orderItem.name }}</td>
+                                <td>{{ orderItem.price }}</td>
+                                <td>{{ orderItem.quantity }}</td>
+                                <td>{{ orderItem.totalFee }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </dd>
             </dl>
 

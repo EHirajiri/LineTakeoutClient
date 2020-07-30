@@ -25,7 +25,10 @@
       "lastModifiedBy": "更新者",
       "lastModifiedDate": "更新日時",
       "customer": "顧客情報",
-      "orderItem": "Order Item"
+      "orderItem": "注文商品",
+      "name": "名前",
+      "price": "価格",
+      "quantity": "個数"
     }
   }
 }

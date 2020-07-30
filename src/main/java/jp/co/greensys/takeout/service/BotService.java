@@ -149,7 +149,6 @@ public class BotService {
                 orderItemDTO.setName(itemDTO.get().getName());
                 orderItemDTO.setPrice(itemDTO.get().getPrice());
                 orderItemDTO.setQuantity(cartDTO.getQuantity());
-                orderItemDTO.setItemId(cartDTO.getId());
                 orderedDTO.addOrderItems(orderItemDTO);
                 totalFee += itemDTO.get().getPrice() * cartDTO.getQuantity();
             } else {
@@ -159,29 +158,6 @@ public class BotService {
         orderedDTO.setTotalFee(totalFee);
         OrderedDTO result = orderedService.save(orderedDTO);
 
-        // TODO
         lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new ReceiptConfirmMessageSupplier(result).get()));
     }
-    //    public void postbackEvent(PostbackEvent event) {
-    //        QueryStringParser parser = new QueryStringParser(event.getPostbackContent().getData());
-    //        log.debug("PostbackDataType: {}", parser.getParameterValue("type"));
-    //        switch (parser.getParameterValue("type")) {
-    //            case "ordered":
-    //                // 注文情報登録
-    //                OrderedDTO orderedDTO = new OrderedDTO();
-    //                orderedDTO.setOrderId(parser.getParameterValue("orderId"));
-    //                orderedDTO.setQuantity(Integer.parseInt(parser.getParameterValue("quantity")));
-    //                orderedDTO.setUnitPrice(Integer.parseInt(parser.getParameterValue("unitPrice")));
-    //                orderedDTO.setTotalFee(Integer.parseInt(parser.getParameterValue("totalFee")));
-    //                orderedDTO.setDeliveryState(DeliveryState.CONFIRMING);
-    //                orderedDTO.setDeliveryDate(Instant.ofEpochMilli(Long.parseLong(parser.getParameterValue("deliveryDate"))));
-    //                orderedDTO.setItemId(Long.parseLong(parser.getParameterValue("item")));
-    //                orderedDTO.setCustomerUserId(event.getSource().getUserId());
-    //                OrderedDTO result = orderedService.save(orderedDTO);
-    //
-    //                lineMessagingClient.replyMessage(new ReplyMessage(event.getReplyToken(), new ReceiptConfirmMessageSupplier(result).get()));
-    //
-    //                break;
-    //        }
-    //    }
 }

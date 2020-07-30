@@ -6,12 +6,12 @@ export interface IOrderItem {
   name?: string;
   price?: number;
   quantity?: number;
+  totalFee?: number;
   createdBy?: string;
   createdDate?: Moment;
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
   ordereds?: IOrdered[];
-  itemId?: number;
 }
 
 export class OrderItem implements IOrderItem {
@@ -20,11 +20,11 @@ export class OrderItem implements IOrderItem {
     public name?: string,
     public price?: number,
     public quantity?: number,
+    public totalFee?: number,
     public createdBy?: string,
     public createdDate?: Moment,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Moment,
-    public ordereds?: IOrdered[],
-    public itemId?: number
+    public ordereds?: IOrdered[]
   ) {}
 }

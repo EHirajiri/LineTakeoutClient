@@ -39,14 +39,28 @@ public class OrderItem extends AbstractAuditingEntity implements Serializable {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    @NotNull
+    @Column(name = "total_fee", nullable = false)
+    private Integer totalFee;
+
+    @Size(max = 50)
+    @Column(name = "created_by", length = 50)
+    private String createdBy;
+
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @Size(max = 50)
+    @Column(name = "last_modified_by", length = 50)
+    private String lastModifiedBy;
+
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
+
     @ManyToMany(mappedBy = "orderItems")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnore
     private Set<Ordered> ordereds = new HashSet<>();
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = "orderItems", allowSetters = true)
-    private Item item;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -96,6 +110,19 @@ public class OrderItem extends AbstractAuditingEntity implements Serializable {
         this.quantity = quantity;
     }
 
+    public Integer getTotalFee() {
+        return totalFee;
+    }
+
+    public OrderItem totalFee(Integer totalFee) {
+        this.totalFee = totalFee;
+        return this;
+    }
+
+    public void setTotalFee(Integer totalFee) {
+        this.totalFee = totalFee;
+    }
+
     public OrderItem createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
         return this;
@@ -139,19 +166,6 @@ public class OrderItem extends AbstractAuditingEntity implements Serializable {
 
     public void setOrdereds(Set<Ordered> ordereds) {
         this.ordereds = ordereds;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public OrderItem item(Item item) {
-        this.item = item;
-        return this;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

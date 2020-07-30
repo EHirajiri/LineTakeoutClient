@@ -19,12 +19,12 @@
       "name": "Name",
       "price": "Price",
       "quantity": "Quantity",
+      "totalFee": "Total Fee",
       "createdBy": "Created By",
       "createdDate": "Created Date",
       "lastModifiedBy": "Last Modified By",
       "lastModifiedDate": "Last Modified Date",
-      "ordered": "Ordered",
-      "item": "Item"
+      "ordered": "Ordered"
     }
   }
 }
