@@ -83,6 +83,7 @@ public class RegisterMessageSupplier implements Supplier<FlexMessage> {
             final Text totalBlock = FlexComponentUtil.createText(String.format("合計金額: %s円", total), null, FlexFontSize.LG);
             listComponent.add(totalBlock);
             final Text deliveryDateBlock = FlexComponentUtil.createText(String.format("受取日時: %s", deliveryDate), null, FlexFontSize.LG);
+            listComponent.add(deliveryDateBlock);
         }
 
         return Box.builder().layout(FlexLayout.VERTICAL).spacing(FlexMarginSize.SM).contents(listComponent).build();

@@ -28,7 +28,9 @@
       "orderItem": "注文商品",
       "name": "名前",
       "price": "価格",
-      "quantity": "個数"
+      "quantity": "個数",
+      "multiplication": "×",
+      "equal": "="
     }
   }
 }

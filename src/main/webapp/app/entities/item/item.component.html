@@ -35,7 +35,7 @@
                     <td><a [routerLink]="['/item', item.id, 'view']">{{ item.id }}</a></td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
-                    <td>{{ item.price }}</td>
+                    <td>{{ item.price | currency : 'JPY' }}</td>
                     <td>{{ item.imageUrl }}</td>
                     <td class="text-right">
                         <div class="btn-group">

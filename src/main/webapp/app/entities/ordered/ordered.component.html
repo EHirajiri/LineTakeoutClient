@@ -23,25 +23,31 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="orderId"><span jhiTranslate="lineTakeoutClientApp.ordered.orderId">Order Id</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="totalFee"><span jhiTranslate="lineTakeoutClientApp.ordered.totalFee">Total Fee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="customerId"><span jhiTranslate="lineTakeoutClientApp.ordered.customer">Customer</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deliveryState"><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryState">Delivery State</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="deliveryDate"><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryDate">Delivery Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="customerId"><span jhiTranslate="lineTakeoutClientApp.ordered.customer">Customer</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalFee"><span jhiTranslate="lineTakeoutClientApp.ordered.totalFee">Total Fee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalFee"><span jhiTranslate="lineTakeoutClientApp.ordered.orderItem">Order Item</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let ordered of ordereds ;trackBy: trackId">
                     <td><a [routerLink]="['/ordered', ordered.id, 'view']">{{ ordered.id }}</a></td>
-                    <td>{{ ordered.orderId }}</td>
-                    <td>{{ ordered.totalFee }}</td>
-                    <td jhiTranslate="{{ 'lineTakeoutClientApp.DeliveryState.' + ordered.deliveryState }}">{{ ordered.deliveryState }}</td>
-                    <td>{{ ordered.deliveryDate | date:'medium' }}</td>
                     <td>
                         <div *ngIf="ordered.customerId">
                             <a [routerLink]="['/customer', ordered.customerId , 'view']" >{{ ordered.customerNickname }}</a>
                         </div>
+                    </td>
+                    <td jhiTranslate="{{ 'lineTakeoutClientApp.DeliveryState.' + ordered.deliveryState }}">{{ ordered.deliveryState }}</td>
+                    <td>{{ ordered.deliveryDate | date:'medium' }}</td>
+                    <td>{{ ordered.totalFee | currency : 'JPY' }}</td>
+                    <td>
+                        <span *ngFor="let orderItem of ordered.orderItems; let last = last">
+                        {{ orderItem.name }}
+                        [{{ orderItem.price | currency : 'JPY' }}{{ 'lineTakeoutClientApp.ordered.multiplication' | translate }}{{ orderItem.quantity }}{{ 'lineTakeoutClientApp.ordered.equal' | translate }}{{ orderItem.totalFee | currency : 'JPY' }}]
+                        {{ last ? '' : ', ' }}
+                    </span>
                     </td>
                     <td class="text-right">
                         <div class="btn-group">

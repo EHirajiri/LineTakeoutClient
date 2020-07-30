@@ -40,7 +40,7 @@ export const orderedRoute: Routes = [
     component: OrderedComponent,
     data: {
       authorities: [Authority.USER],
-      defaultSort: 'id,asc',
+      defaultSort: 'id,desc',
       pageTitle: 'lineTakeoutClientApp.ordered.home.title',
     },
     canActivate: [UserRouteAccessService],
