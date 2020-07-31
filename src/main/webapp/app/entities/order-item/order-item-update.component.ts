@@ -9,6 +9,8 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IOrderItem, OrderItem } from 'app/shared/model/order-item.model';
 import { OrderItemService } from './order-item.service';
+import { IOrdered } from 'app/shared/model/ordered.model';
+import { OrderedService } from 'app/entities/ordered/ordered.service';
 
 @Component({
   selector: 'jhi-order-item-update',
@@ -16,6 +18,7 @@ import { OrderItemService } from './order-item.service';
 })
 export class OrderItemUpdateComponent implements OnInit {
   isSaving = false;
+  ordereds: IOrdered[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -27,9 +30,15 @@ export class OrderItemUpdateComponent implements OnInit {
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
+    orderedId: [],
   });
 
-  constructor(protected orderItemService: OrderItemService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected orderItemService: OrderItemService,
+    protected orderedService: OrderedService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ orderItem }) => {
@@ -40,6 +49,8 @@ export class OrderItemUpdateComponent implements OnInit {
       }
 
       this.updateForm(orderItem);
+
+      this.orderedService.query().subscribe((res: HttpResponse<IOrdered[]>) => (this.ordereds = res.body || []));
     });
   }
 
@@ -54,6 +65,7 @@ export class OrderItemUpdateComponent implements OnInit {
       createdDate: orderItem.createdDate ? orderItem.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: orderItem.lastModifiedBy,
       lastModifiedDate: orderItem.lastModifiedDate ? orderItem.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
+      orderedId: orderItem.orderedId,
     });
   }
 
@@ -87,6 +99,7 @@ export class OrderItemUpdateComponent implements OnInit {
       lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      orderedId: this.editForm.get(['orderedId'])!.value,
     };
   }
 
@@ -104,5 +117,9 @@ export class OrderItemUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: IOrdered): any {
+    return item.id;
   }
 }

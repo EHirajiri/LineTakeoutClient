@@ -48,13 +48,8 @@ public class Ordered extends AbstractAuditingDTO implements Serializable {
     @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
     private Customer customer;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "ordered", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JoinTable(
-        name = "ordered_order_item",
-        joinColumns = @JoinColumn(name = "ordered_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "order_item_id", referencedColumnName = "id")
-    )
     private Set<OrderItem> orderItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -162,13 +157,13 @@ public class Ordered extends AbstractAuditingDTO implements Serializable {
 
     public Ordered addOrderItem(OrderItem orderItem) {
         this.orderItems.add(orderItem);
-        orderItem.getOrdereds().add(this);
+        orderItem.setOrdered(this);
         return this;
     }
 
     public Ordered removeOrderItem(OrderItem orderItem) {
         this.orderItems.remove(orderItem);
-        orderItem.getOrdereds().remove(this);
+        orderItem.setOrdered(null);
         return this;
     }
 

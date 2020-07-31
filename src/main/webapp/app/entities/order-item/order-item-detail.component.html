@@ -14,7 +14,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.price">Price</span></dt>
                 <dd>
-                    <span>{{ orderItem.price }}</span>
+                    <span>{{ orderItem.price | currency : 'JPY' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.quantity">Quantity</span></dt>
                 <dd>
@@ -22,23 +22,29 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.totalFee">Total Fee</span></dt>
                 <dd>
-                    <span>{{ orderItem.totalFee }}</span>
+                    <span>{{ orderItem.totalFee | currency : 'JPY' }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.createdBy">Created By</span></dt>
+                <dt><span jhiTranslate="global.field.createdBy">Created By</span></dt>
                 <dd>
                     <span>{{ orderItem.createdBy }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.createdDate">Created Date</span></dt>
+                <dt><span jhiTranslate="global.field.createdDate">Created Date</span></dt>
                 <dd>
                     <span>{{ orderItem.createdDate | date:'medium' }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.lastModifiedBy">Last Modified By</span></dt>
+                <dt><span jhiTranslate="global.field.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
                     <span>{{ orderItem.lastModifiedBy }}</span>
                 </dd>
-                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.lastModifiedDate">Last Modified Date</span></dt>
+                <dt><span jhiTranslate="global.field.lastModifiedDate">Last Modified Date</span></dt>
                 <dd>
                     <span>{{ orderItem.lastModifiedDate | date:'medium' }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.ordered">Ordered</span></dt>
+                <dd>
+                    <div *ngIf="orderItem.orderedId">
+                        <a [routerLink]="['/ordered', orderItem.orderedId, 'view']">{{ orderItem.orderedId }}</a>
+                    </div>
                 </dd>
             </dl>
 

@@ -2,13 +2,11 @@ package jp.co.greensys.takeout.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jp.co.greensys.takeout.LineTakeoutClientApp;
@@ -20,14 +18,9 @@ import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.service.mapper.OrderedMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link OrderedResource} REST controller.
  */
 @SpringBootTest(classes = LineTakeoutClientApp.class)
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 public class OrderedResourceIT {
@@ -68,14 +60,8 @@ public class OrderedResourceIT {
     @Autowired
     private OrderedRepository orderedRepository;
 
-    @Mock
-    private OrderedRepository orderedRepositoryMock;
-
     @Autowired
     private OrderedMapper orderedMapper;
-
-    @Mock
-    private OrderedService orderedServiceMock;
 
     @Autowired
     private OrderedService orderedService;
@@ -248,24 +234,6 @@ public class OrderedResourceIT {
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)))
             .andExpect(jsonPath("$.[*].lastModifiedDate").value(hasItem(DEFAULT_LAST_MODIFIED_DATE.toString())));
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    public void getAllOrderedsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(orderedServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restOrderedMockMvc.perform(get("/api/ordereds?eagerload=true")).andExpect(status().isOk());
-
-        verify(orderedServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    public void getAllOrderedsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(orderedServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restOrderedMockMvc.perform(get("/api/ordereds?eagerload=true")).andExpect(status().isOk());
-
-        verify(orderedServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

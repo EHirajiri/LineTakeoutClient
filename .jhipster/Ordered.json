@@ -53,7 +53,7 @@
     {
       "relationshipName": "orderItem",
       "otherEntityName": "orderItem",
-      "relationshipType": "many-to-many",
+      "relationshipType": "one-to-many",
       "otherEntityField": "id",
       "ownerSide": true,
       "otherEntityRelationshipName": "ordered"

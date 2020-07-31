@@ -23,6 +23,8 @@ public class OrderItemDTO extends AbstractAuditingDTO implements Serializable {
     @NotNull
     private Integer totalFee;
 
+    private Long orderedId;
+
     public Long getId() {
         return id;
     }
@@ -61,6 +63,14 @@ public class OrderItemDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setTotalFee(Integer totalFee) {
         this.totalFee = totalFee;
+    }
+
+    public Long getOrderedId() {
+        return orderedId;
+    }
+
+    public void setOrderedId(Long orderedId) {
+        this.orderedId = orderedId;
     }
 
     @Override

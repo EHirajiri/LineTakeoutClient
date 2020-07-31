@@ -57,10 +57,9 @@ public class OrderItem extends AbstractAuditingEntity implements Serializable {
     @Column(name = "last_modified_date")
     private Instant lastModifiedDate;
 
-    @ManyToMany(mappedBy = "orderItems")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnore
-    private Set<Ordered> ordereds = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties(value = "orderItems", allowSetters = true)
+    private Ordered ordered;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -143,29 +142,17 @@ public class OrderItem extends AbstractAuditingEntity implements Serializable {
         return this;
     }
 
-    public Set<Ordered> getOrdereds() {
-        return ordereds;
+    public Ordered getOrdered() {
+        return ordered;
     }
 
-    public OrderItem ordereds(Set<Ordered> ordereds) {
-        this.ordereds = ordereds;
+    public OrderItem ordered(Ordered ordered) {
+        this.ordered = ordered;
         return this;
     }
 
-    public OrderItem addOrdered(Ordered ordered) {
-        this.ordereds.add(ordered);
-        ordered.getOrderItems().add(this);
-        return this;
-    }
-
-    public OrderItem removeOrdered(Ordered ordered) {
-        this.ordereds.remove(ordered);
-        ordered.getOrderItems().remove(this);
-        return this;
-    }
-
-    public void setOrdereds(Set<Ordered> ordereds) {
-        this.ordereds = ordereds;
+    public void setOrdered(Ordered ordered) {
+        this.ordered = ordered;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

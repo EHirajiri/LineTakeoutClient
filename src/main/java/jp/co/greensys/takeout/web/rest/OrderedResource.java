@@ -87,21 +87,12 @@ public class OrderedResource {
      * {@code GET  /ordereds} : get all the ordereds.
      *
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of ordereds in body.
      */
     @GetMapping("/ordereds")
-    public ResponseEntity<List<OrderedDTO>> getAllOrdereds(
-        Pageable pageable,
-        @RequestParam(required = false, defaultValue = "false") boolean eagerload
-    ) {
+    public ResponseEntity<List<OrderedDTO>> getAllOrdereds(Pageable pageable) {
         log.debug("REST request to get a page of Ordereds");
-        Page<OrderedDTO> page;
-        if (eagerload) {
-            page = orderedService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = orderedService.findAll(pageable);
-        }
+        Page<OrderedDTO> page = orderedService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

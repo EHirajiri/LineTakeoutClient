@@ -14,17 +14,13 @@
         "question": "Order Item {{ id }}を削除してもよろしいですか？"
       },
       "detail": {
-        "title": "Order Item"
+        "title": "注文商品情報"
       },
-      "name": "Name",
-      "price": "Price",
-      "quantity": "Quantity",
-      "totalFee": "Total Fee",
-      "createdBy": "Created By",
-      "createdDate": "Created Date",
-      "lastModifiedBy": "Last Modified By",
-      "lastModifiedDate": "Last Modified Date",
-      "ordered": "Ordered"
+      "name": "名前",
+      "price": "価格",
+      "quantity": "個数",
+      "totalFee": "合計金額",
+      "ordered": "注文情報"
     }
   }
 }

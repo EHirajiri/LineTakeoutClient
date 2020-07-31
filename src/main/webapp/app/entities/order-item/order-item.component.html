@@ -27,6 +27,7 @@
                     <th scope="col"  jhiSortBy="price"><span jhiTranslate="lineTakeoutClientApp.orderItem.price">Price</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="quantity"><span jhiTranslate="lineTakeoutClientApp.orderItem.quantity">Quantity</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalFee"><span jhiTranslate="lineTakeoutClientApp.orderItem.totalFee">Total Fee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="orderedId"><span jhiTranslate="lineTakeoutClientApp.orderItem.ordered">Ordered</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,9 +35,14 @@
                 <tr *ngFor="let orderItem of orderItems ;trackBy: trackId">
                     <td><a [routerLink]="['/order-item', orderItem.id, 'view']">{{ orderItem.id }}</a></td>
                     <td>{{ orderItem.name }}</td>
-                    <td>{{ orderItem.price }}</td>
+                    <td>{{ orderItem.price | currency : 'JPY' }}</td>
                     <td>{{ orderItem.quantity }}</td>
-                    <td>{{ orderItem.totalFee }}</td>
+                    <td>{{ orderItem.totalFee | currency : 'JPY' }}</td>
+                    <td>
+                        <div *ngIf="orderItem.orderedId">
+                            <a [routerLink]="['/ordered', orderItem.orderedId , 'view']" >{{ orderItem.orderedId }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

@@ -87,7 +87,11 @@
       }
     },
     "field": {
-      "id": "ID"
+      "id": "ID",
+      "createdBy": "作成者",
+      "createdDate": "作成日時",
+      "lastModifiedBy": "更新者",
+      "lastModifiedDate": "更新日時"
     },
     "ribbon": {
       "dev": "Development"
