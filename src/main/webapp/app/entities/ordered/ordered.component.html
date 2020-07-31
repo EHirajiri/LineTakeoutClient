@@ -56,7 +56,7 @@
                 <td jhiTranslate="{{ 'lineTakeoutClientApp.DeliveryState.' + ordered.deliveryState }}">{{
                     ordered.deliveryState }}
                 </td>
-                <td>{{ ordered.deliveryDate | date:'medium' }}</td>
+                <td>{{ ordered.deliveryDate | date: 'medium' : 'JST' }}</td>
                 <td>{{ ordered.totalFee | currency : 'JPY' }}</td>
                 <td>
                     <ul *ngFor="let orderItem of ordered.orderItems; let last = last">

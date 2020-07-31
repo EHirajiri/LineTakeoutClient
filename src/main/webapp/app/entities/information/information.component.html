@@ -38,9 +38,9 @@
                     <td>{{ information.key }}</td>
                     <td>{{ information.value }}</td>
                     <td>{{ information.createdBy }}</td>
-                    <td>{{ information.createdDate | date:'medium' }}</td>
+                    <td>{{ information.createdDate | date: 'medium' : 'JST' }}</td>
                     <td>{{ information.lastModifiedBy }}</td>
-                    <td>{{ information.lastModifiedDate | date:'medium' }}</td>
+                    <td>{{ information.lastModifiedDate | date: 'medium' : 'JST' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

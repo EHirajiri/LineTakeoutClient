@@ -30,7 +30,7 @@
                 </dd>
                 <dt><span jhiTranslate="global.field.createdDate">Created Date</span></dt>
                 <dd>
-                    <span>{{ orderItem.createdDate | date:'medium' }}</span>
+                    <span>{{ orderItem.createdDate | date: 'medium' : 'JST' }}</span>
                 </dd>
                 <dt><span jhiTranslate="global.field.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
@@ -38,7 +38,7 @@
                 </dd>
                 <dt><span jhiTranslate="global.field.lastModifiedDate">Last Modified Date</span></dt>
                 <dd>
-                    <span>{{ orderItem.lastModifiedDate | date:'medium' }}</span>
+                    <span>{{ orderItem.lastModifiedDate | date: 'medium' : 'JST' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.orderItem.ordered">Ordered</span></dt>
                 <dd>

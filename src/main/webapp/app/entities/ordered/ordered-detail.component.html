@@ -45,7 +45,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryDate">Delivery Date</span></dt>
                 <dd>
-                    <span>{{ ordered.deliveryDate | date:'medium' }}</span>
+                    <span>{{ ordered.deliveryDate | date: 'medium' : 'JST' }}</span>
                 </dd>
                 <dt><span jhiTranslate="global.field.createdBy">Created By</span></dt>
                 <dd>
