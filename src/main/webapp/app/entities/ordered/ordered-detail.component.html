@@ -87,9 +87,9 @@
                             <tr *ngFor="let orderItem of ordered.orderItems">
                                 <td><a [routerLink]="['/order-item', orderItem?.id, 'view']">{{ orderItem.id }}</a></td>
                                 <td>{{ orderItem.name }}</td>
-                                <td>{{ orderItem.price }}</td>
+                                <td>{{ orderItem.price | currency : 'JPY' }}</td>
                                 <td>{{ orderItem.quantity }}</td>
-                                <td>{{ orderItem.totalFee }}</td>
+                                <td>{{ orderItem.totalFee | currency : 'JPY' }}</td>
                             </tr>
                             </tbody>
                         </table>
