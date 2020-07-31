@@ -25,4 +25,6 @@ public interface OrderedRepository extends JpaRepository<Ordered, Long> {
 
     @Query("select ordered from Ordered ordered left join fetch ordered.orderItems where ordered.id =:id")
     Optional<Ordered> findOneWithEagerRelationships(@Param("id") Long id);
+
+    Optional<Ordered> findOneByOrderId(@Param("orderId") String orderId);
 }

@@ -85,6 +85,18 @@ public class OrderedService {
     }
 
     /**
+     * Get one ordered by id.
+     *
+     * @param orderId the orderId of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<OrderedDTO> findOneByOrderId(String orderId) {
+        log.debug("Request to get Ordered : {}", orderId);
+        return orderedRepository.findOneByOrderId(orderId).map(orderedMapper::toDto);
+    }
+
+    /**
      * Delete the ordered by id.
      *
      * @param id the id of the entity.

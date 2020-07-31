@@ -132,9 +132,15 @@ public class BotService {
     }
 
     public void replyOrder(String replyToken, QueryStringParser parser, String userId) {
+        final String orderId = parser.getParameterValue("orderId");
+        if (orderedService.findOneByOrderId(orderId).isPresent()) {
+            lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new TextMessage("注文済みです。")));
+            return;
+        }
+
         // 注文情報登録
         OrderedDTO orderedDTO = new OrderedDTO();
-        orderedDTO.setOrderId(parser.getParameterValue("orderId"));
+        orderedDTO.setOrderId(orderId);
         orderedDTO.setDeliveryState(DeliveryState.CONFIRMING);
         orderedDTO.setDeliveryDate(DateTimeUtil.toInstant(parser.getParameterValue("delivery")));
         orderedDTO.setCustomerUserId(userId);

@@ -48,7 +48,7 @@ public class Ordered extends AbstractAuditingDTO implements Serializable {
     @JsonIgnoreProperties(value = "ordereds", allowSetters = true)
     private Customer customer;
 
-    @OneToMany(mappedBy = "ordered", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ordered")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<OrderItem> orderItems = new HashSet<>();
 
