@@ -151,19 +151,16 @@ public class BotService {
             CartDTO cartDTO = JsonUtil.parse(CartDTO.class, cart);
             Optional<ItemDTO> itemDTO = itemService.findOne(cartDTO.getId());
             if (itemDTO.isPresent()) {
-                Integer itemTotalFee = itemDTO.get().getPrice() * cartDTO.getQuantity();
                 OrderItemDTO orderItemDTO = new OrderItemDTO();
                 orderItemDTO.setName(itemDTO.get().getName());
                 orderItemDTO.setPrice(itemDTO.get().getPrice());
                 orderItemDTO.setQuantity(cartDTO.getQuantity());
-                orderItemDTO.setTotalFee(itemTotalFee);
+                orderItemDTO.setTotalFee(itemDTO.get().getPrice() * cartDTO.getQuantity());
                 orderedDTO.addOrderItems(orderItemDTO);
-                totalFee += itemTotalFee;
             } else {
                 throw new IllegalArgumentException("cart:" + cart);
             }
         }
-        orderedDTO.setTotalFee(totalFee);
         OrderedDTO result = orderedService.save(orderedDTO);
 
         lineMessagingClient.replyMessage(new ReplyMessage(replyToken, new ReceiptConfirmMessageSupplier(result).get()));

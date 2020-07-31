@@ -4,12 +4,16 @@ import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.message.Message;
 import java.util.Optional;
+import jp.co.greensys.takeout.domain.OrderItem;
 import jp.co.greensys.takeout.domain.Ordered;
 import jp.co.greensys.takeout.flex.ReceiptAcceptMessageSupplier;
 import jp.co.greensys.takeout.flex.ReceiptCancelMessageSupplier;
 import jp.co.greensys.takeout.flex.ReceiptDeliveredMessageSupplier;
+import jp.co.greensys.takeout.repository.OrderItemRepository;
 import jp.co.greensys.takeout.repository.OrderedRepository;
+import jp.co.greensys.takeout.service.dto.OrderItemDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
+import jp.co.greensys.takeout.service.mapper.OrderItemMapper;
 import jp.co.greensys.takeout.service.mapper.OrderedMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +34,23 @@ public class OrderedService {
 
     private final OrderedMapper orderedMapper;
 
+    private final OrderItemRepository orderItemRepository;
+
+    private final OrderItemMapper orderItemMapper;
+
     private final LineMessagingClient lineMessagingClient;
 
-    public OrderedService(OrderedRepository orderedRepository, OrderedMapper orderedMapper, LineMessagingClient lineMessagingClient) {
+    public OrderedService(
+        OrderedRepository orderedRepository,
+        OrderedMapper orderedMapper,
+        OrderItemRepository orderItemRepository,
+        OrderItemMapper orderItemMapper,
+        LineMessagingClient lineMessagingClient
+    ) {
         this.orderedRepository = orderedRepository;
         this.orderedMapper = orderedMapper;
+        this.orderItemRepository = orderItemRepository;
+        this.orderItemMapper = orderItemMapper;
         this.lineMessagingClient = lineMessagingClient;
     }
 
@@ -48,6 +64,15 @@ public class OrderedService {
         log.debug("Request to save Ordered : {}", orderedDTO);
         Ordered ordered = orderedMapper.toEntity(orderedDTO);
         ordered = orderedRepository.save(ordered);
+
+        // 注文商品情報登録(DELETE/INSERT)
+        orderItemRepository.deleteByOrderedId(ordered.getId());
+        for (OrderItemDTO orderItemDTO : orderedDTO.getOrderItems()) {
+            OrderItem orderItem = orderItemMapper.toEntity(orderItemDTO);
+            orderItem.setOrdered(ordered);
+            ordered.addOrderItem(orderItem);
+            orderItemRepository.save(orderItem);
+        }
         return orderedMapper.toDto(ordered);
     }
 

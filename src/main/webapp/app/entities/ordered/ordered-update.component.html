@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.orderId" for="field_orderId">Order Id</label>
                     <input type="text" class="form-control" name="orderId" id="field_orderId"
-                           formControlName="orderId"/>
+                           formControlName="orderId" readonly />
                     <div *ngIf="editForm.get('orderId')!.invalid && (editForm.get('orderId')!.dirty || editForm.get('orderId')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('orderId')?.errors?.required" jhiTranslate="entity.validation.required">
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="lineTakeoutClientApp.ordered.totalFee" for="field_totalFee">Total Fee</label>
                     <input type="number" class="form-control" name="totalFee" id="field_totalFee"
-                           formControlName="totalFee"/>
+                           formControlName="totalFee" readonly />
                 </div>
 
                 <div class="form-group">
@@ -69,13 +69,6 @@
                         <option [ngValue]="customerOption.id"
                                 *ngFor="let customerOption of customers; trackBy: trackById">{{ customerOption.nickname
                             }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label jhiTranslate="lineTakeoutClientApp.ordered.orderItem" for="field_orderItems">Order Item</label>
-                    <select class="form-control" id="field_orderItems" multiple name="orderItems" formControlName="orderItems">
-                        <option [ngValue]="getSelected(editForm.get('orderItems')!.value, orderItemOption)" *ngFor="let orderItemOption of orderitems; trackBy: trackById">{{ orderItemOption.id }}</option>
                     </select>
                 </div>
             </div>

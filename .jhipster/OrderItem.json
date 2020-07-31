@@ -6,7 +6,6 @@
       "relationshipName": "ordered",
       "otherEntityName": "ordered",
       "relationshipType": "many-to-one",
-      "ownerSide": false,
       "otherEntityRelationshipName": "orderItem"
     }
   ],

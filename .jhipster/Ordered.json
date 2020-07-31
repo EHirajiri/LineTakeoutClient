@@ -54,8 +54,6 @@
       "relationshipName": "orderItem",
       "otherEntityName": "orderItem",
       "relationshipType": "one-to-many",
-      "otherEntityField": "id",
-      "ownerSide": true,
       "otherEntityRelationshipName": "ordered"
     }
   ],

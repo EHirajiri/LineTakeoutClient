@@ -37,7 +37,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.totalFee">Total Fee</span></dt>
                 <dd>
-                    <span>{{ ordered.totalFee }}</span>
+                    <span>{{ ordered.totalFee | currency : 'JPY' }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.ordered.deliveryState">Delivery State</span></dt>
                 <dd>

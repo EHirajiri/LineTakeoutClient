@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import jp.co.greensys.takeout.domain.enumeration.DeliveryState;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.util.CollectionUtils;
 
 /**
  * A DTO for the {@link jp.co.greensys.takeout.domain.Ordered} entity.
@@ -52,10 +53,6 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public Integer getTotalFee() {
         return totalFee;
-    }
-
-    public void setTotalFee(Integer totalFee) {
-        this.totalFee = totalFee;
     }
 
     public DeliveryState getDeliveryState() {
@@ -104,10 +101,20 @@ public class OrderedDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setOrderItems(Set<OrderItemDTO> orderItems) {
         this.orderItems = orderItems;
+
+        if (!CollectionUtils.isEmpty(orderItems)) {
+            for (OrderItemDTO orderItemDTO : this.orderItems) {
+                this.totalFee = this.totalFee == null ? orderItemDTO.getTotalFee() : this.totalFee + orderItemDTO.getTotalFee();
+            }
+        }
     }
 
     public void addOrderItems(OrderItemDTO orderItem) {
         this.orderItems.add(orderItem);
+
+        if (orderItem != null) {
+            this.totalFee = this.totalFee == null ? orderItem.getTotalFee() : this.totalFee + orderItem.getTotalFee();
+        }
     }
 
     @Override

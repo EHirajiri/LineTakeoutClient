@@ -136,15 +136,4 @@ export class OrderedUpdateComponent implements OnInit {
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
-
-  getSelected(selectedVals: IOrderItem[], option: IOrderItem): IOrderItem {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
-  }
 }
