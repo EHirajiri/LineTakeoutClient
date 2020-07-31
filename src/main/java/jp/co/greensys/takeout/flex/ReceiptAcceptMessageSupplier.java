@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
-import jp.co.greensys.takeout.service.dto.ItemDTO;
 import jp.co.greensys.takeout.service.dto.OrderItemDTO;
 import jp.co.greensys.takeout.service.dto.OrderedDTO;
 import jp.co.greensys.takeout.util.DateTimeUtil;
@@ -64,20 +63,14 @@ public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
             listComponent.add(FlexComponentUtil.createSeparator());
             // 商品情報
             for (OrderItemDTO itemDTO : orderedDTO.getOrderItems()) {
-                final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", itemDTO.getName()), null, FlexFontSize.LG);
+                final Text itemBlock = FlexComponentUtil.createText(String.format("商品: %s", itemDTO.getName()), null, FlexFontSize.Md);
+                listComponent.add(itemBlock);
                 final Text totalFeeBlock = FlexComponentUtil.createText(
                     String.format("金額: %s円 × %s個 = %s", itemDTO.getPrice(), itemDTO.getQuantity(), itemDTO.getTotalFee()),
                     null,
-                    FlexFontSize.LG
+                    FlexFontSize.Md
                 );
-                listComponent.add(
-                    Box
-                        .builder()
-                        .layout(FlexLayout.VERTICAL)
-                        .spacing(FlexMarginSize.SM)
-                        .contents(itemBlock, totalFeeBlock, FlexComponentUtil.createSeparator())
-                        .build()
-                );
+                listComponent.add(totalFeeBlock);
             }
             final Text totalBlock = FlexComponentUtil.createText(
                 String.format("合計金額: %s円", orderedDTO.getTotalFee()),
@@ -86,7 +79,7 @@ public class ReceiptAcceptMessageSupplier implements Supplier<FlexMessage> {
             );
             listComponent.add(totalBlock);
             final Text deliveryDateBlock = FlexComponentUtil.createText(
-                String.format("受取日時: %s", orderedDTO.getDeliveryDate()),
+                String.format("受取日時: %s", DateTimeUtil.toString(orderedDTO.getDeliveryDate().toEpochMilli())),
                 null,
                 FlexFontSize.LG
             );
