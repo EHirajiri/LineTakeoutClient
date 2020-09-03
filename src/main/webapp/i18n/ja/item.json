@@ -23,7 +23,8 @@
       "createdBy": "作成者",
       "createdDate": "作成日時",
       "lastModifiedBy": "更新者",
-      "lastModifiedDate": "更新日時"
+      "lastModifiedDate": "更新日時",
+      "image": "画像"
     }
   }
 }
