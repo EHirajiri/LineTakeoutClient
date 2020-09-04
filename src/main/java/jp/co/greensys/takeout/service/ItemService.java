@@ -61,6 +61,7 @@ public class ItemService {
             String url = fileUploadService.upload(itemDTO.getImage(), key);
             item.setImageUrl(url);
         } else {
+            fileUploadService.delete(null);
             item.setImageUrl(null);
         }
 
