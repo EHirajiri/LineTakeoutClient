@@ -10,6 +10,8 @@ export interface IItem {
   createdDate?: Moment;
   lastModifiedBy?: string;
   lastModifiedDate?: Moment;
+  imageContentType?: string;
+  image?: any;
 }
 
 export class Item implements IItem {
@@ -22,6 +24,8 @@ export class Item implements IItem {
     public createdBy?: string,
     public createdDate?: Moment,
     public lastModifiedBy?: string,
-    public lastModifiedDate?: Moment
+    public lastModifiedDate?: Moment,
+    public imageContentType?: string,
+    public image?: any
   ) {}
 }

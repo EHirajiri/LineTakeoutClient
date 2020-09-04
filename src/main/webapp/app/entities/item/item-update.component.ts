@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
@@ -29,12 +29,15 @@ export class ItemUpdateComponent implements OnInit {
     createdDate: [],
     lastModifiedBy: [null, [Validators.maxLength(50)]],
     lastModifiedDate: [],
+    image: [],
+    imageContentType: [],
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected itemService: ItemService,
+    protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -62,6 +65,8 @@ export class ItemUpdateComponent implements OnInit {
       createdDate: item.createdDate ? item.createdDate.format(DATE_TIME_FORMAT) : null,
       lastModifiedBy: item.lastModifiedBy,
       lastModifiedDate: item.lastModifiedDate ? item.lastModifiedDate.format(DATE_TIME_FORMAT) : null,
+      image: item.image,
+      imageContentType: item.imageContentType,
     });
   }
 
@@ -79,6 +84,16 @@ export class ItemUpdateComponent implements OnInit {
         new JhiEventWithContent<AlertError>('lineTakeoutClientApp.error', { ...err, key: 'error.file.' + err.key })
       );
     });
+  }
+
+  clearInputImage(field: string, fieldContentType: string, idInput: string): void {
+    this.editForm.patchValue({
+      [field]: null,
+      [fieldContentType]: null,
+    });
+    if (this.elementRef && idInput && this.elementRef.nativeElement.querySelector('#' + idInput)) {
+      this.elementRef.nativeElement.querySelector('#' + idInput).value = null;
+    }
   }
 
   previousState(): void {
@@ -111,6 +126,8 @@ export class ItemUpdateComponent implements OnInit {
       lastModifiedDate: this.editForm.get(['lastModifiedDate'])!.value
         ? moment(this.editForm.get(['lastModifiedDate'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      imageContentType: this.editForm.get(['imageContentType'])!.value,
+      image: this.editForm.get(['image'])!.value,
     };
   }
 

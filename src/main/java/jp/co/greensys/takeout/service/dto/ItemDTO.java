@@ -1,9 +1,9 @@
 package jp.co.greensys.takeout.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import javax.persistence.Lob;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -29,6 +29,11 @@ public class ItemDTO extends AbstractAuditingDTO implements Serializable {
     private Long orderedId;
 
     private Integer quantity;
+
+    @Lob
+    private byte[] image;
+
+    private String imageContentType;
 
     public Long getId() {
         return id;
@@ -84,6 +89,22 @@ public class ItemDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
     }
 
     @Override

@@ -1,3 +1,11 @@
-id;name;description;price;image_url;created_by;created_date;last_modified_by;last_modified_date
-1;チーズバーガー;大きなトマトとレタスの入ったチーズバーガー;500;"https://2.bp.blogspot.com/-V6VfiVDMitg/WC5efOCqmFI/AAAAAAAA_5A/P97lsAxzB5kUDdJYLIz_DvdferdNRl6aACLcB/s400/food_hamburger_cheese.png";SQL;2020-07-01T20:55:32;haptic Bedfordshire;2020-07-02T04:30:33
-2;テリヤキバーガー;照り焼きハンバーグとレタスとマヨネーズが魅力のテリヤキバーガー;600;"https://1.bp.blogspot.com/-ccmRa-W5FdQ/WGnPWhQSnzI/AAAAAAABA4w/krKcel6z1hobC87K1Vj9bG_Me_AfBo15QCLcB/s400/hamburger_teriyaki_burger.png";haptic integrated;2020-07-02T01:31:35;Bedfordshire;2020-07-01T13:23:22
+id;name;description;price;image_url;created_by;created_date;last_modified_by;last_modified_date;image;image_content_type
+1;Supervisor convergence;../fake-data/blob/hipster.txt;40756;"https://q?L";SQL;2020-07-01T20:55:32;haptic Bedfordshire;2020-07-02T04:30:33;../fake-data/blob/hipster.png;image/png
+2;withdrawal;../fake-data/blob/hipster.txt;63865;"http://K.R";haptic integrated;2020-07-02T01:31:35;Bedfordshire;2020-07-01T13:23:22;../fake-data/blob/hipster.png;image/png
+3;portal China;../fake-data/blob/hipster.txt;95466;"http://Rk";Small Kids;2020-07-02T00:39:01;Cote d'Ivoire Metal back up;2020-07-01T22:59:36;../fake-data/blob/hipster.png;image/png
+4;Practical Soft Pizza Agent partnerships;../fake-data/blob/hipster.txt;27979;"http://xH=#q";Quality Personal Loan Account;2020-07-02T06:00:11;array calculate;2020-07-02T04:10:51;../fake-data/blob/hipster.png;image/png
+5;Tools Salad Keyboard;../fake-data/blob/hipster.txt;97567;"https://:";Toys Home Loan Account Locks;2020-07-01T19:59:38;calculate;2020-07-01T11:13:46;../fake-data/blob/hipster.png;image/png
+6;synthesizing;../fake-data/blob/hipster.txt;27491;"http://VB5e";Configurable;2020-07-01T23:17:30;grid-enabled;2020-07-01T23:46:06;../fake-data/blob/hipster.png;image/png
+7;Soft budgetary management expedite;../fake-data/blob/hipster.txt;36424;"https://_UT&zI";Licensed Concrete Mouse payment Singapore Dollar;2020-07-01T16:58:58;Grass-roots;2020-07-02T03:00:50;../fake-data/blob/hipster.png;image/png
+8;EXE;../fake-data/blob/hipster.txt;33162;"http://JAAk";incentivize Savings Account;2020-07-02T08:24:29;hacking;2020-07-02T06:25:54;../fake-data/blob/hipster.png;image/png
+9;SMTP;../fake-data/blob/hipster.txt;66998;"http://-A/3nO";Auto Loan Account;2020-07-02T04:02:07;SQL Avon;2020-07-02T04:46:51;../fake-data/blob/hipster.png;image/png
+10;Wooden Illinois;../fake-data/blob/hipster.txt;66098;"http://?bru$b";Intelligent Unbranded Yemeni Rial;2020-07-01T11:20:03;Facilitator Metal Operations;2020-07-01T16:48:40;../fake-data/blob/hipster.png;image/png

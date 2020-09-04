@@ -43,6 +43,11 @@
     {
       "fieldName": "lastModifiedDate",
       "fieldType": "Instant"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "changelogDate": "20200702101036",

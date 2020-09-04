@@ -13,73 +13,63 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MimeType;
 
 @Service
 public class FileUploadService {
     private final Logger log = LoggerFactory.getLogger(FileUploadService.class);
 
-    private static final String ENTITY_NAME = "item";
-
-    @Value("${cloud.aws.credentials.accessKey}")
-    private String accessKey;
-
-    @Value("${cloud.aws.credentials.secretKey}")
-    private String secretKey;
-
-    @Value("${cloud.aws.region.static}")
-    private String region;
-
     @Value("${cloud.aws.bucket-name}")
     private String bucketName;
 
-    @Value("${store.code}")
-    private String storeCode;
+    private final AmazonS3 s3Client;
 
-    /**
-     * S3クライアントの生成.
-     *
-     * @return S3クライアント
-     */
-    private AmazonS3 createS3Client() {
+    public FileUploadService(
+        @Value("${cloud.aws.credentials.accessKey}") String accessKey,
+        @Value("${cloud.aws.credentials.secretKey}") String secretKey,
+        @Value("${cloud.aws.region.static}") String region
+    ) {
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-        return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).withRegion(region).build();
+        this.s3Client =
+            AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).withRegion(region).build();
     }
 
     /**
-     * ファイルアップロード
+     * ファイルアップロード.
      *
-     * @param image       アップロードするデータ
-     * @param contentType コンテンツタイプ
-     * @param id          id
-     * @return
+     * @param image アップロードするデータ
+     * @param key   キー
+     * @return URL
      */
-    private String uploadImage(@Nonnull byte[] image, @Nonnull String contentType, @Nonnull Long id) {
-        AmazonS3 s3Client = createS3Client();
-
-        MimeType type = MimeType.valueOf(contentType);
-        String path = String.format("%s/%s/%d.%s", storeCode, ENTITY_NAME, id, type.getSubtype());
-
+    public String upload(@NotNull byte[] image, @NotEmpty String key) {
         // メタ情報を生成
         ObjectMetadata metaData = new ObjectMetadata();
         metaData.setContentLength(image.length);
 
         // ファイルをアップロード
-        final PutObjectRequest putRequest = new PutObjectRequest(bucketName, path, new ByteArrayInputStream(image), metaData);
+        final PutObjectRequest putRequest = new PutObjectRequest(bucketName, key, new ByteArrayInputStream(image), metaData);
         putRequest.setCannedAcl(CannedAccessControlList.PublicRead);
         s3Client.putObject(putRequest);
 
-        return s3Client.getUrl(bucketName, path).toExternalForm();
+        return s3Client.getUrl(bucketName, key).toExternalForm();
     }
 
-    private byte[] download() {
-        AmazonS3 s3Client = createS3Client();
+    /**
+     * ファイル削除.
+     *
+     * @param key キー
+     */
+    public void delete(@NotEmpty String key) {
+        s3Client.deleteObject(bucketName, key);
+    }
+
+    public byte[] download() {
         try {
             S3Object s3Object = s3Client.getObject(bucketName, "umi-maruko/item/2451.png");
             BufferedImage imgBuf = ImageIO.read(s3Object.getObjectContent());

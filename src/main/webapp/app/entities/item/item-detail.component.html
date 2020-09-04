@@ -18,7 +18,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.price">Price</span></dt>
                 <dd>
-                    <span>{{ item.price | currency : 'JPY' }}</span>
+                    <span>{{ item.price }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.imageUrl">Image Url</span></dt>
                 <dd>
@@ -30,7 +30,7 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.createdDate">Created Date</span></dt>
                 <dd>
-                    <span>{{ item.createdDate | date: 'medium' : 'JST' }}</span>
+                    <span>{{ item.createdDate }}</span>
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedBy">Last Modified By</span></dt>
                 <dd>
@@ -38,7 +38,16 @@
                 </dd>
                 <dt><span jhiTranslate="lineTakeoutClientApp.item.lastModifiedDate">Last Modified Date</span></dt>
                 <dd>
-                    <span>{{ item.lastModifiedDate | date: 'medium' : 'JST' }}</span>
+                    <span>{{ item.lastModifiedDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="lineTakeoutClientApp.item.image">Image</span></dt>
+                <dd>
+                    <div *ngIf="item.image">
+                        <a (click)="openFile(item.imageContentType, item.image)">
+                            <img [src]="'data:' + item.imageContentType + ';base64,' + item.image" style="max-width: 100%;" alt="item image"/>
+                        </a>
+                        {{ item.imageContentType }}, {{ byteSize(item.image) }}
+                    </div>
                 </dd>
             </dl>
 
